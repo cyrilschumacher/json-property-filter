@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "5.1"
+  - "4.1"
+  - "0.12"
+install:
+  - npm install
+  - tsd install
+script: npm test

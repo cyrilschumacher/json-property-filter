@@ -1,0 +1,28 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "declaration": true,
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": false,
+        "noImplicitReturns": true,
+        "outDir": "dist/",
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "target": "ES6"
+    },
+    "filesGlob": [
+        "./src/**/*.ts",
+        "!node_modules/**/*.ts"
+    ],
+    "files": [
+        "./src/convertArrayToJson.ts",
+        "./src/convertJsonToArray.ts",
+        "./src/jsonPropertyFilter.ts"
+    ],
+    "exclude": [],
+    "atom": {
+        "rewriteTsconfig": true
+    }
+}
