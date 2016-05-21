@@ -41,7 +41,7 @@ export default class JsonPropertyFilter {
      * @constructors
      * @param {string[]} properties Properties.
      */
-    public constructor(...properties: string[]) {
+    public constructor(properties: string[]) {
         this._propertiesToInclude = new Array<string>();
 
         for (let property of properties) {
@@ -59,10 +59,10 @@ export default class JsonPropertyFilter {
         if (this._propertiesToInclude.indexOf("**") > -1) {
             return source;
         } else {
-            let v = new Array<string>();
-            convertJsonToArray(source, v);
+            let keys = new Array<string>();
+            convertJsonToArray(source, keys);
             for (let rule of this._propertiesToInclude) {
-                this._include(rule, v, destination);
+                this._include(rule, keys, destination);
             }
         }
 
@@ -73,18 +73,26 @@ export default class JsonPropertyFilter {
         if (rule.endsWith("*")) {
             const formattedRule = rule.substr(0, rule.length - 1);
             for (const propertySourcePath in source) {
+                const formattedPropertySourcePath = propertySourcePath.replace(/\[[0-9]+\]/g, "");
                 const propertySourceValue = source[propertySourcePath];
+
                 if (formattedRule === "") {
                     if (propertySourcePath.split(".").length === 1) {
                         destination[propertySourcePath] = propertySourceValue;
                     }
-                } else if (propertySourcePath.startsWith(formattedRule)) {
-                    destination[propertySourcePath] = propertySourceValue;
+                } else if (propertySourcePath.startsWith(formattedRule) || formattedPropertySourcePath.startsWith(formattedRule)) {
+                    const splittedPropertySourcePath = formattedPropertySourcePath.split(".");
+                    const splittedFormattedRule = formattedRule.split(".");
+
+                    if (splittedFormattedRule.length === splittedPropertySourcePath.length) {
+                        destination[propertySourcePath] = propertySourceValue;
+                    }
                 }
             }
         } else {
             for (const propertySourcePath in source) {
-                if (rule === propertySourcePath) {
+                const formattedPropertySourcePath = propertySourcePath.replace(/\[[0-9]+\]/g, "");
+                if (rule === formattedPropertySourcePath) {
                     destination[propertySourcePath] = source[propertySourcePath];
                 }
             }

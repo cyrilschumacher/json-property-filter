@@ -3,7 +3,9 @@ node_js:
   - "5.1"
   - "4.1"
   - "0.12"
+before_install:
+  - npm install -g typings
 install:
   - npm install
-  - tsd install
+  - typings install
 script: npm test

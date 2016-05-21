@@ -36,13 +36,22 @@ export default function convertArrayToJson(arr: Array<string>): Object {
         for (let j = 0; j < path.length; j++) {
             const currentKey = path[j];
 
-            if (!(currentKey in jsonObject)) {
-                temporaryObject[currentKey] = {};
-            }
-            if (j === (path.length - 1)) {
-                temporaryObject[currentKey] = value;
+            const isArray = /\[([0-9]+)\]$/;
+            if (isArray.test(currentKey)) {
+                const index = currentKey.match(isArray)[1];
+                const formattedCurrentKey = currentKey.replace(isArray, "");
+                temporaryObject[formattedCurrentKey] = temporaryObject[formattedCurrentKey] || [];
+                temporaryObject[formattedCurrentKey][index] = temporaryObject[formattedCurrentKey][index] || {};
+                temporaryObject = temporaryObject[formattedCurrentKey][index];
             } else {
-                temporaryObject = temporaryObject[currentKey];
+                if (!(currentKey in jsonObject)) {
+                    temporaryObject[currentKey] = {};
+                }
+                if (j === (path.length - 1)) {
+                    temporaryObject[currentKey] = value;
+                } else {
+                    temporaryObject = temporaryObject[currentKey];
+                }
             }
         }
     }

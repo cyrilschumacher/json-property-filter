@@ -1,11 +1,11 @@
 {
   "name": "json-property-filter",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A library to filter a JSON object by including/excluding properties.",
-  "main": "dist/jsonPropertyFilter.js",
+  "main": "lib/jsonPropertyFilter.js",
   "scripts": {
     "prepublish": "tsc",
-    "test": "mocha --require ts-node/register test/**/*.ts"
+    "test": "mocha --require ts-node/register test/*.ts"
   },
   "typings": "lib/jsonPropertyFilter.d.ts",
   "author": "Cyril Schumacher",
@@ -14,6 +14,6 @@
     "chai": "^3.5.0",
     "mocha": "^2.4.5",
     "ts-node": "^0.7.3",
-    "tsd": "^0.6.5"
+    "typescript": "^1.8.10"
   }
 }

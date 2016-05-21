@@ -31,7 +31,13 @@ export default function convertJsonToArray(jsonObject: Object, keys: Array<strin
     keys = keys || [];
     path = path || "";
 
-    if (jsonObject instanceof Object) {
+    if (jsonObject instanceof Array) {
+        for (const keyName in jsonObject) {
+            const keyValue = jsonObject[keyName];
+            const elementName = path + "[" + keyName + "]";
+            convertJsonToArray(keyValue, keys, elementName);
+        }
+    } else if (jsonObject instanceof Object) {
         for (const keyName in jsonObject) {
             const keyValue = jsonObject[keyName];
             const elementName = path + "." + keyName;
