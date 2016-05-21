@@ -29,34 +29,31 @@ import convertArrayToJson from "./convertArrayToJson";
  * @class
  */
 export default class JsonPropertyFilter {
-    /**
-     * Properties to include.
-     * @private
-     * @type {string[]}
-     */
+    private static ALL_PROPERTIES = "**";
+    private static ALL_ROOT_PROPERTIES = "*";
+    private static ARRAY_INDEX = /\[[0-9]+\]/g;
+
     private _propertiesToInclude: Array<string>;
 
     /**
      * Constructor.
      * @constructors
-     * @param {string[]} properties Properties.
+     * @param {string[]} args Properties.
      */
-    public constructor(properties: string[]) {
-        this._propertiesToInclude = new Array<string>();
-
-        for (let property of properties) {
-            if (property.startsWith("+")) {
-                this._propertiesToInclude.push(property.substring(1));
-            } else {
-                this._propertiesToInclude.push(property);
-            }
-        }
+    public constructor(args: string | Array<string>) {
+        const properties: Array<string> = this._formatProperties(args);
+        this._propertiesToInclude = this._extractProperties(properties);
     }
 
+    /**
+     * Apply filter on a JSON object.
+     * @param {Object} source A JSON object.
+     * @return {Object} The filtered JSON object.
+     */
     public apply = (source: Object): Object => {
         let destination = new Array<string>();
 
-        if (this._propertiesToInclude.indexOf("**") > -1) {
+        if (this._containsAllPropertiesFilter()) {
             return source;
         } else {
             let keys = new Array<string>();
@@ -69,11 +66,15 @@ export default class JsonPropertyFilter {
         return convertArrayToJson(destination);
     }
 
-    public _include = (rule: string, source: Array<string>, destination: Array<string>): void => {
-        if (rule.endsWith("*")) {
+    private _containsAllPropertiesFilter() {
+        return this._propertiesToInclude.indexOf(JsonPropertyFilter.ALL_PROPERTIES) > -1;
+    }
+
+    private _include(rule: string, source: Array<string>, destination: Array<string>) {
+        if (rule.endsWith(JsonPropertyFilter.ALL_ROOT_PROPERTIES)) {
             const formattedRule = rule.substr(0, rule.length - 1);
             for (const propertySourcePath in source) {
-                const formattedPropertySourcePath = propertySourcePath.replace(/\[[0-9]+\]/g, "");
+                const formattedPropertySourcePath = propertySourcePath.replace(JsonPropertyFilter.ARRAY_INDEX, "");
                 const propertySourceValue = source[propertySourcePath];
 
                 if (formattedRule === "") {
@@ -91,11 +92,32 @@ export default class JsonPropertyFilter {
             }
         } else {
             for (const propertySourcePath in source) {
-                const formattedPropertySourcePath = propertySourcePath.replace(/\[[0-9]+\]/g, "");
+                const formattedPropertySourcePath = propertySourcePath.replace(JsonPropertyFilter.ARRAY_INDEX, "");
                 if (rule === formattedPropertySourcePath) {
                     destination[propertySourcePath] = source[propertySourcePath];
                 }
             }
+        }
+    }
+
+    private _extractProperties(properties: Array<string>): Array<string> {
+        let include = new Array<string>();
+        for (let property of properties) {
+            if (property.startsWith("+")) {
+                include.push(property.substring(1));
+            } else {
+                include.push(property);
+            }
+        }
+
+        return include;
+    }
+
+    private _formatProperties(properties: string | Array<string>): Array<string> {
+        if (typeof properties === "string") {
+            return properties.split(",");
+        } else {
+            return properties;
         }
     }
 }
