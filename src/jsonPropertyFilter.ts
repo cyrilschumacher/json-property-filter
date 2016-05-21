@@ -28,7 +28,7 @@ import convertArrayToJson from "./convertArrayToJson";
  * Filter JSON property.
  * @class
  */
-export default class JsonPropertyFilter {
+export class JsonPropertyFilter {
     private static ALL_PROPERTIES = "**";
     private static ALL_ROOT_PROPERTIES = "*";
     private static ARRAY_INDEX = /\[[0-9]+\]/g;

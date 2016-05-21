@@ -23,7 +23,7 @@
 
 /// <reference path="../typings/index.d.ts"/>
 
-import JsonPropertyFilter from "../src/jsonPropertyFilter";
+import {JsonPropertyFilter} from "../src/jsonPropertyFilter";
 import {assert} from "chai";
 
 describe("JsonPropertyFilter", () => {
