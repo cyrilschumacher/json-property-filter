@@ -1,6 +1,7 @@
 # json-property-filter
 
 [![MIT License][license-image]][license-url]
+[![npm version][npmjs-image]][npmjs-url]
 [![Build Status][travis-image]][travis-url]
 [![typescript-standard-style][standard-image]][standard-url]
 [![david-dm Status][david-image]][david-url]
@@ -18,9 +19,17 @@ $ npm install json-property-filter
 
 To using [TypeScript](https://www.typescriptlang.org/) or JavaScript (ES6 support) language:
 ```javascript
-import {JsonPropertyFilter} from "../src/jsonPropertyFilter";
+import {JsonPropertyFilter} from "json-property-filter";
 
 var filter = new JsonPropertyFilter("**");
+filter.apply({ key: "value" });
+```
+
+If you use JavaScript (ES5 support) language:
+```javascript
+var JsonPropertyFilter = require("JsonPropertyFilter");
+
+var filter = new JsonPropertyFilter.JsonPropertyFilter("**");
 filter.apply({ key: "value" });
 ```
 
@@ -91,6 +100,8 @@ $ npm test
 >
 > THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+[npmjs-image]:https://badge.fury.io/js/json-property-filter.svg
+[npmjs-url]:https://www.npmjs.com/package/json-property-filter
 [david-dev-dependencies-image]: https://david-dm.org/cyrilschumacher/json-property-filter/dev-status.svg
 [david-dev-dependencies-url]: https://david-dm.org/cyrilschumacher/json-property-filter#info=devDependencies
 [david-image]: https://david-dm.org/cyrilschumacher/json-property-filter.svg
