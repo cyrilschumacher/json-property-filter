@@ -22,7 +22,7 @@
  */
 
 import JsonSerializer from "./jsonSerializer";
-import JsonIncludePropertyFilter from "./JsonIncludePropertyFilter";
+import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
 
 /**
  * Filter JSON property.
