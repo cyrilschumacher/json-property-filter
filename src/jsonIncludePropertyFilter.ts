@@ -79,14 +79,18 @@ export default class JsonIncludePropertyFilter {
         for (const propertySourcePath in source) {
             const formattedPropertySourcePath = propertySourcePath.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
             const propertySourceValue = source[propertySourcePath];
-
             if (formattedRule === JsonIncludePropertyFilter.STRING_EMPTY) {
                 if (propertySourcePath.split(JsonIncludePropertyFilter.PATH_SEPARATOR).length === 1) {
                     destination[propertySourcePath] = propertySourceValue;
                 }
             } else {
                 if (formattedPropertySourcePath.match(`^${formattedRule}`)) {
-                  destination[propertySourcePath] = propertySourceValue;
+                  const splittedFormattedPropertySourcePath = formattedPropertySourcePath.split(".");
+                  const splittedFormattedRule = formattedRule.split(".");
+
+                  if (splittedFormattedPropertySourcePath.length === splittedFormattedRule.length) {
+                    destination[propertySourcePath] = propertySourceValue;
+                  }
                 }
             }
         }

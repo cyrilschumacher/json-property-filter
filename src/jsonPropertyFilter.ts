@@ -22,6 +22,7 @@
  */
 
 import JsonSerializer from "./jsonSerializer";
+import JsonExcludePropertyFilter from "./jsonExcludePropertyFilter";
 import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
 
 /**
@@ -30,7 +31,9 @@ import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
  */
 export class JsonPropertyFilter {
     private static INCLUDE_SYMBOL = "+";
+    private static EXCLUDE_SYMBOL = "-";
 
+    private _exclude: JsonExcludePropertyFilter;
     private _include: JsonIncludePropertyFilter;
 
     /**
@@ -40,8 +43,10 @@ export class JsonPropertyFilter {
      */
     public constructor(args: string | Array<string>) {
         const properties = this._formatProperties(args);
-        const propertiesToInclude = this._extractProperties(properties);
+        const propertiesToInclude = this._extractProperties(properties, [JsonPropertyFilter.INCLUDE_SYMBOL, ""]);
+        const propertiesToExclude = this._extractProperties(properties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
 
+        this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
         this._include = new JsonIncludePropertyFilter(propertiesToInclude);
     }
 
@@ -52,31 +57,37 @@ export class JsonPropertyFilter {
      */
     public apply(source: Object): Object {
         const keys = JsonSerializer.serializeToArray(source);
-        const destination = this._include.apply(keys);
+        let destination = new Array<string>();
+        destination = this._include.apply(keys);
+        destination = this._exclude.apply(destination);
+
         const filtered = JsonSerializer.serializeToObject(destination);
 
         return filtered;
     }
 
-    private _extractProperties(properties: Array<string>): Array<string> {
+    private _extractProperties(properties: Array<string>, symbols: Array<string>): Array<string> {
         let include = new Array<string>();
 
         for (let property of properties) {
-            const formattedProperty = this._extractProperty(property);
-            include.push(formattedProperty);
+            const formattedProperty = this._extractProperty(property, symbols);
+            if (formattedProperty) {
+                include.push(formattedProperty);
+            }
         }
 
         return include;
     }
 
-    private _extractProperty(property: string) {
-        const isIncludeProperty = property.indexOf(JsonPropertyFilter.INCLUDE_SYMBOL) === 0;
-
-        if (isIncludeProperty) {
-            return property.substring(1);
+    private _extractProperty(property: string, symbols: Array<string>): string {
+        for (const symbol of symbols) {
+            const inProperty = property.indexOf(symbol);
+            if (inProperty === 0) {
+                return property.substring(symbol.length);
+            }
         }
 
-        return property;
+        return undefined;
     }
 
     private _formatProperties(properties: string | Array<string>): Array<string> {

@@ -183,4 +183,13 @@ describe("JsonPropertyFilter", () => {
 
         assert.deepEqual(filtered, expected);
     });
+
+    it("should return the 'id' property of 'content' array", () => {
+        const properties = ["commit.*"];
+        const filter = new JsonPropertyFilter(properties);
+        const filtered = filter.apply(source);
+        const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } }
+
+        assert.deepEqual(filtered, expected);
+    });
 });
