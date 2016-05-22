@@ -85,11 +85,8 @@ export default class JsonIncludePropertyFilter {
                     destination[propertySourcePath] = propertySourceValue;
                 }
             } else {
-                const splittedPropertySourcePath = formattedPropertySourcePath.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
-                const splittedFormattedRule = formattedRule.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
-
-                if (splittedFormattedRule.length === splittedPropertySourcePath.length) {
-                    destination[propertySourcePath] = propertySourceValue;
+                if (formattedPropertySourcePath.match(`^${formattedRule}`)) {
+                  destination[propertySourcePath] = propertySourceValue;
                 }
             }
         }

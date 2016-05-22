@@ -39,11 +39,16 @@ export default class JsonSerializer {
         path = path || "";
 
         if (jsonObject instanceof Array) {
-            for (const keyName in jsonObject) {
-                const keyValue = jsonObject[keyName];
-                const elementName = `${path}[${keyName}]`;
+            if (jsonObject.length) {
+                for (const keyName in jsonObject) {
+                    const keyValue = jsonObject[keyName];
+                    const elementName = `${path}[${keyName}]`;
 
-                JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                    JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                }
+            } else {
+                keys[path.substring(1)] = jsonObject;
+                keys.length++;
             }
         } else if (jsonObject instanceof Object) {
             for (const keyName in jsonObject) {
@@ -93,6 +98,7 @@ export default class JsonSerializer {
                     if (pathIndex === (path.length - 1)) {
                         temporaryObject[currentKey] = value;
                     } else {
+                        temporaryObject[currentKey] = temporaryObject[currentKey] || {};
                         temporaryObject = temporaryObject[currentKey];
                     }
                 }

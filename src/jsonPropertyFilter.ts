@@ -39,7 +39,7 @@ export class JsonPropertyFilter {
      * @param {string|string[]} args Properties.
      */
     public constructor(args: string | Array<string>) {
-        const properties: Array<string> = this._formatProperties(args);
+        const properties = this._formatProperties(args);
         const propertiesToInclude = this._extractProperties(properties);
 
         this._include = new JsonIncludePropertyFilter(propertiesToInclude);
@@ -62,16 +62,21 @@ export class JsonPropertyFilter {
         let include = new Array<string>();
 
         for (let property of properties) {
-            const isIncludeProperty = property.indexOf(JsonPropertyFilter.INCLUDE_SYMBOL) === 0;
-
-            if (isIncludeProperty) {
-                include.push(property.substring(1));
-            } else {
-                include.push(property);
-            }
+            const formattedProperty = this._extractProperty(property);
+            include.push(formattedProperty);
         }
 
         return include;
+    }
+
+    private _extractProperty(property: string) {
+        const isIncludeProperty = property.indexOf(JsonPropertyFilter.INCLUDE_SYMBOL) === 0;
+
+        if (isIncludeProperty) {
+            return property.substring(1);
+        }
+
+        return property;
     }
 
     private _formatProperties(properties: string | Array<string>): Array<string> {
