@@ -17,9 +17,9 @@
         "!node_modules/**/*.ts"
     ],
     "files": [
-        "./src/convertArrayToJson.ts",
-        "./src/convertJsonToArray.ts",
-        "./src/jsonPropertyFilter.ts"
+        "./src/jsonIncludePropertyFilter.ts",
+        "./src/jsonPropertyFilter.ts",
+        "./src/jsonSerializer.ts"
     ],
     "exclude": [],
     "atom": {

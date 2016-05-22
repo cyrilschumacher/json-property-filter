@@ -21,28 +21,28 @@
  * SOFTWARE.
  */
 
-import convertJsonToArray from "./convertJsonToArray";
-import convertArrayToJson from "./convertArrayToJson";
+import JsonSerializer from "./jsonSerializer";
+import JsonIncludePropertyFilter from "./JsonIncludePropertyFilter";
 
 /**
  * Filter JSON property.
  * @class
  */
 export class JsonPropertyFilter {
-    private static ALL_PROPERTIES = "**";
-    private static ALL_ROOT_PROPERTIES = "*";
-    private static ARRAY_INDEX = /\[[0-9]+\]/g;
+    private static INCLUDE_SYMBOL = "+";
 
-    private _propertiesToInclude: Array<string>;
+    private _include: JsonIncludePropertyFilter;
 
     /**
      * Constructor.
      * @constructors
-     * @param {string[]} args Properties.
+     * @param {string|string[]} args Properties.
      */
     public constructor(args: string | Array<string>) {
         const properties: Array<string> = this._formatProperties(args);
-        this._propertiesToInclude = this._extractProperties(properties);
+        const propertiesToInclude = this._extractProperties(properties);
+
+        this._include = new JsonIncludePropertyFilter(propertiesToInclude);
     }
 
     /**
@@ -50,60 +50,21 @@ export class JsonPropertyFilter {
      * @param {Object} source A JSON object.
      * @return {Object} The filtered JSON object.
      */
-    public apply = (source: Object): Object => {
-        let destination = new Array<string>();
+    public apply(source: Object): Object {
+        const keys = JsonSerializer.serializeToArray(source);
+        const destination = this._include.apply(keys);
+        const filtered = JsonSerializer.serializeToObject(destination);
 
-        if (this._containsAllPropertiesFilter()) {
-            return source;
-        } else {
-            let keys = new Array<string>();
-            convertJsonToArray(source, keys);
-            for (let rule of this._propertiesToInclude) {
-                this._include(rule, keys, destination);
-            }
-        }
-
-        return convertArrayToJson(destination);
-    }
-
-    private _containsAllPropertiesFilter() {
-        return this._propertiesToInclude.indexOf(JsonPropertyFilter.ALL_PROPERTIES) > -1;
-    }
-
-    private _include(rule: string, source: Array<string>, destination: Array<string>) {
-        if (rule.endsWith(JsonPropertyFilter.ALL_ROOT_PROPERTIES)) {
-            const formattedRule = rule.substr(0, rule.length - 1);
-            for (const propertySourcePath in source) {
-                const formattedPropertySourcePath = propertySourcePath.replace(JsonPropertyFilter.ARRAY_INDEX, "");
-                const propertySourceValue = source[propertySourcePath];
-
-                if (formattedRule === "") {
-                    if (propertySourcePath.split(".").length === 1) {
-                        destination[propertySourcePath] = propertySourceValue;
-                    }
-                } else if (propertySourcePath.startsWith(formattedRule) || formattedPropertySourcePath.startsWith(formattedRule)) {
-                    const splittedPropertySourcePath = formattedPropertySourcePath.split(".");
-                    const splittedFormattedRule = formattedRule.split(".");
-
-                    if (splittedFormattedRule.length === splittedPropertySourcePath.length) {
-                        destination[propertySourcePath] = propertySourceValue;
-                    }
-                }
-            }
-        } else {
-            for (const propertySourcePath in source) {
-                const formattedPropertySourcePath = propertySourcePath.replace(JsonPropertyFilter.ARRAY_INDEX, "");
-                if (rule === formattedPropertySourcePath) {
-                    destination[propertySourcePath] = source[propertySourcePath];
-                }
-            }
-        }
+        return filtered;
     }
 
     private _extractProperties(properties: Array<string>): Array<string> {
         let include = new Array<string>();
+
         for (let property of properties) {
-            if (property.startsWith("+")) {
+            const isIncludeProperty = property.indexOf(JsonPropertyFilter.INCLUDE_SYMBOL) === 0;
+
+            if (isIncludeProperty) {
                 include.push(property.substring(1));
             } else {
                 include.push(property);

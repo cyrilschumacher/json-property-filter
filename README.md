@@ -1,7 +1,7 @@
 # json-property-filter
 
-[![Build Status][travis-image]][travis-url]
 [![MIT License][license-image]][license-url]
+[![Build Status][travis-image]][travis-url]
 [![typescript-standard-style][standard-image]][standard-url]
 [![david-dm Status][david-image]][david-url]
 [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
@@ -19,6 +19,7 @@ $ npm install json-property-filter
 To using [TypeScript](https://www.typescriptlang.org/) or JavaScript (ES6 support) language:
 ```javascript
 import {JsonPropertyFilter} from "../src/jsonPropertyFilter";
+
 var filter = new JsonPropertyFilter("**");
 filter.apply({ key: "value" });
 ```
@@ -29,10 +30,10 @@ filter.apply({ key: "value" });
 
   ```json
   {
-    "key": "value",
-    "property": {
-      "key": "value"
-    }
+      "key":"value",
+      "property":{
+          "key":"value"
+      }
   }
   ```
 
@@ -40,7 +41,7 @@ filter.apply({ key: "value" });
 
   ```json
   {
-    "key": "value"
+      "key":"value"
   }
   ```
 
@@ -48,19 +49,21 @@ filter.apply({ key: "value" });
 
   ```json
   {
-    "property": {
-        "element": "value"
-    }
+      "property":{
+          "element":"value"
+      }
   }
   ```
 
   ```json
   {
-    "array": [{
-        "property": {
-            "element": "value"
-        }
-    }]
+      "array":[
+          {
+              "property":{
+                  "element":"value"
+              }
+          }
+      ]
   }
   ```
 

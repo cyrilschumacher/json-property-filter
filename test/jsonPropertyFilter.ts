@@ -69,7 +69,7 @@ describe("JsonPropertyFilter", () => {
         ]
     };
 
-    it("should return empty object", () => {
+    it("should return the empty object", () => {
         const properties = [""];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
@@ -95,7 +95,7 @@ describe("JsonPropertyFilter", () => {
         assert.deepEqual(filtered, expected);
     });
 
-    it("should return 'id' property", () => {
+    it("should return the 'id' property", () => {
         const properties = ["id"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
@@ -104,11 +104,20 @@ describe("JsonPropertyFilter", () => {
         assert.deepEqual(filtered, expected);
     });
 
-    it("should return 'id' and 'type' properties", () => {
+    it("should return the 'id' and 'type' properties", () => {
         const properties = ["id", "type"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
         const expected = { id: 1, type: "articles" };
+
+        assert.deepEqual(filtered, expected);
+    });
+
+    it("should return the 'title' property of 'attributes' object to using the include symbol", () => {
+        const properties = ["+attributes.title"];
+        const filter = new JsonPropertyFilter(properties);
+        const filtered = filter.apply(source);
+        const expected = { attributes: { title: "JSON API paints my bikeshed!" } };
 
         assert.deepEqual(filtered, expected);
     });
@@ -140,7 +149,7 @@ describe("JsonPropertyFilter", () => {
         assert.deepEqual(expected, filtered);
     });
 
-    it("sould return the 'id' property of 'content' array", () => {
+    it("should return the 'id' property of 'content' array", () => {
         const properties = ["content.*"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(extendSource);
@@ -149,7 +158,7 @@ describe("JsonPropertyFilter", () => {
         assert.deepEqual(filtered, expected);
     });
 
-    it("sould return the 'attributes' property of 'content' array", () => {
+    it("should return the 'attributes' property of 'content' array", () => {
         const properties = ["content.attributes"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(extendSource);
@@ -158,11 +167,20 @@ describe("JsonPropertyFilter", () => {
         assert.deepEqual(filtered, expected);
     });
 
-    it("sould return the 'title' property of 'attributes' property of 'content' array", () => {
+    it("should return the 'title' property of 'attributes' property of 'content' array", () => {
         const properties = ["content.attributes.title"];
         let filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(extendSource);
         const expected = { content: [{ attributes: { title: "JSON API paints my bikeshed!" } }, { attributes: { title: "JSON API paints my bikeshed!" } }] };
+
+        assert.deepEqual(filtered, expected);
+    });
+
+    it("should return the all properties of 'attributes' property of 'content' array", () => {
+        const properties = ["content.attributes.*"];
+        let filter = new JsonPropertyFilter(properties);
+        const filtered = filter.apply(extendSource);
+        const expected = { content: [{ attributes: { title: "JSON API paints my bikeshed!", body: "The shortest article. Ever.", created: "2015-05-22T14:56:29.000Z", updated: "2015-05-22T14:56:28.000Z" } }, { attributes: { title: "JSON API paints my bikeshed!", body: "The shortest article. Ever.", created: "2015-05-22T14:56:29.000Z", updated: "2015-05-22T14:56:28.000Z" } }] };
 
         assert.deepEqual(filtered, expected);
     });
