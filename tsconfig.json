@@ -10,7 +10,7 @@
         "outDir": "lib",
         "preserveConstEnums": true,
         "removeComments": true,
-        "target": "ES6"
+        "target": "ES5"
     },
     "filesGlob": [
         "./src/**/*.ts",

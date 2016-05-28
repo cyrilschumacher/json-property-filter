@@ -26,8 +26,8 @@
  * @class
  */
 export default class JsonIncludePropertyFilter {
-    private static ALL_PROPERTIES = "**";
-    private static ALL_ELEMENT_PROPERTIES = /\*$/g;
+    private static ALL_PROPERTIES_REGEX = /\*\*$/g;
+    private static ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
     private static ARRAY_INDEX = /\[[0-9]+\]/g;
     private static PATH_SEPARATOR = ".";
     private static STRING_EMPTY = "";
@@ -50,10 +50,6 @@ export default class JsonIncludePropertyFilter {
      */
     public apply = (source: Array<string>): Array<string> => {
         const destination = new Array<string>();
-        if (this._containsAllPropertiesFilter()) {
-            return source;
-        }
-
         for (let rule of this._properties) {
             this._include(rule, source, destination);
         }
@@ -61,19 +57,28 @@ export default class JsonIncludePropertyFilter {
         return destination;
     }
 
-    private _containsAllPropertiesFilter() {
-        return this._properties.indexOf(JsonIncludePropertyFilter.ALL_PROPERTIES) > -1;
-    }
-
     private _include(rule: string, source: Array<string>, destination: Array<string>) {
-        if (rule.match(JsonIncludePropertyFilter.ALL_ELEMENT_PROPERTIES)) {
+        if (rule.match(JsonIncludePropertyFilter.ALL_PROPERTIES_REGEX)) {
             this._includeProperties(rule, source, destination);
+        } else if (rule.match(JsonIncludePropertyFilter.ALL_ELEMENT_PROPERTIES_REGEX)) {
+            this._includeRootProperties(rule, source, destination);
         } else {
             this._includeSpecificPath(rule, source, destination);
         }
     }
 
     private _includeProperties(rule: string, source: Array<string>, destination: Array<string>) {
+        const formattedRule = rule.substr(0, rule.length - 2);
+        for (const propertySourcePath in source) {
+            const propertySourceValue = source[propertySourcePath];
+
+            if (propertySourcePath.match(`^${formattedRule}`)) {
+                destination[propertySourcePath] = propertySourceValue;
+            }
+        }
+    }
+
+    private _includeRootProperties(rule: string, source: Array<string>, destination: Array<string>) {
         const formattedRule = rule.substr(0, rule.length - 1);
 
         for (const propertySourcePath in source) {
@@ -85,12 +90,12 @@ export default class JsonIncludePropertyFilter {
                 }
             } else {
                 if (formattedPropertySourcePath.match(`^${formattedRule}`)) {
-                  const splittedFormattedPropertySourcePath = formattedPropertySourcePath.split(".");
-                  const splittedFormattedRule = formattedRule.split(".");
+                    const splittedFormattedPropertySourcePath = formattedPropertySourcePath.split(".");
+                    const splittedFormattedRule = formattedRule.split(".");
 
-                  if (splittedFormattedPropertySourcePath.length === splittedFormattedRule.length) {
-                    destination[propertySourcePath] = propertySourceValue;
-                  }
+                    if (splittedFormattedPropertySourcePath.length === splittedFormattedRule.length) {
+                        destination[propertySourcePath] = propertySourceValue;
+                    }
                 }
             }
         }

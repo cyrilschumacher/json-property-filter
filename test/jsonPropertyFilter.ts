@@ -179,7 +179,7 @@ describe("JsonPropertyFilter", () => {
         const properties = ["commit.parents.*"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
-        const expected = { commit: { parents: [{ sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e" }, { sha: "762941318ee16e59dabbacb1b4049eec22f0d303", url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303" }] } }
+        const expected = { commit: { parents: [{ sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e" }, { sha: "762941318ee16e59dabbacb1b4049eec22f0d303", url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303" }] } };
 
         assert.deepEqual(filtered, expected);
     });
@@ -188,7 +188,16 @@ describe("JsonPropertyFilter", () => {
         const properties = ["commit.*"];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
-        const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } }
+        const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } };
+
+        assert.deepEqual(filtered, expected);
+    });
+
+    it("should return the all elements of 'protection' property and their children.", () => {
+        const properties = ["protection.**"];
+        const filter = new JsonPropertyFilter(properties);
+        const filtered = filter.apply(source);
+        const expected = { protection: { enabled: false, required_status_checks: { enforcement_level: "off", contexts: [] } } };
 
         assert.deepEqual(filtered, expected);
     });
