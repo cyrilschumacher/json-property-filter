@@ -122,8 +122,9 @@ export default class JsonIncludePropertyFilter {
     private _includeSpecificPath(rule: string, source: Array<string>, destination: Array<string>) {
         for (const path in source) {
             const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
+            const regexp = `^${rule}`;
 
-            if (rule === pathWithoutIndex) {
+            if (pathWithoutIndex.match(regexp)) {
                 destination[path] = source[path];
             }
         }

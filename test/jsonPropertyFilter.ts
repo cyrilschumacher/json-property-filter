@@ -88,7 +88,7 @@ describe("JsonPropertyFilter", () => {
         }
     };
 
-    describe("exlude", () => {
+    describe("exclude", () => {
       it("should return the 'name' property only", () => {
           const properties = ["-protection.**", "-commit.**", "-_links.**"];
           const filter = new JsonPropertyFilter(properties);
@@ -99,7 +99,7 @@ describe("JsonPropertyFilter", () => {
       });
 
       it("should return the '_links' property only", () => {
-          const properties = ["-name", "-protection.**", "-commit.**"];
+          const properties = ["-name", "-protection", "-commit"];
           const filter = new JsonPropertyFilter(properties);
           const filtered = filter.apply(source);
           const expected = { _links: { html: "https://github.com/octocat/Hello-World/tree/master", self: "https://api.github.com/repos/octocat/Hello-World/branches/master" } };
@@ -108,10 +108,21 @@ describe("JsonPropertyFilter", () => {
       });
 
       it("should return the 'required_status_checks' property of 'protection' property only.", () => {
-          const properties = ["-*", "-protection.*", "-commit.**", "-_links.**"];
+          const properties = ["-*", "-protection.*", "-commit", "-_links"];
           const filter = new JsonPropertyFilter(properties);
           const filtered = filter.apply(source);
           const expected = { protection: { required_status_checks: { enforcement_level: "off", contexts: [] } } };
+
+          assert.deepEqual(filtered, expected);
+      });
+    });
+
+    describe("exclude and include", () => {
+      it("should return the 'sha' property and 'committer' properties of 'commit' property only", () => {
+          const properties = ["commit", "-commit.url", "-commit.commit", "-commit.author", "-commit.parents"];
+          const filter = new JsonPropertyFilter(properties);
+          const filtered = filter.apply(source);
+          const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", committer: { gravatar_id: "", avatar_url: "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png", url: "https://api.github.com/users/octocat", id: 583231, login: "octocat" } } };
 
           assert.deepEqual(filtered, expected);
       });

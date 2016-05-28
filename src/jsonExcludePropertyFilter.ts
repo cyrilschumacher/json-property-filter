@@ -116,11 +116,19 @@ export default class JsonExcludePropertyFilter {
     }
 
     private _excludeSpecificPath(rule: string, source: Array<string>) {
+        const regexp = `^${rule}`;
         for (const path in source) {
             const pathWithoutIndex = path.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
 
-            if (rule === pathWithoutIndex) {
-                delete source[path];
+            if (pathWithoutIndex.match(regexp)) {
+                const pathWithoutIndexItems = pathWithoutIndex.split(".");
+                const ruleItems = rule.split(".");
+                const pathWithoutIndexItem = pathWithoutIndexItems[ruleItems.length - 1];
+                const ruleItem = ruleItems[ruleItems.length - 1];
+
+                if (pathWithoutIndexItem === ruleItem) {
+                    delete source[path];
+                }
             }
         }
     }
