@@ -51,6 +51,7 @@ export default class JsonIncludePropertyFilter {
     public apply = (source: Array<string>): Array<string> => {
         if (this._properties.length) {
             const destination = new Array<string>();
+
             for (let rule of this._properties) {
                 this._include(rule, source, destination);
             }
@@ -82,9 +83,9 @@ export default class JsonIncludePropertyFilter {
     private _includeProperties(rule: string, source: Array<string>, destination: Array<string>) {
         const formattedRule = rule.substr(0, rule.length - 2);
 
-        for (const propertySourcePath in source) {
-            const propertySourceValue = source[propertySourcePath];
-            this._includeProperty(formattedRule, propertySourcePath, propertySourceValue, destination);
+        for (const path in source) {
+            const value = source[path];
+            this._includeProperty(formattedRule, path, value, destination);
         }
     }
 
@@ -97,6 +98,7 @@ export default class JsonIncludePropertyFilter {
             }
         } else {
             const regexp = `^${rule}`;
+
             if (pathWithoutIndex.match(regexp)) {
                 const pathItems = pathWithoutIndex.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
                 const ruleItems = rule.split(JsonIncludePropertyFilter.PATH_SEPARATOR);

@@ -30,8 +30,9 @@ import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
  * @class
  */
 export class JsonPropertyFilter {
-    private static INCLUDE_SYMBOL = "+";
-    private static EXCLUDE_SYMBOL = "-";
+    private static INCLUDE_SYMBOL = /^(\+)/g;
+    private static DEFAULT_INCLUDE_SYMBOL = /^()[^+-]/g;
+    private static EXCLUDE_SYMBOL = /^(\-)/g;
     private static FILTER_SEPARATOR = ",";
 
     private _exclude: JsonExcludePropertyFilter;
@@ -48,7 +49,7 @@ export class JsonPropertyFilter {
         this._assertSeparator(separator);
 
         const formattedProperties = this._formatProperties(properties, separator);
-        const propertiesToInclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.INCLUDE_SYMBOL, ""]);
+        const propertiesToInclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL]);
         const propertiesToExclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
 
         this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
@@ -81,24 +82,33 @@ export class JsonPropertyFilter {
         }
     }
 
-    private _extractProperties(properties: Array<string>, symbols: Array<string>): Array<string> {
-        let include = new Array<string>();
+    private _extractProperties(properties: Array<string>, symbols: Array<RegExp>): Array<string> {
+        let extract = new Array<string>();
 
         for (let property of properties) {
             const formattedProperty = this._extractProperty(property, symbols);
+
             if (formattedProperty) {
-                include.push(formattedProperty);
+                extract.push(formattedProperty);
             }
         }
 
-        return include;
+        return extract;
     }
 
-    private _extractProperty(property: string, symbols: Array<string>): string {
+    private _extractProperty(property: string, symbols: Array<RegExp>): string {
         for (const symbol of symbols) {
-            const inProperty = property.indexOf(symbol);
-            if (inProperty === 0) {
-                return property.substring(symbol.length);
+            const matches = symbol.exec(property);
+            symbol.lastIndex = 0;
+
+            if (matches) {
+                const start = matches[1];
+
+                if (start.length) {
+                    return property.substring(start.length);
+                } else {
+                    return property;
+                }
             }
         }
 

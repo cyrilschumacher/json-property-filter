@@ -26,6 +26,12 @@
  * @class
  */
 export default class JsonExcludePropertyFilter {
+    private static ALL_PROPERTIES_REGEX = /\*\*$/g;
+    private static ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
+    private static ARRAY_INDEX = /\[[0-9]+\]/g;
+    private static PATH_SEPARATOR = ".";
+    private static STRING_EMPTY = "";
+
     private _properties: Array<string>;
 
     /**
@@ -43,6 +49,79 @@ export default class JsonExcludePropertyFilter {
      * @return {Object} The filtered JSON object.
      */
     public apply = (source: Array<string>): Array<string> => {
+        if (this._properties.length) {
+            for (let rule of this._properties) {
+                this._exclude(rule, source);
+            }
+
+            return source;
+        }
+
         return source;
+    }
+
+    private _exclude(rule: string, source: Array<string>) {
+        if (rule.match(JsonExcludePropertyFilter.ALL_PROPERTIES_REGEX)) {
+            this._excludeProperties(rule, source);
+        } else if (rule.match(JsonExcludePropertyFilter.ALL_ELEMENT_PROPERTIES_REGEX)) {
+            this._excludeRootProperties(rule, source);
+        } else {
+            this._excludeSpecificPath(rule, source);
+        }
+    }
+
+    private _excludeProperty(rule: string, source: Array<string>, path: string) {
+        const regexp = `^${rule}`;
+
+        if (path.match(regexp)) {
+            delete source[path];
+        }
+    }
+
+    private _excludeProperties(rule: string, source: Array<string>) {
+        const formattedRule = rule.substr(0, rule.length - 2);
+
+        for (const path in source) {
+            this._excludeProperty(formattedRule, source, path);
+        }
+    }
+
+    private _excludeRootProperty(rule: string, path: string, source: Array<string>) {
+        const pathWithoutIndex = path.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
+
+        if (rule === JsonExcludePropertyFilter.STRING_EMPTY) {
+            if (path.split(JsonExcludePropertyFilter.PATH_SEPARATOR).length === 1) {
+                delete source[path];
+            }
+        } else {
+            const regexp = `^${rule}`;
+
+            if (pathWithoutIndex.match(regexp)) {
+                const pathItems = pathWithoutIndex.split(JsonExcludePropertyFilter.PATH_SEPARATOR);
+                const ruleItems = rule.split(JsonExcludePropertyFilter.PATH_SEPARATOR);
+
+                if (pathItems.length === ruleItems.length) {
+                    delete source[path];
+                }
+            }
+        }
+    }
+
+    private _excludeRootProperties(rule: string, source: Array<string>) {
+        const ruleWithoutRootSymbol = rule.substr(0, rule.length - 1);
+
+        for (const path in source) {
+            this._excludeRootProperty(ruleWithoutRootSymbol, path, source);
+        }
+    }
+
+    private _excludeSpecificPath(rule: string, source: Array<string>) {
+        for (const path in source) {
+            const pathWithoutIndex = path.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
+
+            if (rule === pathWithoutIndex) {
+                delete source[path];
+            }
+        }
     }
 }

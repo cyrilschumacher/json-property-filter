@@ -5,12 +5,14 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ## [Unreleased]
 ### Added
 - Add more validation on parameters.
+- Add exclude filters.
 
 ### Changed
 - Update the "include" behavior: if no properties, then the original object is returned.
 
 ### Fixed
 - The `apply` method of `JsonPropertyFilter` class can return a wrong filtered object if it contains an array of `string`/`number`/`boolean`.
+- The symbol "" causes an undesirable side effect: all properties are added without distinction.
 
 ## [0.0.8] - 2015-05-28
 ### Changed
