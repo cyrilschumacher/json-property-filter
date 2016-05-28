@@ -2,8 +2,19 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Add more validation on parameters.
+
+### Changed
+- Update the "include" behavior: if no properties, then the original object is returned.
+
+### Fixed
+- The `apply` method of `JsonPropertyFilter` class can return a wrong filtered object if it contains an array of `string`/`number`/`boolean`.
+
 ## [0.0.8] - 2015-05-28
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.8...HEAD
 [0.0.8]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.6...v0.0.8

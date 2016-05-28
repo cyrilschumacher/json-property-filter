@@ -49,12 +49,16 @@ export default class JsonIncludePropertyFilter {
      * @return {Object} The filtered JSON object.
      */
     public apply = (source: Array<string>): Array<string> => {
-        const destination = new Array<string>();
-        for (let rule of this._properties) {
-            this._include(rule, source, destination);
-        }
+        if (this._properties.length) {
+            const destination = new Array<string>();
+            for (let rule of this._properties) {
+                this._include(rule, source, destination);
+            }
 
-        return destination;
+            return destination;
+        } else {
+            return source;
+        }
     }
 
     private _include(rule: string, source: Array<string>, destination: Array<string>) {
@@ -67,46 +71,58 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
+    private _includeProperty(rule: string, source: string, value: string, destination: Array<string>) {
+        const regexp = `^${rule}`;
+
+        if (source.match(regexp)) {
+            destination[source] = value;
+        }
+    }
+
     private _includeProperties(rule: string, source: Array<string>, destination: Array<string>) {
         const formattedRule = rule.substr(0, rule.length - 2);
+
         for (const propertySourcePath in source) {
             const propertySourceValue = source[propertySourcePath];
+            this._includeProperty(formattedRule, propertySourcePath, propertySourceValue, destination);
+        }
+    }
 
-            if (propertySourcePath.match(`^${formattedRule}`)) {
-                destination[propertySourcePath] = propertySourceValue;
+    private _includeRootProperty(rule: string, path: string, value: string, source: Array<string>, destination: Array<string>) {
+        const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
+
+        if (rule === JsonIncludePropertyFilter.STRING_EMPTY) {
+            if (path.split(JsonIncludePropertyFilter.PATH_SEPARATOR).length === 1) {
+                destination[path] = value;
+            }
+        } else {
+            const regexp = `^${rule}`;
+            if (pathWithoutIndex.match(regexp)) {
+                const pathItems = pathWithoutIndex.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
+                const ruleItems = rule.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
+
+                if (pathItems.length === ruleItems.length) {
+                    destination[path] = value;
+                }
             }
         }
     }
 
     private _includeRootProperties(rule: string, source: Array<string>, destination: Array<string>) {
-        const formattedRule = rule.substr(0, rule.length - 1);
+        const ruleWithoutRootSymbol = rule.substr(0, rule.length - 1);
 
-        for (const propertySourcePath in source) {
-            const formattedPropertySourcePath = propertySourcePath.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
-            const propertySourceValue = source[propertySourcePath];
-            if (formattedRule === JsonIncludePropertyFilter.STRING_EMPTY) {
-                if (propertySourcePath.split(JsonIncludePropertyFilter.PATH_SEPARATOR).length === 1) {
-                    destination[propertySourcePath] = propertySourceValue;
-                }
-            } else {
-                if (formattedPropertySourcePath.match(`^${formattedRule}`)) {
-                    const splittedFormattedPropertySourcePath = formattedPropertySourcePath.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
-                    const splittedFormattedRule = formattedRule.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
-
-                    if (splittedFormattedPropertySourcePath.length === splittedFormattedRule.length) {
-                        destination[propertySourcePath] = propertySourceValue;
-                    }
-                }
-            }
+        for (const path in source) {
+            const value = source[path];
+            this._includeRootProperty(ruleWithoutRootSymbol, path, value, source, destination);
         }
     }
 
     private _includeSpecificPath(rule: string, source: Array<string>, destination: Array<string>) {
-        for (const propertySourcePath in source) {
-            const formattedPropertySourcePath = propertySourcePath.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
+        for (const path in source) {
+            const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
 
-            if (rule === formattedPropertySourcePath) {
-                destination[propertySourcePath] = source[propertySourcePath];
+            if (rule === pathWithoutIndex) {
+                destination[path] = source[path];
             }
         }
     }

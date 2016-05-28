@@ -190,21 +190,11 @@ describe("JsonPropertyFilter", () => {
         });
     });
 
-    it("should return the empty object with a empty array", () => {
+    it("should return the original object with a empty array", () => {
         const properties = [];
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
-        const expected = {};
 
-        assert.deepEqual(filtered, expected);
-    });
-
-    it("should return the empty object with a array contains empty string", () => {
-        const properties = [];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = {};
-
-        assert.deepEqual(filtered, expected);
+        assert.deepEqual(filtered, source);
     });
 });

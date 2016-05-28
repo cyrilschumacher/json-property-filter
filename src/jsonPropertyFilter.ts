@@ -40,13 +40,16 @@ export class JsonPropertyFilter {
     /**
      * Constructor.
      * @constructors
-     * @param {string|string[]} args Properties.
+     * @param {string|string[]} properties Properties.
      * @param {string} separator A separator for filters.
      */
-    public constructor(args: string | Array<string>, separator?: string) {
-        const properties = this._formatProperties(args, separator);
-        const propertiesToInclude = this._extractProperties(properties, [JsonPropertyFilter.INCLUDE_SYMBOL, ""]);
-        const propertiesToExclude = this._extractProperties(properties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
+    public constructor(properties: string | Array<string>, separator?: string) {
+        this._assertProperties(properties);
+        this._assertSeparator(separator);
+
+        const formattedProperties = this._formatProperties(properties, separator);
+        const propertiesToInclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.INCLUDE_SYMBOL, ""]);
+        const propertiesToExclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
 
         this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
         this._include = new JsonIncludePropertyFilter(propertiesToInclude);
@@ -63,9 +66,19 @@ export class JsonPropertyFilter {
         destination = this._include.apply(keys);
         destination = this._exclude.apply(destination);
 
-        const filtered = JsonSerializer.serializeToObject(destination);
+        return JsonSerializer.serializeToObject(destination);
+    }
 
-        return filtered;
+    private _assertProperties(properties: string | Array<string>) {
+        if (!Array.isArray(properties) && (typeof properties !== "string")) {
+            throw new Error("_assertProperties(): Parameter 'args' is not a string or array type.");
+        }
+    }
+
+    private _assertSeparator(separator?: string) {
+        if (separator && (separator !== "string")) {
+            throw new Error("_assertSeparator(): Parameter 'separator' is not a string type.");
+        }
     }
 
     private _extractProperties(properties: Array<string>, symbols: Array<string>): Array<string> {
