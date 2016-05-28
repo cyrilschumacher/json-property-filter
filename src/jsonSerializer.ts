@@ -48,7 +48,6 @@ export default class JsonSerializer {
                 }
             } else {
                 keys[path.substring(1)] = jsonObject;
-                keys.length++;
             }
         } else if (jsonObject instanceof Object) {
             for (const keyName in jsonObject) {
@@ -59,7 +58,6 @@ export default class JsonSerializer {
             }
         } else {
             keys[path.substring(1)] = jsonObject;
-            keys.length++;
         }
 
         return keys;
@@ -88,8 +86,13 @@ export default class JsonSerializer {
                     const formattedCurrentKey = currentKey.replace(isArray, "");
 
                     temporaryObject[formattedCurrentKey] = temporaryObject[formattedCurrentKey] || [];
-                    temporaryObject[formattedCurrentKey][arrayIndex] = temporaryObject[formattedCurrentKey][arrayIndex] || {};
-                    temporaryObject = temporaryObject[formattedCurrentKey][arrayIndex];
+                    if (pathIndex + 1 < path.length) {
+                        temporaryObject[formattedCurrentKey][arrayIndex] = temporaryObject[formattedCurrentKey][arrayIndex] || {};
+                        temporaryObject = temporaryObject[formattedCurrentKey][arrayIndex];
+                    } else {
+                        temporaryObject[formattedCurrentKey][arrayIndex] = value;
+                    }
+
                 } else {
                     if (!(currentKey in jsonObject)) {
                         temporaryObject[currentKey] = temporaryObject[currentKey] || {};

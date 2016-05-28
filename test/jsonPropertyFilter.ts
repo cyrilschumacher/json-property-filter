@@ -88,6 +88,108 @@ describe("JsonPropertyFilter", () => {
         }
     };
 
+    describe("all properties", () => {
+        it("should return the all properties", () => {
+            const properties = ["**"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepEqual(source, filtered);
+        });
+
+        it("should return the all elements of 'protection' property and their children.", () => {
+            const properties = ["protection.**"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = { protection: { enabled: false, required_status_checks: { enforcement_level: "off", contexts: [] } } };
+
+            assert.deepEqual(filtered, expected);
+        });
+    });
+
+    describe("root properties", () => {
+        it("should return the all root properties", () => {
+            const properties = ["*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = { name: "master" };
+
+            assert.property(filtered, "name");
+        });
+
+        it("should return the root properties and 'sha' property of 'commit' object", () => {
+            const properties = ["*", "commit.sha"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.property(filtered, "name");
+            assert.deepProperty(filtered, "commit.sha");
+        });
+
+        it("should return the 'id' property of 'content' array", () => {
+            const properties = ["commit.parents.*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = { commit: { parents: [{ sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e" }, { sha: "762941318ee16e59dabbacb1b4049eec22f0d303", url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303" }] } };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return the 'id' property of 'content' array", () => {
+            const properties = ["commit.*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } };
+
+            assert.deepEqual(filtered, expected);
+        });
+    });
+
+    describe("specific properties", () => {
+        it("should return the 'name' property", () => {
+            const properties = ["name"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = { name: 1 };
+
+            assert.property(filtered, "name");
+        });
+
+        it("should return the 'name' property and 'enabled' property of 'protection' object", () => {
+            const properties = ["name", "protection.enabled"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.property(filtered, "name");
+            assert.deepProperty(filtered, "protection.enabled");
+        });
+
+        it("should return the 'enabled' property of 'protection' object to using the include symbol", () => {
+            const properties = ["+protection.enabled"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepProperty(filtered, "protection.enabled");
+        });
+
+        it("should return the all properties expected 'gravatar_id', 'avatar_url' and 'login' properties of 'author' object", () => {
+            const properties = ["commit", "commit.author.url", "commit.author.id"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepProperty(filtered, "commit.author.url");
+            assert.deepProperty(filtered, "commit.author.id");
+        });
+
+        it("should return the 'id' property of 'author' object of 'commit' object", () => {
+            const properties = ["commit.author.id"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepProperty(filtered, "commit.author.id");
+        });
+    });
+
     it("should return the empty object with a empty array", () => {
         const properties = [];
         const filter = new JsonPropertyFilter(properties);
@@ -102,102 +204,6 @@ describe("JsonPropertyFilter", () => {
         const filter = new JsonPropertyFilter(properties);
         const filtered = filter.apply(source);
         const expected = {};
-
-        assert.deepEqual(filtered, expected);
-    });
-
-    it("should return the all properties", () => {
-        const properties = ["**"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.deepEqual(source, filtered);
-    });
-
-    it("should return the all root properties", () => {
-        const properties = ["*"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = { name: "master" };
-
-        assert.property(filtered, "name");
-    });
-
-    it("should return the 'name' property", () => {
-        const properties = ["name"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = { name: 1 };
-
-        assert.property(filtered, "name");
-    });
-
-    it("should return the 'name' property and 'enabled' property of 'protection' object", () => {
-        const properties = ["name", "protection.enabled"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.property(filtered, "name");
-        assert.deepProperty(filtered, "protection.enabled");
-    });
-
-    it("should return the 'enabled' property of 'protection' object to using the include symbol", () => {
-        const properties = ["+protection.enabled"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.deepProperty(filtered, "protection.enabled");
-    });
-
-    it("should return the all properties expected 'gravatar_id', 'avatar_url' and 'login' properties of 'author' object", () => {
-        const properties = ["commit", "commit.author.url", "commit.author.id"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.deepProperty(filtered, "commit.author.url");
-        assert.deepProperty(filtered, "commit.author.id");
-    });
-
-    it("should return the root properties and 'sha' property of 'commit' object", () => {
-        const properties = ["*", "commit.sha"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.property(filtered, "name");
-        assert.deepProperty(filtered, "commit.sha");
-    });
-
-    it("should return the 'id' property of 'author' object of 'commit' object", () => {
-        const properties = ["commit.author.id"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-
-        assert.deepProperty(filtered, "commit.author.id");
-    });
-
-    it("should return the 'id' property of 'content' array", () => {
-        const properties = ["commit.parents.*"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = { commit: { parents: [{ sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e" }, { sha: "762941318ee16e59dabbacb1b4049eec22f0d303", url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303" }] } };
-
-        assert.deepEqual(filtered, expected);
-    });
-
-    it("should return the 'id' property of 'content' array", () => {
-        const properties = ["commit.*"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } };
-
-        assert.deepEqual(filtered, expected);
-    });
-
-    it("should return the all elements of 'protection' property and their children.", () => {
-        const properties = ["protection.**"];
-        const filter = new JsonPropertyFilter(properties);
-        const filtered = filter.apply(source);
-        const expected = { protection: { enabled: false, required_status_checks: { enforcement_level: "off", contexts: [] } } };
 
         assert.deepEqual(filtered, expected);
     });

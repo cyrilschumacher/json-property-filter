@@ -32,6 +32,7 @@ import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
 export class JsonPropertyFilter {
     private static INCLUDE_SYMBOL = "+";
     private static EXCLUDE_SYMBOL = "-";
+    private static FILTER_SEPARATOR = ",";
 
     private _exclude: JsonExcludePropertyFilter;
     private _include: JsonIncludePropertyFilter;
@@ -40,9 +41,10 @@ export class JsonPropertyFilter {
      * Constructor.
      * @constructors
      * @param {string|string[]} args Properties.
+     * @param {string} separator A separator for filters.
      */
-    public constructor(args: string | Array<string>) {
-        const properties = this._formatProperties(args);
+    public constructor(args: string | Array<string>, separator?: string) {
+        const properties = this._formatProperties(args, separator);
         const propertiesToInclude = this._extractProperties(properties, [JsonPropertyFilter.INCLUDE_SYMBOL, ""]);
         const propertiesToExclude = this._extractProperties(properties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
 
@@ -90,9 +92,11 @@ export class JsonPropertyFilter {
         return undefined;
     }
 
-    private _formatProperties(properties: string | Array<string>): Array<string> {
+    private _formatProperties(properties: string | Array<string>, separator?: string): Array<string> {
+        separator = separator || JsonPropertyFilter.FILTER_SEPARATOR;
+
         if (typeof properties === "string") {
-            return properties.split(",");
+            return properties.split(separator);
         } else {
             return properties;
         }
