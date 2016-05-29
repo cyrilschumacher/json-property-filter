@@ -6,7 +6,7 @@
     "main": "lib/jsonPropertyFilter.js",
     "scripts": {
         "prepublish": "tsc",
-        "test": "mocha --require ts-node/register test/*.ts"
+        "test": "tslint src/*.ts && mocha --require ts-node/register test/*.ts"
     },
     "repository": {
         "type": "git",

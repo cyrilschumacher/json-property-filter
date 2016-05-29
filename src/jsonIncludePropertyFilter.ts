@@ -84,8 +84,10 @@ export default class JsonIncludePropertyFilter {
         const formattedRule = rule.substr(0, rule.length - 2);
 
         for (const path in source) {
-            const value = source[path];
-            this._includeProperty(formattedRule, path, value, destination);
+            if (path) {
+                const value = source[path];
+                this._includeProperty(formattedRule, path, value, destination);
+            }
         }
     }
 
@@ -114,18 +116,22 @@ export default class JsonIncludePropertyFilter {
         const ruleWithoutRootSymbol = rule.substr(0, rule.length - 1);
 
         for (const path in source) {
-            const value = source[path];
-            this._includeRootProperty(ruleWithoutRootSymbol, path, value, source, destination);
+            if (path) {
+                const value = source[path];
+                this._includeRootProperty(ruleWithoutRootSymbol, path, value, source, destination);
+            }
         }
     }
 
     private _includeSpecificPath(rule: string, source: Array<string>, destination: Array<string>) {
         for (const path in source) {
-            const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
-            const regexp = `^${rule}`;
+            if (path) {
+                const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
+                const regexp = `^${rule}`;
 
-            if (pathWithoutIndex.match(regexp)) {
-                destination[path] = source[path];
+                if (pathWithoutIndex.match(regexp)) {
+                    destination[path] = source[path];
+                }
             }
         }
     }

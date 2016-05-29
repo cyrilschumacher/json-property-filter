@@ -49,11 +49,14 @@ export class JsonPropertyFilter {
         this._assertSeparator(separator);
 
         const formattedProperties = this._formatProperties(properties, separator);
-        const propertiesToInclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL]);
-        const propertiesToExclude = this._extractProperties(formattedProperties, [JsonPropertyFilter.EXCLUDE_SYMBOL]);
 
-        this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
+        const includeSymbols = [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL];
+        const propertiesToInclude = this._extractProperties(formattedProperties, includeSymbols);
         this._include = new JsonIncludePropertyFilter(propertiesToInclude);
+
+        const excludeSymbols = [JsonPropertyFilter.EXCLUDE_SYMBOL];
+        const propertiesToExclude = this._extractProperties(formattedProperties, excludeSymbols);
+        this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
     }
 
     /**

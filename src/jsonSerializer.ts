@@ -41,20 +41,24 @@ export default class JsonSerializer {
         if (jsonObject instanceof Array) {
             if (jsonObject.length) {
                 for (const keyName in jsonObject) {
-                    const keyValue = jsonObject[keyName];
-                    const elementName = `${path}[${keyName}]`;
+                    if (keyName) {
+                        const keyValue = jsonObject[keyName];
+                        const elementName = `${path}[${keyName}]`;
 
-                    JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                        JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                    }
                 }
             } else {
                 keys[path.substring(1)] = jsonObject;
             }
         } else if (jsonObject instanceof Object) {
             for (const keyName in jsonObject) {
-                const keyValue = jsonObject[keyName];
-                const elementName = `${path}.${keyName}`;
+                if (keyName) {
+                    const keyValue = jsonObject[keyName];
+                    const elementName = `${path}.${keyName}`;
 
-                JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                    JsonSerializer.serializeToArray(keyValue, keys, elementName);
+                }
             }
         } else {
             keys[path.substring(1)] = jsonObject;
@@ -73,36 +77,38 @@ export default class JsonSerializer {
         let jsonObject = {};
 
         for (const key in arr) {
-            const value = arr[key];
-            const path = key.split(".");
-            let temporaryObject = jsonObject;
+            if (key) {
+                const value = arr[key];
+                const path = key.split(".");
+                let temporaryObject = jsonObject;
 
-            for (let pathIndex = 0; pathIndex < path.length; pathIndex++) {
-                const currentKey = path[pathIndex];
-                const isArray = /\[([0-9]+)\]$/;
+                for (let pathIndex = 0; pathIndex < path.length; pathIndex++) {
+                    const currentKey = path[pathIndex];
+                    const isArray = /\[([0-9]+)\]$/;
 
-                if (isArray.test(currentKey)) {
-                    const arrayIndex = currentKey.match(isArray)[1];
-                    const formattedCurrentKey = currentKey.replace(isArray, "");
+                    if (isArray.test(currentKey)) {
+                        const arrayIndex = currentKey.match(isArray)[1];
+                        const formattedCurrentKey = currentKey.replace(isArray, "");
 
-                    temporaryObject[formattedCurrentKey] = temporaryObject[formattedCurrentKey] || [];
-                    if (pathIndex + 1 < path.length) {
-                        temporaryObject[formattedCurrentKey][arrayIndex] = temporaryObject[formattedCurrentKey][arrayIndex] || {};
-                        temporaryObject = temporaryObject[formattedCurrentKey][arrayIndex];
+                        temporaryObject[formattedCurrentKey] = temporaryObject[formattedCurrentKey] || [];
+                        if (pathIndex + 1 < path.length) {
+                            temporaryObject[formattedCurrentKey][arrayIndex] = temporaryObject[formattedCurrentKey][arrayIndex] || {};
+                            temporaryObject = temporaryObject[formattedCurrentKey][arrayIndex];
+                        } else {
+                            temporaryObject[formattedCurrentKey][arrayIndex] = value;
+                        }
+
                     } else {
-                        temporaryObject[formattedCurrentKey][arrayIndex] = value;
-                    }
+                        if (!(currentKey in jsonObject)) {
+                            temporaryObject[currentKey] = temporaryObject[currentKey] || {};
+                        }
 
-                } else {
-                    if (!(currentKey in jsonObject)) {
-                        temporaryObject[currentKey] = temporaryObject[currentKey] || {};
-                    }
-
-                    if (pathIndex === (path.length - 1)) {
-                        temporaryObject[currentKey] = value;
-                    } else {
-                        temporaryObject[currentKey] = temporaryObject[currentKey] || {};
-                        temporaryObject = temporaryObject[currentKey];
+                        if (pathIndex === (path.length - 1)) {
+                            temporaryObject[currentKey] = value;
+                        } else {
+                            temporaryObject[currentKey] = temporaryObject[currentKey] || {};
+                            temporaryObject = temporaryObject[currentKey];
+                        }
                     }
                 }
             }

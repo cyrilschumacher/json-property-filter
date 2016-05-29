@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Add TypeScript definition in "lib" directory.
+
 ## [1.0.0] - 2015-05-29
 ### Added
 - Add more validation on parameters.
@@ -18,5 +22,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
-[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.8...HEAD
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.8...v1.0.0
 [0.0.8]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.6...v0.0.8
