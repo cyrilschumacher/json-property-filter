@@ -50,7 +50,7 @@ If you use the TypeScript language on your project, you can use the following de
 
 > lib/jsonPropertyFilter.d.ts
 
-### Test
+## Test
 
 ```bash
 $ npm install -g typings
@@ -59,6 +59,9 @@ $ typings install
 
 $ npm test
 ```
+
+## Examples
+Various examples of the library are available [here](https://tonicdev.com/cyrilschumacher/json-property-filter).
 
 ## License
 
