@@ -126,6 +126,24 @@ describe("JsonPropertyFilter", () => {
 
           assert.deepEqual(filtered, expected);
       });
+
+      it("should return the empty object", () => {
+          const properties = ["**", "-**"];
+          const filter = new JsonPropertyFilter(properties);
+          const filtered = filter.apply(source);
+          const expected = {};
+
+          assert.deepEqual(filtered, expected);
+      });
+
+      it("should return the 'name' property only", () => {
+          const properties = ["**", "-commit", "-protection", "-_links"];
+          const filter = new JsonPropertyFilter(properties);
+          const filtered = filter.apply(source);
+          const expected = { name: "master" };
+
+          assert.deepEqual(filtered, expected);
+      });
     });
 
     describe("include", () => {

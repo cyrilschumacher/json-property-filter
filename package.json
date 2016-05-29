@@ -1,6 +1,6 @@
 {
     "name": "json-property-filter",
-    "version": "0.0.9",
+    "version": "1.0.0",
     "keywords": ["json-property-filter", "filter", "json", "property", "path", "object", "element"],
     "description": "A library to filter a JSON object by including/excluding properties.",
     "main": "lib/jsonPropertyFilter.js",
