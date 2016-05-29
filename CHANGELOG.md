@@ -22,6 +22,6 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
-[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.8...v1.0.0
-[0.0.8]: https://github.com/cyrilschumacher/json-property-filter/compare/v0.0.6...v0.0.8
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.0...HEAD
+[1.0.0]: https://github.com/cyrilschumacher/json-property-filter/compare/0.0.8...1.0.0
+[0.0.8]: https://github.com/cyrilschumacher/json-property-filter/compare/0.0.6...0.0.8
