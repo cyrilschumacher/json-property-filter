@@ -8,10 +8,12 @@
     "property",
     "path",
     "object",
-    "element"
+    "element",
+    "include",
+    "exclude"
   ],
   "description": "A library to filter a JSON object by including/excluding properties.",
-  "main": "lib/jsonPropertyFilter.js",
+  "main": "./lib/jsonPropertyFilter.js",
   "scripts": {
     "prepublish": "tsc",
     "test": "tslint src/*.ts && mocha --require ts-node/register test/*.ts"
@@ -24,7 +26,7 @@
     "url": "https://github.com/cyrilschumacher/json-property-filter/issues"
   },
   "homepage": "https://github.com/cyrilschumacher/json-property-filter",
-  "typings": "lib/jsonPropertyFilter.d.ts",
+  "typings": "./lib/jsonPropertyFilter.d.ts",
   "author": "Cyril Schumacher",
   "license": "MIT",
   "devDependencies": {
