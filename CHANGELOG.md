@@ -2,6 +2,10 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+### Added
+- Add arrays support.
+
 ## [1.0.2] - 2015-05-29
 ### Fixed
 - Fix TypeScript definition path.
@@ -26,6 +30,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.2...HEAD
 [1.0.2]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.0...1.0.1
 [1.0.0]: https://github.com/cyrilschumacher/json-property-filter/compare/0.0.8...1.0.0
