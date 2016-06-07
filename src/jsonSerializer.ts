@@ -49,19 +49,22 @@ export default class JsonSerializer {
                     }
                 }
             } else {
-                keys[path.substring(1)] = jsonObject;
+                keys[path] = jsonObject;
             }
         } else if (jsonObject instanceof Object) {
             for (const keyName in jsonObject) {
                 if (keyName) {
                     const keyValue = jsonObject[keyName];
-                    const elementName = `${path}.${keyName}`;
+                    let elementName = `${keyName}`;
+                    if (path && typeof path === "string") {
+                        elementName = `${path}.${keyName}`;
+                    }
 
                     JsonSerializer.serializeToArray(keyValue, keys, elementName);
                 }
             }
         } else {
-            keys[path.substring(1)] = jsonObject;
+            keys[path] = jsonObject;
         }
 
         return keys;

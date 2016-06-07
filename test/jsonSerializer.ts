@@ -65,6 +65,28 @@ describe("JsonSerializer", () => {
 
             assert.deepEqual(actual, expected);
         });
+
+        it("should return array that contains a array subset", () => {
+            const source = [ { "key": "value" }, { "key" : "value" } ]
+            let expected = [];
+            expected["[0].key"] = "value";
+            expected["[1].key"] = "value";
+            const actual = JsonSerializer.serializeToArray(source);
+
+            assert.deepEqual(actual, expected);
+        });
+
+        it("should return array that contains properties in a array subset", () => {
+            const source = [ { "key": "value", "key2": { "key3": "value" } }, { "key": "value", "key2": { "key3": "value" } } ]
+            let expected = [];
+            expected["[0].key"] = "value";
+            expected["[0].key2.key3"] = "value";
+            expected["[1].key"] = "value";
+            expected["[1].key2.key3"] = "value";
+            const actual = JsonSerializer.serializeToArray(source);
+
+            assert.deepEqual(actual, expected);
+        });
     });
 
     describe("serializeToObject", () => {
