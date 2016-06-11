@@ -29,6 +29,7 @@ export default class JsonIncludePropertyFilter {
     private static ALL_PROPERTIES_REGEX = /\*\*$/g;
     private static ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
     private static ARRAY_INDEX = /\[[0-9]+\]/g;
+    private static ARRAY_INDEX_START = /^\[([0-9]+)\]./;
     private static PATH_SEPARATOR = ".";
     private static STRING_EMPTY = "";
 
@@ -62,6 +63,10 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
+    private _cleanupPath(path: string) {
+        return path.replace(JsonIncludePropertyFilter.ARRAY_INDEX_START, "");
+    }
+
     private _include(rule: string, source: Array<string>, destination: Array<string>) {
         if (rule.match(JsonIncludePropertyFilter.ALL_PROPERTIES_REGEX)) {
             this._includeProperties(rule, source, destination);
@@ -72,11 +77,12 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeProperty(rule: string, source: string, value: string, destination: Array<string>) {
+    private _includeProperty(rule: string, path: string, value: string, destination: Array<string>) {
+        const cleanPath = this._cleanupPath(path);
         const regexp = `^${rule}`;
 
-        if (source.match(regexp)) {
-            destination[source] = value;
+        if (cleanPath.match(regexp)) {
+            destination[path] = value;
         }
     }
 
@@ -95,7 +101,10 @@ export default class JsonIncludePropertyFilter {
         const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
 
         if (rule === JsonIncludePropertyFilter.STRING_EMPTY) {
-            if (path.split(JsonIncludePropertyFilter.PATH_SEPARATOR).length === 1) {
+            const cleanPath = this._cleanupPath(path);
+            const splittedPath = cleanPath.split(JsonIncludePropertyFilter.PATH_SEPARATOR);
+
+            if (splittedPath.length === 1) {
                 destination[path] = value;
             }
         } else {
@@ -126,7 +135,8 @@ export default class JsonIncludePropertyFilter {
     private _includeSpecificPath(rule: string, source: Array<string>, destination: Array<string>) {
         for (const path in source) {
             if (path) {
-                const pathWithoutIndex = path.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
+                const cleanPath = this._cleanupPath(path);
+                const pathWithoutIndex = cleanPath.replace(JsonIncludePropertyFilter.ARRAY_INDEX, JsonIncludePropertyFilter.STRING_EMPTY);
                 const regexp = `^${rule}`;
 
                 if (pathWithoutIndex.match(regexp)) {

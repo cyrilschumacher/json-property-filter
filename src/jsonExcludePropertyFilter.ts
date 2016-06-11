@@ -29,6 +29,7 @@ export default class JsonExcludePropertyFilter {
     private static ALL_PROPERTIES_REGEX = /\*\*$/g;
     private static ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
     private static ARRAY_INDEX = /\[[0-9]+\]/g;
+    private static ARRAY_INDEX_START = /^\[([0-9]+)\]./;
     private static PATH_SEPARATOR = ".";
     private static STRING_EMPTY = "";
 
@@ -60,6 +61,10 @@ export default class JsonExcludePropertyFilter {
         return source;
     }
 
+    private _cleanupPath(path: string) {
+        return path.replace(JsonExcludePropertyFilter.ARRAY_INDEX_START, "");
+    }
+
     private _exclude(rule: string, source: Array<string>) {
         if (rule.match(JsonExcludePropertyFilter.ALL_PROPERTIES_REGEX)) {
             this._excludeProperties(rule, source);
@@ -71,9 +76,10 @@ export default class JsonExcludePropertyFilter {
     }
 
     private _excludeProperty(rule: string, source: Array<string>, path: string) {
+        const cleanPath = this._cleanupPath(path);
         const regexp = `^${rule}`;
 
-        if (path.match(regexp)) {
+        if (cleanPath.match(regexp)) {
             delete source[path];
         }
     }
@@ -92,7 +98,10 @@ export default class JsonExcludePropertyFilter {
         const pathWithoutIndex = path.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
 
         if (rule === JsonExcludePropertyFilter.STRING_EMPTY) {
-            if (path.split(JsonExcludePropertyFilter.PATH_SEPARATOR).length === 1) {
+            const cleanPath = this._cleanupPath(path);
+            const splittedPath = cleanPath.split(JsonExcludePropertyFilter.PATH_SEPARATOR);
+
+            if (splittedPath.length === 1) {
                 delete source[path];
             }
         } else {
@@ -123,7 +132,8 @@ export default class JsonExcludePropertyFilter {
         const regexp = `^${rule}`;
         for (const path in source) {
             if (path) {
-                const pathWithoutIndex = path.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
+                const cleanPath = this._cleanupPath(path);
+                const pathWithoutIndex = cleanPath.replace(JsonExcludePropertyFilter.ARRAY_INDEX, JsonExcludePropertyFilter.STRING_EMPTY);
 
                 if (pathWithoutIndex.match(regexp)) {
                     const pathWithoutIndexItems = pathWithoutIndex.split(".");

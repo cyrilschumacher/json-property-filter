@@ -27,229 +27,371 @@ import {JsonPropertyFilter} from "../src/jsonPropertyFilter";
 import {assert} from "chai";
 
 describe("JsonPropertyFilter", () => {
-    const source = {
-        name: "master",
-        protection: {
-            enabled: false,
-            required_status_checks: {
-                enforcement_level: "off",
-                contexts: []
-            }
-        },
-        commit: {
-            sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-            commit: {
-                author: {
-                    name: "The Octocat",
-                    date: "2012-03-06T15:06:50-08:00",
-                    email: "octocat@nowhere.com"
+    describe("Array", () => {
+        const source = [
+            {
+                address: {
+                    city: "New York",
+                    postalCode: "10021",
+                    state: "NY",
+                    streetAddress: "21 2nd Street"
                 },
-                url: "https://api.github.com/repos/octocat/Hello-World/git/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-                message: "Merge pull request #6 from Spaceghost/patch-1\n\nNew line at end of file.",
-                tree: {
-                    sha: "b4eecafa9be2f2006ce1b709d6857b07069b4608",
-                    url: "https://api.github.com/repos/octocat/Hello-World/git/trees/b4eecafa9be2f2006ce1b709d6857b07069b4608"
-                },
-                committer: {
-                    name: "The Octocat",
-                    date: "2012-03-06T15:06:50-08:00",
-                    email: "octocat@nowhere.com"
-                }
+                firstName: "John",
+                lastName: "Smith",
+                phoneNumber: [
+                    {
+                        number: "212 555-1234",
+                        type: "home"
+                    },
+                    {
+                        number: "646 555-4567",
+                        type: "fax"
+                    }
+                ]
             },
-            author: {
-                gravatar_id: "",
-                avatar_url: "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
-                url: "https://api.github.com/users/octocat",
-                id: 583231,
-                login: "octocat"
-            },
-            parents: [
-                {
-                    sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e",
-                    url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e"
+            {
+                address: {
+                    city: "Goldfield",
+                    postalCode: "1148",
+                    state: "SD",
+                    streetAddress: "923 Albemarle Road"
                 },
-                {
-                    sha: "762941318ee16e59dabbacb1b4049eec22f0d303",
-                    url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303"
-                }
-            ],
-            url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d",
-            committer: {
-                gravatar_id: "",
-                avatar_url: "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png",
-                url: "https://api.github.com/users/octocat",
-                id: 583231,
-                login: "octocat"
+                firstName: "Tom",
+                lastName: "Doe",
+                phoneNumber: [
+                    {
+                        number: "835 516-3457",
+                        type: "home"
+                    }
+                ]
             }
-        },
-        _links: {
-            html: "https://github.com/octocat/Hello-World/tree/master",
-            self: "https://api.github.com/repos/octocat/Hello-World/branches/master"
-        }
-    };
+        ];
 
-    describe("exclude", () => {
-      it("should return the 'name' property only", () => {
-          const properties = ["-protection.**", "-commit.**", "-_links.**"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = { name: "master" };
-
-          assert.deepEqual(filtered, expected);
-      });
-
-      it("should return the '_links' property only", () => {
-          const properties = ["-name", "-protection", "-commit"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = { _links: { html: "https://github.com/octocat/Hello-World/tree/master", self: "https://api.github.com/repos/octocat/Hello-World/branches/master" } };
-
-          assert.deepEqual(filtered, expected);
-      });
-
-      it("should return the 'required_status_checks' property of 'protection' property only.", () => {
-          const properties = ["-*", "-protection.*", "-commit", "-_links"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = { protection: { required_status_checks: { enforcement_level: "off", contexts: [] } } };
-
-          assert.deepEqual(filtered, expected);
-      });
-    });
-
-    describe("exclude and include", () => {
-      it("should return the 'sha' property and 'committer' properties of 'commit' property only", () => {
-          const properties = ["commit", "-commit.url", "-commit.commit", "-commit.author", "-commit.parents"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", committer: { gravatar_id: "", avatar_url: "https://secure.gravatar.com/avatar/7ad39074b0584bc555d0417ae3e7d974?d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png", url: "https://api.github.com/users/octocat", id: 583231, login: "octocat" } } };
-
-          assert.deepEqual(filtered, expected);
-      });
-
-      it("should return the empty object", () => {
-          const properties = ["**", "-**"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = {};
-
-          assert.deepEqual(filtered, expected);
-      });
-
-      it("should return the 'name' property only", () => {
-          const properties = ["**", "-commit", "-protection", "-_links"];
-          const filter = new JsonPropertyFilter(properties);
-          const filtered = filter.apply(source);
-          const expected = { name: "master" };
-
-          assert.deepEqual(filtered, expected);
-      });
-    });
-
-    describe("include", () => {
-        describe("all properties", () => {
-            it("should return the all properties", () => {
-                const properties = ["**"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-
-                assert.deepEqual(source, filtered);
-            });
-
-            it("should return the all elements of 'protection' property and their children.", () => {
-                const properties = ["protection.**"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { protection: { enabled: false, required_status_checks: { enforcement_level: "off", contexts: [] } } };
-
-                assert.deepEqual(filtered, expected);
-            });
-        });
-
-        describe("root properties", () => {
-            it("should return the all root properties", () => {
-                const properties = ["*"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { name: "master" };
-
-                assert.deepEqual(filtered, expected);
-            });
-
-            it("should return the root properties and 'sha' property of 'commit' object", () => {
-                const properties = ["*", "commit.sha"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { name: "master", commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } };
-
-                assert.deepEqual(filtered, expected);
-            });
-
-            it("should return the 'id' property of 'content' array", () => {
-                const properties = ["commit.parents.*"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { commit: { parents: [{ sha: "553c2077f0edc3d5dc5d17262f6aa498e69d6f8e", url: "https://api.github.com/repos/octocat/Hello-World/commits/553c2077f0edc3d5dc5d17262f6aa498e69d6f8e" }, { sha: "762941318ee16e59dabbacb1b4049eec22f0d303", url: "https://api.github.com/repos/octocat/Hello-World/commits/762941318ee16e59dabbacb1b4049eec22f0d303" }] } };
-
-                assert.deepEqual(filtered, expected);
-            });
-
-            it("should return the 'id' property of 'content' array", () => {
-                const properties = ["commit.*"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { commit: { sha: "7fd1a60b01f91b314f59955a4e4d4e80d8edf11d", url: "https://api.github.com/repos/octocat/Hello-World/commits/7fd1a60b01f91b314f59955a4e4d4e80d8edf11d" } };
-
-                assert.deepEqual(filtered, expected);
-            });
-        });
-
-        describe("specific properties", () => {
-            it("should return the 'name' property", () => {
-                const properties = ["name"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { name: "master" };
-
-                assert.deepEqual(filtered, expected);
-            });
-
-            it("should return the 'name' property and 'enabled' property of 'protection' object", () => {
-                const properties = ["name", "protection.enabled"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { name: "master", protection: { enabled: false } };
-
-                assert.deepEqual(filtered, expected);
-            });
-
-            it("should return the all properties expected 'gravatar_id', 'avatar_url' and 'login' properties of 'author' object", () => {
-                const properties = ["commit", "commit.author.url", "commit.author.id"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-
-                assert.deepProperty(filtered, "commit.author.url");
-                assert.deepProperty(filtered, "commit.author.id");
-            });
-
-            it("should return the 'id' property of 'author' object of 'commit' object", () => {
-                const properties = ["commit.author.id"];
-                const filter = new JsonPropertyFilter(properties);
-                const filtered = filter.apply(source);
-                const expected = { commit: { author: { id: 583231 } } };
-
-                assert.deepEqual(filtered, expected);
-            });
-        });
-    });
-
-    describe("empty properties", () => {
         it("should return the original object with a empty array", () => {
             const properties = [];
             const filter = new JsonPropertyFilter(properties);
             const filtered = filter.apply(source);
 
             assert.deepEqual(filtered, source);
+        });
+
+        it("should return the root properties", () => {
+            const properties = ["*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = [{ firstName: "John", lastName: "Smith" }, { firstName: "Tom", lastName: "Doe" }];
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties of 'address' property", () => {
+            const properties = ["address.**"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = [
+                {
+                    address: {
+                        city: "New York",
+                        postalCode: "10021",
+                        state: "NY",
+                        streetAddress: "21 2nd Street"
+                    }
+                },
+                {
+                    address: {
+                        city: "Goldfield",
+                        postalCode: "1148",
+                        state: "SD",
+                        streetAddress: "923 Albemarle Road"
+                    }
+                }
+            ];
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return specific properties", () => {
+            const properties = ["firstName", "lastName", "phoneNumber.number"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = [
+                {
+                    firstName: "John",
+                    lastName: "Smith",
+                    phoneNumber: [
+                        {
+                            number: "212 555-1234"
+                        },
+                        {
+                            number: "646 555-4567"
+                        }
+                    ]
+                },
+                {
+                    firstName: "Tom",
+                    lastName: "Doe",
+                    phoneNumber: [
+                        {
+                            number: "835 516-3457"
+                        }
+                    ]
+                }
+            ];
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties without the properties: 'firstName' and 'lastName'", () => {
+            const properties = ["**", "-firstName", "-lastName"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = [
+                {
+                    address: {
+                        city: "New York",
+                        postalCode: "10021",
+                        state: "NY",
+                        streetAddress: "21 2nd Street"
+                    },
+                    phoneNumber: [
+                        {
+                            number: "212 555-1234",
+                            type: "home"
+                        },
+                        {
+                            number: "646 555-4567",
+                            type: "fax"
+                        }
+                    ]
+                },
+                {
+                    address: {
+                        city: "Goldfield",
+                        postalCode: "1148",
+                        state: "SD",
+                        streetAddress: "923 Albemarle Road"
+                    },
+                    phoneNumber: [
+                        {
+                            number: "835 516-3457",
+                            type: "home"
+                        }
+                    ]
+                }
+            ];
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return the 'phoneNumber' property without the 'number' subproperty", () => {
+            const properties = ["phoneNumber", "-phoneNumber.number"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = [
+                {
+                    phoneNumber: [
+                        {
+                            type: "home"
+                        },
+                        {
+                            type: "fax"
+                        }
+                    ]
+                },
+                {
+                    phoneNumber: [
+                        {
+                            type: "home"
+                        }
+                    ]
+                }
+            ];
+
+            assert.deepEqual(filtered, expected);
+        });
+    });
+
+    describe("Object", () => {
+        const source = {
+            address: {
+                city: "New York",
+                postalCode: "10021",
+                state: "NY",
+                streetAddress: "21 2nd Street"
+            },
+            age: 25,
+            firstName: "John",
+            gender: {
+                type: "male"
+            },
+            lastName: "Smith",
+            phoneNumber: [
+                {
+                    number: "212 555-1234",
+                    type: "home"
+                },
+                {
+                    number: "646 555-4567",
+                    type: "fax"
+                }
+            ]
+        };
+
+        it("should return the original object with a empty array", () => {
+            const properties = [];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepEqual(filtered, source);
+        });
+
+        it("should return all properties of object", () => {
+            const properties = ["**"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+
+            assert.deepEqual(filtered, source);
+        });
+
+        it("should return the root properties of object", () => {
+            const properties = ["*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                age: 25,
+                firstName: "John",
+                lastName: "Smith"
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties of 'address' property", () => {
+            const properties = ["address.**"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                address: {
+                    city: "New York",
+                    postalCode: "10021",
+                    state: "NY",
+                    streetAddress: "21 2nd Street"
+                }
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return specific properties", () => {
+            const properties = ["firstName", "lastName", "phoneNumber.number"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                firstName: "John",
+                lastName: "Smith",
+                phoneNumber: [
+                    {
+                        number: "212 555-1234"
+                    },
+                    {
+                        number: "646 555-4567"
+                    }
+                ]
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties without the properties: 'firstName' and 'lastName'", () => {
+            const properties = ["**", "-firstName", "-lastName"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                address: {
+                    city: "New York",
+                    postalCode: "10021",
+                    state: "NY",
+                    streetAddress: "21 2nd Street"
+                },
+                age: 25,
+                gender: {
+                    type: "male"
+                },
+                phoneNumber: [
+                    {
+                        number: "212 555-1234",
+                        type: "home"
+                    },
+                    {
+                        number: "646 555-4567",
+                        type: "fax"
+                    }
+                ]
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return the 'phoneNumber' property without the 'number' subproperty", () => {
+            const properties = ["phoneNumber", "-phoneNumber.number"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                phoneNumber: [
+                    {
+                        type: "home"
+                    },
+                    {
+                        type: "fax"
+                    }
+                ]
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties without the properties: 'age', 'phoneNumber' and 'gender'", () => {
+            const properties = ["-age", "-phoneNumber", "-gender"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                address: {
+                    city: "New York",
+                    postalCode: "10021",
+                    state: "NY",
+                    streetAddress: "21 2nd Street"
+                },
+                firstName: "John",
+                lastName: "Smith"
+            };
+
+            assert.deepEqual(filtered, expected);
+        });
+
+        it("should return all properties without the 'address' property", () => {
+            const properties = ["-address.*"];
+            const filter = new JsonPropertyFilter(properties);
+            const filtered = filter.apply(source);
+            const expected = {
+                age: 25,
+                firstName: "John",
+                gender: {
+                    type: "male"
+                },
+                lastName: "Smith",
+                phoneNumber: [
+                    {
+                        number: "212 555-1234",
+                        type: "home"
+                    },
+                    {
+                        number: "646 555-4567",
+                        type: "fax"
+                    }
+                ]
+            };
+
+            assert.deepEqual(filtered, expected);
         });
     });
 });

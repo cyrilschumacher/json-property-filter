@@ -26,8 +26,8 @@ function _isArray(arr) {
     const firstKey = keys[0];
 
     if (firstKey) {
-        const isArray = /^\[([0-9]+)\]/;
-        return isArray.test(firstKey);
+        const isArrayRegexp = /^\[([0-9]+)\]/;
+        return isArrayRegexp.test(firstKey);
     }
 
     return false;
