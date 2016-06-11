@@ -241,7 +241,6 @@ describe("JsonPropertyFilter", () => {
                 assert.deepEqual(filtered, expected);
             });
         });
-
     });
 
     describe("empty properties", () => {

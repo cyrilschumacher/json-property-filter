@@ -21,7 +21,8 @@
  * SOFTWARE.
  */
 
-import JsonSerializer from "./jsonSerializer";
+import serializeToArray from "./serializer/serializeToArray";
+import serializeToObject from "./serializer/serializeToObject";
 import JsonExcludePropertyFilter from "./jsonExcludePropertyFilter";
 import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
 
@@ -65,12 +66,12 @@ export class JsonPropertyFilter {
      * @return {Object} The filtered JSON object.
      */
     public apply(source: Object): Object {
-        const keys = JsonSerializer.serializeToArray(source);
+        const keys = serializeToArray(source);
         let destination = new Array<string>();
         destination = this._include.apply(keys);
         destination = this._exclude.apply(destination);
 
-        return JsonSerializer.serializeToObject(destination);
+        return serializeToObject(destination);
     }
 
     private _assertProperties(properties: string | Array<string>) {

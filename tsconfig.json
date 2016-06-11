@@ -20,7 +20,8 @@
         "./src/jsonExcludePropertyFilter.ts",
         "./src/jsonIncludePropertyFilter.ts",
         "./src/jsonPropertyFilter.ts",
-        "./src/jsonSerializer.ts"
+        "./src/serializer/serializeToArray.ts",
+        "./src/serializer/serializeToObject.ts"
     ],
     "exclude": [],
     "atom": {
