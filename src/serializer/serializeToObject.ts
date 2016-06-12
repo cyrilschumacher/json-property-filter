@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-function _isArray(arr) {
+function _isArray(arr: Array<string>) {
     const keys = Object.keys(arr);
     const firstKey = keys[0];
 
@@ -33,7 +33,7 @@ function _isArray(arr) {
     return false;
 }
 
-function _serialize(jsonObject, key, value, path, index) {
+function _serialize(jsonObject: Object, index: number, key: string, value: any, path: Array<string>) {
     const currentKey = path[index];
     const isArray = /\[([0-9]+)\]$/;
 
@@ -44,7 +44,7 @@ function _serialize(jsonObject, key, value, path, index) {
     }
 }
 
-function _serializeObject(jsonObject, index, key, value, path) {
+function _serializeObject(jsonObject: Object, index: number, key: string, value: any, path: Array<string>) {
     if (typeof jsonObject === "object") {
         if (!(key in jsonObject)) {
             jsonObject[key] = jsonObject[key] || {};
@@ -62,7 +62,7 @@ function _serializeObject(jsonObject, index, key, value, path) {
     return jsonObject;
 }
 
-function _serializeArray(jsonObject, index, key, value, path, isArray) {
+function _serializeArray(jsonObject: Object, index: number, key, value: any, path: Array<string>, isArray: RegExp) {
     const arrayIndex = key.match(isArray)[1];
     const formattedCurrentKey = key.replace(isArray, "");
     const indexNextItem = index + 1;
@@ -105,7 +105,7 @@ export default function serializeToObject(arr: Array<string>) {
             let currentJsonObject = jsonObject;
 
             for (let index = 0; index < path.length; index++) {
-                currentJsonObject = _serialize(currentJsonObject, key, value, path, index);
+                currentJsonObject = _serialize(currentJsonObject, index, key, value, path);
             }
         }
     }

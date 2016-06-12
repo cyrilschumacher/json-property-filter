@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-function _serializeArray(jsonObject, keys, path) {
+function _serializeArray(jsonObject: Array<string>, keys: Array<string>, path: string) {
     if (jsonObject.length) {
         for (const keyName in jsonObject) {
             if (keyName) {
@@ -36,7 +36,7 @@ function _serializeArray(jsonObject, keys, path) {
     }
 }
 
-function _serializeObject(jsonObject, keys, path) {
+function _serializeObject(jsonObject: Object, keys: Array<string>, path: string) {
     for (const keyName in jsonObject) {
         if (keyName) {
             const keyValue = jsonObject[keyName];
