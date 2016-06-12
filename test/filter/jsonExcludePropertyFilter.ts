@@ -27,89 +27,91 @@ import JsonExcludePropertyFilter from "../../src/filter/jsonExcludePropertyFilte
 import {assert} from "chai";
 
 describe("JsonExcludePropertyFilter", () => {
-    it("should return all properties excepted the 'key1' property", () => {
-        let source = [];
-        source["key1"] = "value1";
-        source["key2"] = "value2";
-        let expected = [];
-        expected["key2"] = "value2";
+    describe("Object", () => {
+        it("should return all properties excepted the 'key1' property", () => {
+            let source = [];
+            source["key1"] = "value1";
+            source["key2"] = "value2";
+            let expected = [];
+            expected["key2"] = "value2";
 
-        const filter = new JsonExcludePropertyFilter(["key1"]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter(["key1"]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
-    });
+            assert.deepEqual(filtered, expected);
+        });
 
-    it("should return the root properties of 'key2' property only", () => {
-        let source = [];
-        source["key1.key2"] = "value2";
-        source["key1.key3.key4"] = "value3";
-        source["key1.key3.key5"] = "value4";
-        let expected = [];
-        expected["key1.key2"] = "value2";
+        it("should return the root properties of 'key2' property only", () => {
+            let source = [];
+            source["key1.key2"] = "value2";
+            source["key1.key3.key4"] = "value3";
+            source["key1.key3.key5"] = "value4";
+            let expected = [];
+            expected["key1.key2"] = "value2";
 
-        const filter = new JsonExcludePropertyFilter(["key1.key3.*"]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter(["key1.key3.*"]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
-    });
+            assert.deepEqual(filtered, expected);
+        });
 
-    it("should return array that contains 'key2' property only", () => {
-        let source = [];
-        source["key1[0].key2"] = "value2";
-        source["key1[0].key3"] = "value3";
-        source["key1[1].key2"] = "value2";
-        source["key1[1].key3"] = "value3";
-        let expected = [];
-        expected["key1[0].key2"] = "value2";
-        expected["key1[1].key2"] = "value2";
+        it("should return array that contains 'key2' property only", () => {
+            let source = [];
+            source["key1[0].key2"] = "value2";
+            source["key1[0].key3"] = "value3";
+            source["key1[1].key2"] = "value2";
+            source["key1[1].key3"] = "value3";
+            let expected = [];
+            expected["key1[0].key2"] = "value2";
+            expected["key1[1].key2"] = "value2";
 
-        const filter = new JsonExcludePropertyFilter(["key1.key3"]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter(["key1.key3"]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
-    });
+            assert.deepEqual(filtered, expected);
+        });
 
-    it("should return all properties of 'key3' property only", () => {
-        let source = [];
-        source["key1"] = "value1";
-        source["key2"] = "value2";
-        source["key3.key4"] = "value3";
-        let expected = [];
-        expected["key3.key4"] = "value3";
+        it("should return all properties of 'key3' property only", () => {
+            let source = [];
+            source["key1"] = "value1";
+            source["key2"] = "value2";
+            source["key3.key4"] = "value3";
+            let expected = [];
+            expected["key3.key4"] = "value3";
 
-        const filter = new JsonExcludePropertyFilter(["*"]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter(["*"]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
-    });
+            assert.deepEqual(filtered, expected);
+        });
 
-    it("should return empty array", () => {
-        let source = [];
-        source["key1"] = "value";
-        source["key2.key3.key4"] = "value3";
-        source["key2.key3.key4"] = "value4";
-        let expected = [];
+        it("should return empty array", () => {
+            let source = [];
+            source["key1"] = "value";
+            source["key2.key3.key4"] = "value3";
+            source["key2.key3.key4"] = "value4";
+            let expected = [];
 
-        const filter = new JsonExcludePropertyFilter(["**"]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter(["**"]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
-    });
+            assert.deepEqual(filtered, expected);
+        });
 
-    it("should return original array", () => {
-        let source = [];
-        source["key1"] = "value1";
-        source["key2"] = "value2";
-        source["key3.key4"] = "value3";
-        let expected = [];
-        expected["key1"] = "value1";
-        expected["key2"] = "value2";
-        expected["key3.key4"] = "value3";
+        it("should return original array", () => {
+            let source = [];
+            source["key1"] = "value1";
+            source["key2"] = "value2";
+            source["key3.key4"] = "value3";
+            let expected = [];
+            expected["key1"] = "value1";
+            expected["key2"] = "value2";
+            expected["key3.key4"] = "value3";
 
-        const filter = new JsonExcludePropertyFilter([]);
-        const filtered = filter.apply(source);
+            const filter = new JsonExcludePropertyFilter([]);
+            const filtered = filter.apply(source);
 
-        assert.deepEqual(filtered, expected);
+            assert.deepEqual(filtered, expected);
+        });
     });
 });

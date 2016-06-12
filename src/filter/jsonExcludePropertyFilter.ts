@@ -24,6 +24,7 @@
 /**
  * Filter include JSON property.
  * @class
+ * @version 1.1.1
  */
 export default class JsonExcludePropertyFilter {
     private static ALL_PROPERTIES_REGEX = /\*\*$/g;

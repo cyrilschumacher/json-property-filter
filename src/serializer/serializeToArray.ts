@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-function _serializeArray(jsonObject: Array<string>, keys: Array<string>, path: string) {
+function _serializeArray(jsonObject: Array<Object>, keys: Array<string>, path: string) {
     if (jsonObject.length) {
         for (const keyName in jsonObject) {
             if (keyName) {
@@ -52,12 +52,13 @@ function _serializeObject(jsonObject: Object, keys: Array<string>, path: string)
 
 /**
  * Serializes to array.
- * @param {Object} jsonObject A JSON object.
+ * @version 1.2.0
+ * @param {Object|Object[]} jsonObject A JSON object.
  * @param {string[]} keys Keys.
  * @param {string} path A path.
  * @return {string[]} The array.
  */
-export default function serializeToArray(jsonObject: Object, keys?: Array<string>, path?: string): Array<string> {
+export default function serializeToArray(jsonObject: Object|Array<Object>, keys?: Array<string>, path?: string): Array<string> {
     keys = keys || [];
     path = path || "";
 

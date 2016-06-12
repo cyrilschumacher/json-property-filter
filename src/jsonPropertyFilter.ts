@@ -27,8 +27,12 @@ import JsonExcludePropertyFilter from "./filter/jsonExcludePropertyFilter";
 import JsonIncludePropertyFilter from "./filter/jsonIncludePropertyFilter";
 
 /**
- * Filter JSON property.
+ * Filter class to include or exclude elements from a JSON object or array.
  * @class
+ * @version 1.2.0
+ * @example
+ * var filter = new JsonPropertyFilter(["**"]);
+ * var filtered = filter.apply({key: "value"});
  */
 export class JsonPropertyFilter {
     private static DEFAULT_INCLUDE_SYMBOL = /^()[^+-]/g;
@@ -36,53 +40,102 @@ export class JsonPropertyFilter {
     private static FILTER_SEPARATOR = ",";
     private static INCLUDE_SYMBOL = /^(\+)/g;
 
-    private _exclude: JsonExcludePropertyFilter;
-    private _include: JsonIncludePropertyFilter;
+    private _excludeFilters: Array<string>;
+    private _includeFilters: Array<string>;
 
     /**
      * Constructor.
      * @constructors
-     * @param {string|string[]} properties Properties.
+     * @param {string|string[]} filters Filters.
      * @param {string} separator A separator for filters.
      */
-    public constructor(properties: string | Array<string>, separator?: string) {
-        this._assertProperties(properties);
-        this._assertSeparator(separator);
+    public constructor(filters?: string | Array<string>, separator?: string) {
+        if (filters) {
+            this.setExcludeFilters(filters, separator);
+            this.setIncludeFilters(filters, separator);
+        }
+    }
 
-        const formattedProperties = this._formatProperties(properties, separator);
+    /**
+     * Gets exclude filters
+     * @return {string[]} The exclude filters.
+     */
+    public get excludeFilters() {
+        return this._excludeFilters;
+    }
 
-        const includeSymbols = [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL];
-        const propertiesToInclude = this._extractProperties(formattedProperties, includeSymbols);
-        this._include = new JsonIncludePropertyFilter(propertiesToInclude);
-
-        const excludeSymbols = [JsonPropertyFilter.EXCLUDE_SYMBOL];
-        const propertiesToExclude = this._extractProperties(formattedProperties, excludeSymbols);
-        this._exclude = new JsonExcludePropertyFilter(propertiesToExclude);
+    /**
+     * Gets exclude filters
+     * @return {string[]} The exclude filters.
+     */
+    public get includeFilters() {
+        return this._includeFilters;
     }
 
     /**
      * Apply filter on a JSON object.
-     * @param {Object} source A JSON object.
-     * @return {Object} The filtered JSON object.
+     * @param {Object|Object[]} source A JSON object.
+     * @return {Object} The filtered JSON object or array.
      */
-    public apply(source: Object): Object {
+    public apply(source: Object | Array<Object>): Object | Array<Object> {
         const keys = serializeToArray(source);
-        let destination = new Array<string>();
-        destination = this._include.apply(keys);
-        destination = this._exclude.apply(destination);
 
-        return serializeToObject(destination);
+        let filtered = new Array<string>();
+        filtered = this._applyInclude(keys);
+        filtered = this._applyExcludeFilters(filtered);
+
+        return serializeToObject(filtered);
     }
 
-    private _assertProperties(properties: string | Array<string>) {
-        if (!Array.isArray(properties) && (typeof properties !== "string")) {
-            throw new Error("_assertProperties(): Parameter 'args' is not a string or array type.");
+    /**
+     * Sets exclude filters.
+     * @param {string|string[]} filters Filters.
+     * @param {string} separator A separator for filters.
+     * @throws {TypeError} Throws if: 'filters' is not string type or Array; 'separator' is null or is not string type.
+     */
+    public setExcludeFilters(filters: string | Array<string>, separator?: string) {
+        this._assertFilters(filters);
+        this._assertSeparator(separator);
+
+        const formattedProperties = this._formatProperties(filters, separator);
+        const excludeSymbols = [JsonPropertyFilter.EXCLUDE_SYMBOL];
+        this._excludeFilters = this._extractProperties(formattedProperties, excludeSymbols);
+    }
+
+    /**
+     * Sets include filters.
+     * @param {string|string[]} filters Filters.
+     * @param {string} separator A separator for filters.
+     * @throws {TypeError} Throws if: 'filters' is not string type or Array; 'separator' is null or is not string type.
+     */
+    public setIncludeFilters(filters: string | Array<string>, separator?: string) {
+        this._assertFilters(filters);
+        this._assertSeparator(separator);
+
+        const formattedProperties = this._formatProperties(filters, separator);
+        const includeSymbols = [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL];
+        this._includeFilters = this._extractProperties(formattedProperties, includeSymbols);
+    }
+
+    private _applyInclude(source: Array<string>): Array<string> {
+        const include = new JsonIncludePropertyFilter(this._includeFilters);
+        return include.apply(source);
+    }
+
+    private _applyExcludeFilters(source: Array<string>): Array<string> {
+        const exclude = new JsonExcludePropertyFilter(this._excludeFilters);
+        return exclude.apply(source);
+    }
+
+    private _assertFilters(filters: string | Array<string>) {
+        if (!Array.isArray(filters) && (typeof filters !== "string")) {
+            throw new TypeError("Parameter 'filters' is not a string or array type.");
         }
     }
 
     private _assertSeparator(separator?: string) {
         if (separator && (separator !== "string")) {
-            throw new Error("_assertSeparator(): Parameter 'separator' is not a string type.");
+            throw new TypeError("Parameter 'separator' is not a string type.");
         }
     }
 
@@ -120,10 +173,9 @@ export class JsonPropertyFilter {
     }
 
     private _formatProperties(properties: string | Array<string>, separator?: string): Array<string> {
-        separator = separator || JsonPropertyFilter.FILTER_SEPARATOR;
-
         if (typeof properties === "string") {
-            return properties.split(separator);
+            const separatorFilters = separator || JsonPropertyFilter.FILTER_SEPARATOR;
+            return properties.split(separatorFilters);
         } else {
             return properties;
         }
