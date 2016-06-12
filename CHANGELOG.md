@@ -6,7 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - A array contained in a base array can be ignored when filtering.
 
-## [1.1.0]
+## [1.1.0] - 2015-06-12
 ### Added
 - Add arrays support.
 
