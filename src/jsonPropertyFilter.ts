@@ -23,18 +23,18 @@
 
 import serializeToArray from "./serializer/serializeToArray";
 import serializeToObject from "./serializer/serializeToObject";
-import JsonExcludePropertyFilter from "./jsonExcludePropertyFilter";
-import JsonIncludePropertyFilter from "./jsonIncludePropertyFilter";
+import JsonExcludePropertyFilter from "./filter/jsonExcludePropertyFilter";
+import JsonIncludePropertyFilter from "./filter/jsonIncludePropertyFilter";
 
 /**
  * Filter JSON property.
  * @class
  */
 export class JsonPropertyFilter {
-    private static INCLUDE_SYMBOL = /^(\+)/g;
     private static DEFAULT_INCLUDE_SYMBOL = /^()[^+-]/g;
     private static EXCLUDE_SYMBOL = /^(\-)/g;
     private static FILTER_SEPARATOR = ",";
+    private static INCLUDE_SYMBOL = /^(\+)/g;
 
     private _exclude: JsonExcludePropertyFilter;
     private _include: JsonIncludePropertyFilter;

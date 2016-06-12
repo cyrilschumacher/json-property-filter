@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../typings/index.d.ts"/>
+/// <reference path="../../typings/index.d.ts"/>
 
-import JsonExcludePropertyFilter from "../src/jsonExcludePropertyFilter";
+import JsonExcludePropertyFilter from "../../src/filter/jsonExcludePropertyFilter";
 import {assert} from "chai";
 
 describe("JsonExcludePropertyFilter", () => {

@@ -1,6 +1,6 @@
 {
   "name": "json-property-filter",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "keywords": [
     "json-property-filter",
     "filter",
@@ -15,8 +15,9 @@
   "description": "A library to filter a JSON object by including/excluding properties.",
   "main": "./lib/jsonPropertyFilter.js",
   "scripts": {
+    "lint": "tslint src/**/*.ts",
     "prepublish": "tsc",
-    "test": "tslint src/*.ts && mocha --require ts-node/register test/**/*.ts"
+    "test": "mocha --require ts-node/register test/**/*.ts"
   },
   "repository": {
     "type": "git",

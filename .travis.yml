@@ -1,7 +1,9 @@
 language: node_js
 node_js:
-  - "5"
+  - "6.1"
+  - "6"
   - "5.1"
+  - "5"
   - "4.2"
   - "4.1"
   - "4.0"
@@ -10,4 +12,6 @@ before_install:
 install:
   - npm install
   - typings install
-script: npm test
+script:
+  - npm run-script lint
+  - npm test

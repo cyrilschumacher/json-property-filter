@@ -1,6 +1,6 @@
 # json-property-filter
 
-[![MIT License][license-image]][license-url] [![npm version][npmjs-image]][npmjs-url] [![Build Status][travis-image]][travis-url] [![typescript-standard-style][standard-image]][standard-url] [![david-dm Status][david-image]][david-url] [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
+[![MIT License][license-image]][license-url] [![npm version][npmjs-image]][npmjs-url] [![Build Status][travis-image]][travis-url] [![typescript-standard-style][standard-image]][standard-url] [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
 
 A library to filter a JSON object by including/excluding properties.
 
@@ -14,7 +14,7 @@ $ npm install json-property-filter
 
 To using [TypeScript](https://www.typescriptlang.org/) or JavaScript (ES6 support) language:
 
-```javascript
+```typescript
 import {JsonPropertyFilter} from "json-property-filter";
 
 var filter = new JsonPropertyFilter(["**"]);
@@ -24,31 +24,46 @@ filter.apply({ key: "value" });
 If you use JavaScript (ES5 support) language:
 
 ```javascript
-var JsonPropertyFilter = require("json-property-filter");
+var filters = require("json-property-filter");
 
-var filter = new JsonPropertyFilter.JsonPropertyFilter(["**"]);
+var filter = new filters.JsonPropertyFilter(["**"]);
 filter.apply({ key: "value" });
 ```
 
 ### Filters
 
-- `**`
+The following filters will allow you to include or exclude your object properties.
 
-All properties. Include all the properties children and their children.
+#### All properties
 
-- `*`
+For include or exclude all the properties children and their children, you can use the symbol: `**`.
+Examples:
 
-Root properties only. Include only properties located in the root.
+```
+**
+root.**
+root.property.**
+```
 
-- `root.property.element`
+#### Root properties
 
-Specific property. Include a specific property.
+For include or exclude only properties located in the root, you can use the symbol: `*`.
+Examples:
 
-### TypeScript definition
+```
+root.*
+root.property.*
+```
 
-If you use the TypeScript language on your project, you can use the following definition from that path:
+#### Specific property
 
-> lib/jsonPropertyFilter.d.ts
+For include or include a specific property, you can set the path to your property.
+Examples:
+
+```
+root.element
+root.property.element
+```
 
 ## Test
 
@@ -61,6 +76,7 @@ $ npm test
 ```
 
 ## Examples
+
 Various examples of the library are available [here](https://tonicdev.com/cyrilschumacher/json-property-filter).
 
 ## License
