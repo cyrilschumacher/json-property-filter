@@ -4,10 +4,11 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
 ### Added
-- Add getters/setters for `JsonPropertyFilter` class for obtain/set the exclude/include filters.
+- Add getters/setters for `JsonPropertyFilter` class to obtain/set the exclude/include filters.
 
 ### Changed
 - All constructor arguments of the `JsonPropertyFilter` class are optionals.
+- The `TypeError` object is used to assert separator and filters arguments.
 
 ## [1.1.1] - 2015-06-12
 ### Fixed

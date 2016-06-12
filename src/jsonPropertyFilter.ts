@@ -21,6 +21,7 @@
  * SOFTWARE.
  */
 
+import extractFilters from "./extractFilters";
 import serializeToArray from "./serializer/serializeToArray";
 import serializeToObject from "./serializer/serializeToObject";
 import JsonExcludePropertyFilter from "./filter/jsonExcludePropertyFilter";
@@ -99,7 +100,7 @@ export class JsonPropertyFilter {
 
         const formattedProperties = this._formatProperties(filters, separator);
         const excludeSymbols = [JsonPropertyFilter.EXCLUDE_SYMBOL];
-        this._excludeFilters = this._extractProperties(formattedProperties, excludeSymbols);
+        this._excludeFilters = extractFilters(formattedProperties, excludeSymbols);
     }
 
     /**
@@ -114,7 +115,7 @@ export class JsonPropertyFilter {
 
         const formattedProperties = this._formatProperties(filters, separator);
         const includeSymbols = [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL];
-        this._includeFilters = this._extractProperties(formattedProperties, includeSymbols);
+        this._includeFilters = extractFilters(formattedProperties, includeSymbols);
     }
 
     private _applyInclude(source: Array<string>): Array<string> {
@@ -137,39 +138,6 @@ export class JsonPropertyFilter {
         if (separator && (separator !== "string")) {
             throw new TypeError("Parameter 'separator' is not a string type.");
         }
-    }
-
-    private _extractProperties(properties: Array<string>, symbols: Array<RegExp>): Array<string> {
-        let extract = new Array<string>();
-
-        for (let property of properties) {
-            const formattedProperty = this._extractProperty(property, symbols);
-
-            if (formattedProperty) {
-                extract.push(formattedProperty);
-            }
-        }
-
-        return extract;
-    }
-
-    private _extractProperty(property: string, symbols: Array<RegExp>): string {
-        for (const symbol of symbols) {
-            const matches = symbol.exec(property);
-            symbol.lastIndex = 0;
-
-            if (matches) {
-                const start = matches[1];
-
-                if (start.length) {
-                    return property.substring(start.length);
-                } else {
-                    return property;
-                }
-            }
-        }
-
-        return undefined;
     }
 
     private _formatProperties(properties: string | Array<string>, separator?: string): Array<string> {
