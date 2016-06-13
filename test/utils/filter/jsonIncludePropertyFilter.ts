@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../../typings/index.d.ts"/>
+/// <reference path="../../../typings/index.d.ts"/>
 
-import JsonIncludePropertyFilter from "../../src/filter/jsonIncludePropertyFilter";
+import JsonIncludePropertyFilter from "../../../src/filter/jsonIncludePropertyFilter";
 import {assert} from "chai";
 
 describe("jsonIncludePropertyFilter", () => {

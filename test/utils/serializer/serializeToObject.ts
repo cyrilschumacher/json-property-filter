@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../../typings/index.d.ts"/>
+/// <reference path="../../../typings/index.d.ts"/>
 
-import serializeToObject from "../../src/serializer/serializeToObject";
+import serializeToObject from "../../../src/serializer/serializeToObject";
 import {assert} from "chai";
 
 describe("serializeToObject", () => {

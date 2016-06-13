@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../typings/index.d.ts"/>
+/// <reference path="../../typings/index.d.ts"/>
 
-import extractFilters from "../src/extractFilters";
+import extractFilters from "../../src/extractFilters";
 import {assert} from "chai";
 
 describe("extractFilters", () => {

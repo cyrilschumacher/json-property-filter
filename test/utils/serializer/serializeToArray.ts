@@ -21,9 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../../typings/index.d.ts"/>
+/// <reference path="../../../typings/index.d.ts"/>
 
-import serializeToArray from "../../src/serializer/serializeToArray";
+import serializeToArray from "../../../src/serializer/serializeToArray";
 import {assert} from "chai";
 
 describe("serializeToArray", () => {
