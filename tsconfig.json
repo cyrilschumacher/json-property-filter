@@ -17,6 +17,7 @@
         "!node_modules/**/*.ts"
     ],
     "files": [
+        "./src/cli.ts",
         "./src/extractFilters.ts",
         "./src/filter/jsonExcludePropertyFilter.ts",
         "./src/filter/jsonIncludePropertyFilter.ts",
