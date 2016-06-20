@@ -28,22 +28,28 @@ import * as fs from "fs";
 import {JsonPropertyFilter} from "./jsonPropertyFilter";
 
 program
-    .version('1.1.2')
+    .version('1.0.0')
     .description('Filter a JSON file by including or excluding properties.')
-    .usage('[file]')
-    .option('-f, --filters [filters]', 'Include and exclude filters.')
-    .option('-o, --out [file]', 'Place output in file file.')
-    .option('-p, --pretty', 'Pretty output.')
+    .usage('<file>')
+    .option('-f, --filters <filters>', 'Add include and exclude filters.')
+    .option('-o, --out <file>', 'Specifies the output file.')
+    .option('-p, --pretty', 'Display results in an easy-to-read format.')
     .action(_apply)
     .parse(process.argv);
+
+if (!program.args.length) {
+    program.help();
+}
 
 function _apply(file, options) {
     fs.readFile(file, (error, data) => {
         _assertReadFile(file, error);
 
         const jsonObject = _transformToJsonObject(data);
-        const filteredJsonObject = _filterJsonObject(jsonObject, options);
-        _out(filteredJsonObject, options.out, options.pretty);
+        const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
+        const filteredJsonObject = _filterJsonObject(jsonPropertyFilter, jsonObject);
+        const formattedJsonObject = _format(filteredJsonObject, options.pretty);
+        _out(formattedJsonObject, options.out);
     });
 }
 
@@ -59,14 +65,19 @@ function _assertWriteFile(error) {
     }
 }
 
-function _filterJsonObject(jsonObject, options) {
-    const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
+function _filterJsonObject(jsonPropertyFilter, jsonObject) {
     return jsonPropertyFilter.apply(jsonObject);
 }
 
-function _out(filteredJsonObject, outputFile, pretty) {
-    const jsonObject = pretty ? JSON.stringify(filteredJsonObject, null, 2) : JSON.stringify(filteredJsonObject);
+function _format(filteredJsonObject, pretty) {
+    if (pretty) {
+        return JSON.stringify(filteredJsonObject, null, 2);
+    } else {
+        return JSON.stringify(filteredJsonObject);
+    }
+}
 
+function _out(jsonObject, outputFile) {
     if (outputFile) {
         _writeResult(outputFile, jsonObject);
     } else {

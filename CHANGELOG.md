@@ -6,6 +6,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Added
 - Add getters/setters for `JsonPropertyFilter` class to obtain/set the exclude/include filters.
 - Add the posibility to define the symbols of include/exclude.
+- Add CLI support.
 
 ### Changed
 - All constructor arguments of the `JsonPropertyFilter` class are optionals.
