@@ -1,18 +1,28 @@
 # json-property-filter
 
-[![MIT License][license-image]][license-url] [![npm version][npmjs-image]][npmjs-url] [![Build Status][travis-image]][travis-url] [![typescript-standard-style][standard-image]][standard-url] [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
+[![MIT License][license-image]][license-url]
+[![npm version][npmjs-image]][npmjs-url]
+[![Build Status][travis-image]][travis-url]
+[![typescript-standard-style][standard-image]][standard-url]
+[![david-dm dependency Status][david-image]][david-url]
+[![david-dm devDependency Status][david-dev-dependencies-image]]
+[david-dev-dependencies-url]
 
 A library to filter a JSON object by including/excluding properties.
+
+[![bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an][blockchain-image]]
+[blockchain-url]
 
 ## Installation
 
 ```bash
-$ npm install json-property-filter
+npm install json-property-filter
 ```
 
 ## Usage
 
-To using [TypeScript](https://www.typescriptlang.org/) or JavaScript (ES6 support) language:
+To using [TypeScript](https://www.typescriptlang.org/) or JavaScript
+(ES6 support) language:
 
 ```typescript
 import {JsonPropertyFilter} from "json-property-filter";
@@ -32,47 +42,45 @@ filter.apply({ key: "value" });
 
 ### Filters
 
-The following filters will allow you to include or exclude your object properties.
+The following filters will allow you to include or exclude your object
+properties.
 
 #### All properties
 
-For include or exclude all the properties children and their children, you can use the symbol: `**`.
-Examples:
+For include or exclude all the properties children and their children,
+you can use the symbol: `**`.
 
-```
-**
-root.**
-root.property.**
-```
+> **
+>
+> root.**
+>
+> root.property.**
 
 #### Root properties
 
-For include or exclude only properties located in the root, you can use the symbol: `*`.
-Examples:
+For include or exclude only properties located in the root, you can use the
+symbol: `*`.
 
-```
-root.*
-root.property.*
-```
+> root.*
+>
+> root.property.*
 
 #### Specific property
 
-For include or include a specific property, you can set the path to your property.
-Examples:
+For include or include a specific property, you can set the path to your
+property.
 
-```
-root.element
-root.property.element
-```
+> root.element
+> root.property.element
 
 ## Test
 
 ```bash
-$ npm install -g typings
-$ npm install
-$ typings install
+npm install -g typings
+ppm install
+typings install
 
-$ npm test
+npm test
 ```
 
 ## Examples
@@ -82,15 +90,29 @@ Various examples of the library are available [here](https://tonicdev.com/cyrils
 ## License
 
 > The MIT License (MIT)
-
+>
 > Copyright (c) 2016 Cyril Schumacher.fr
+>
+> Permission is hereby granted, free of charge, to any person obtaining a copy
+> of this software and associated documentation files (the "Software"), to deal
+> in the Software without restriction, including without limitation the rights
+> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> copies of the Software, and to permit persons to whom the Software is
+> furnishet to do so, subject to the following conditions:
+>
+> The above copyright notice and this permission notice shall be included in
+> all copies or substantial portions of the Software.
+>
+> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+> OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> THE SOFTWARE.
 
-> Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-> The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
+[blockchain-image]: https://blockchain.info/Resources/buttons/donate_64.png
+[blockchain-url]: bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an
 [david-dev-dependencies-image]: https://david-dm.org/cyrilschumacher/json-property-filter/dev-status.svg
 [david-dev-dependencies-url]: https://david-dm.org/cyrilschumacher/json-property-filter#info=devDependencies
 [david-image]: https://david-dm.org/cyrilschumacher/json-property-filter.svg

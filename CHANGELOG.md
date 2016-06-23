@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+## [Unreleased]
+
 ## [1.2.0] - 2016-06-20
 ### Added
 - Add getters/setters for `JsonPropertyFilter` class to obtain/set the exclude/include filters.
@@ -44,6 +46,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/1.2.0...HEAD
 [1.2.0]: https://github.com/cyrilschumacher/json-property-filter/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/cyrilschumacher/json-property-filter/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.2...1.1.0
