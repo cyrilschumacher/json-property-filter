@@ -10,8 +10,7 @@
 
 A library to filter a JSON object by including/excluding properties.
 
-[![bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an][blockchain-image]]
-[blockchain-url]
+[![bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an][blockchain-image]][blockchain-url]
 
 ## Installation
 
