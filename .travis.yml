@@ -1,15 +1,10 @@
 language: node_js
 node_js:
+  - "node"
   - "6.1"
   - "6"
   - "5.1"
   - "5"
-  - "4.2"
-  - "4.1"
-  - "4.0"
-before_install:
-  - npm install -g typings
-  - typings install
 install:
   - npm install
 script:

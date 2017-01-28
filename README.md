@@ -73,10 +73,7 @@ property.
 ## Test
 
 ```bash
-npm install -g typings
 npm install
-typings install
-
 npm test
 ```
 
