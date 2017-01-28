@@ -1,6 +1,6 @@
 /* The MIT License (MIT)
  *
- * Copyright (c) 2016 Cyril Schumacher.fr
+ * Copyright (c) 2017 Cyril Schumacher.fr
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,7 +21,8 @@
  * SOFTWARE.
  */
 
-/// <reference path="../typings/index.d.ts"/>
+/// <reference types="mocha"/>
+/// <reference types="node"/>
 
 import {assert} from "chai";
 import * as child_process from "child_process";
@@ -36,7 +37,7 @@ describe("cli", () => {
     it("should print usage", done => {
         const process = child_process.spawn("node", [executable]);
         process.stdout.on("data", message => {
-            const usage = message.toString("utf8");
+            const usage = message;
         });
 
         process.on("close", status => {
@@ -48,7 +49,7 @@ describe("cli", () => {
     it("should print help", done => {
         const process = child_process.spawn("node", [executable, "--help"]);
         process.stdout.on("data", message => {
-            const usage = message.toString("utf8");
+            const usage = message;
         });
 
         process.on("close", status => {
@@ -60,11 +61,8 @@ describe("cli", () => {
     it("should print error for 'filters' argument", done => {
         const process = child_process.spawn("node", [executable, "custom", "-f"]);
         process.stdout.on("data", message => {
-          const empty = message.toString("utf8");
+          const empty = message;
           assert.equal(empty, "");
-        });
-        process.stderr.on("data", message => {
-          console.log(message.toString("utf8"));
         });
 
         process.on("close", status => {

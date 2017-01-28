@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-/// <reference path="../../typings/index.d.ts"/>
+/// <reference types="mocha" />
 
 import {JsonPropertyFilter} from "../../src/jsonPropertyFilter";
 import {assert} from "chai";

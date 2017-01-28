@@ -1,6 +1,6 @@
 /* The MIT License (MIT)
  *
- * Copyright (c) 2016 Cyril Schumacher.fr
+ * Copyright (c) 2017 Cyril Schumacher.fr
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -21,10 +21,9 @@
  * SOFTWARE.
  */
 
-/// <reference path="../typings/index.d.ts"/>
-
 import * as program from "commander";
 import * as fs from "fs";
+
 import {JsonPropertyFilter} from "./jsonPropertyFilter";
 
 program

@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-/// <reference path="../../typings/index.d.ts"/>
+/// <reference types="mocha" />
 
 import extractFilters from "../../src/extractFilters";
 import {assert} from "chai";

@@ -1,6 +1,6 @@
 /* The MIT License (MIT)
  *
- * Copyright (c) 2016 Cyril Schumacher.fr
+ * Copyright (c) 2017 Cyril Schumacher.fr
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -29,7 +29,7 @@ function _extractFilterBySymbol(filter: string, symbol: string) {
     }
 }
 
-function _extractFilterBySymbols(filter: string, symbolPatterns: Array<RegExp>): string {
+function _extractFilterBySymbols(filter: string, symbolPatterns: Array<RegExp>): string|null {
     for (const symbolPattern of symbolPatterns) {
         const symbol = _getSymbol(filter, symbolPattern);
         if (symbol !== null) {
@@ -40,7 +40,7 @@ function _extractFilterBySymbols(filter: string, symbolPatterns: Array<RegExp>):
     return null;
 }
 
-function _getSymbol(filter: string, symbol: RegExp): string {
+function _getSymbol(filter: string, symbol: RegExp): string|null {
     const matches = symbol.exec(filter);
     symbol.lastIndex = 0;
 

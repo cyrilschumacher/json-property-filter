@@ -1,6 +1,8 @@
 {
     "compileOnSave": false,
     "compilerOptions": {
+        "allowJs": false,
+        "alwaysStrict": true,
         "declaration": true,
         "module": "commonjs",
         "moduleResolution": "node",
@@ -10,23 +12,14 @@
         "outDir": "lib",
         "preserveConstEnums": true,
         "removeComments": true,
-        "target": "ES5"
+        "strictNullChecks": true,
+        "target": "es5"
     },
     "filesGlob": [
-        "./src/**/*.ts",
-        "!node_modules/**/*.ts"
+        "src/**/*.{ts, d.ts}"
     ],
-    "files": [
-        "./src/cli.ts",
-        "./src/extractFilters.ts",
-        "./src/filter/jsonExcludePropertyFilter.ts",
-        "./src/filter/jsonIncludePropertyFilter.ts",
-        "./src/jsonPropertyFilter.ts",
-        "./src/serializer/serializeToArray.ts",
-        "./src/serializer/serializeToObject.ts"
-    ],
-    "exclude": [],
-    "atom": {
-        "rewriteTsconfig": true
-    }
+    "exclude": [
+        "node_modules",
+        "test"
+    ]
 }

@@ -10,8 +10,6 @@
 
 A library to filter a JSON object by including/excluding properties.
 
-[![bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an][blockchain-image]][blockchain-url]
-
 ## Installation
 
 ```bash
@@ -76,7 +74,7 @@ property.
 
 ```bash
 npm install -g typings
-ppm install
+npm install
 typings install
 
 npm test
@@ -90,7 +88,7 @@ Various examples of the library are available [here](https://tonicdev.com/cyrils
 
 > The MIT License (MIT)
 >
-> Copyright (c) 2016 Cyril Schumacher.fr
+> Copyright (c) 2017 Cyril Schumacher.fr
 >
 > Permission is hereby granted, free of charge, to any person obtaining a copy
 > of this software and associated documentation files (the "Software"), to deal
