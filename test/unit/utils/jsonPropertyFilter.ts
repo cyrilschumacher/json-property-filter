@@ -23,8 +23,8 @@
 
 /// <reference types="mocha" />
 
-import {JsonPropertyFilter} from "../../src/jsonPropertyFilter";
-import {assert} from "chai";
+import { assert } from "chai";
+import { JsonPropertyFilter } from "../../../src/jsonPropertyFilter";
 
 describe("JsonPropertyFilter", () => {
     it("should return filters, initialized from the constructor with a array", () => {

@@ -21,10 +21,8 @@
  * SOFTWARE.
  */
 
-/// <reference types="mocha"/>
-
-import serializeToArray from "../../../src/serializer/serializeToArray";
-import {assert} from "chai";
+import { assert } from "chai";
+import serializeToArray from "../../../../src/serializer/serializeToArray";
 
 describe("serializeToArray", () => {
     it("should return simple array", () => {
@@ -77,8 +75,8 @@ describe("serializeToArray", () => {
 
     it("should return array that contains a property subset and array in a array", () => {
         const source = [
-          { "key": "value", "key2": ["a", "b", "c"], "key3": { "key4": "value2" } },
-          { "key": "value3", "key2": ["d", "e", "f"], "key3": { "key4": "value4" } }
+            { "key": "value", "key2": ["a", "b", "c"], "key3": { "key4": "value2" } },
+            { "key": "value3", "key2": ["d", "e", "f"], "key3": { "key4": "value4" } }
         ];
         let expected = [];
         expected["[0].key"] = "value";

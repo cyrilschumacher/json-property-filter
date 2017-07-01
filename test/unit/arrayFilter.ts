@@ -21,10 +21,8 @@
  * SOFTWARE.
  */
 
-/// <reference types="mocha"/>
-
-import {JsonPropertyFilter} from "../src/jsonPropertyFilter";
-import {assert} from "chai";
+import { assert } from "chai";
+import { JsonPropertyFilter } from "../../src/jsonPropertyFilter";
 
 describe("JsonPropertyFilter#Array", () => {
     const source = [
@@ -33,37 +31,37 @@ describe("JsonPropertyFilter#Array", () => {
                 city: "New York",
                 postalCode: "10021",
                 state: "NY",
-                streetAddress: "21 2nd Street"
+                streetAddress: "21 2nd Street",
             },
             firstName: "John",
             lastName: "Smith",
             phoneNumber: [
                 {
                     number: "212 555-1234",
-                    type: "home"
+                    type: "home",
                 },
                 {
                     number: "646 555-4567",
-                    type: "fax"
-                }
-            ]
+                    type: "fax",
+                },
+            ],
         },
         {
             address: {
                 city: "Goldfield",
                 postalCode: "1148",
                 state: "SD",
-                streetAddress: "923 Albemarle Road"
+                streetAddress: "923 Albemarle Road",
             },
             firstName: "Tom",
             lastName: "Doe",
             phoneNumber: [
                 {
                     number: "835 516-3457",
-                    type: "home"
-                }
-            ]
-        }
+                    type: "home",
+                },
+            ],
+        },
     ];
 
     it("should return the original object with a empty array", () => {
@@ -93,17 +91,17 @@ describe("JsonPropertyFilter#Array", () => {
                     city: "New York",
                     postalCode: "10021",
                     state: "NY",
-                    streetAddress: "21 2nd Street"
-                }
+                    streetAddress: "21 2nd Street",
+                },
             },
             {
                 address: {
                     city: "Goldfield",
                     postalCode: "1148",
                     state: "SD",
-                    streetAddress: "923 Albemarle Road"
-                }
-            }
+                    streetAddress: "923 Albemarle Road",
+                },
+            },
         ];
 
         assert.deepEqual(filtered, expected);
@@ -119,22 +117,22 @@ describe("JsonPropertyFilter#Array", () => {
                 lastName: "Smith",
                 phoneNumber: [
                     {
-                        number: "212 555-1234"
+                        number: "212 555-1234",
                     },
                     {
-                        number: "646 555-4567"
-                    }
-                ]
+                        number: "646 555-4567",
+                    },
+                ],
             },
             {
                 firstName: "Tom",
                 lastName: "Doe",
                 phoneNumber: [
                     {
-                        number: "835 516-3457"
-                    }
-                ]
-            }
+                        number: "835 516-3457",
+                    },
+                ],
+            },
         ];
 
         assert.deepEqual(filtered, expected);
@@ -150,33 +148,33 @@ describe("JsonPropertyFilter#Array", () => {
                     city: "New York",
                     postalCode: "10021",
                     state: "NY",
-                    streetAddress: "21 2nd Street"
+                    streetAddress: "21 2nd Street",
                 },
                 phoneNumber: [
                     {
                         number: "212 555-1234",
-                        type: "home"
+                        type: "home",
                     },
                     {
                         number: "646 555-4567",
-                        type: "fax"
-                    }
-                ]
+                        type: "fax",
+                    },
+                ],
             },
             {
                 address: {
                     city: "Goldfield",
                     postalCode: "1148",
                     state: "SD",
-                    streetAddress: "923 Albemarle Road"
+                    streetAddress: "923 Albemarle Road",
                 },
                 phoneNumber: [
                     {
                         number: "835 516-3457",
-                        type: "home"
-                    }
-                ]
-            }
+                        type: "home",
+                    },
+                ],
+            },
         ];
 
         assert.deepEqual(filtered, expected);
@@ -190,20 +188,20 @@ describe("JsonPropertyFilter#Array", () => {
             {
                 phoneNumber: [
                     {
-                        type: "home"
+                        type: "home",
                     },
                     {
-                        type: "fax"
-                    }
-                ]
+                        type: "fax",
+                    },
+                ],
             },
             {
                 phoneNumber: [
                     {
-                        type: "home"
-                    }
-                ]
-            }
+                        type: "home",
+                    },
+                ],
+            },
         ];
 
         assert.deepEqual(filtered, expected);

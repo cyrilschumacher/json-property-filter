@@ -21,10 +21,8 @@
  * SOFTWARE.
  */
 
-/// <reference types="mocha"/>
-
-import serializeToObject from "../../../src/serializer/serializeToObject";
-import {assert} from "chai";
+import { assert } from "chai";
+import serializeToObject from "../../../../src/serializer/serializeToObject";
 
 describe("serializeToObject", () => {
     it("should return simple object", () => {

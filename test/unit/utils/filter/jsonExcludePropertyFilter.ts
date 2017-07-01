@@ -21,10 +21,8 @@
  * SOFTWARE.
  */
 
-/// <reference types="mocha"/>
-
-import JsonExcludePropertyFilter from "../../../src/filter/jsonExcludePropertyFilter";
-import {assert} from "chai";
+import { assert } from "chai";
+import JsonExcludePropertyFilter from "../../../../src/filter/jsonExcludePropertyFilter";
 
 describe("JsonExcludePropertyFilter", () => {
     describe("Object", () => {
