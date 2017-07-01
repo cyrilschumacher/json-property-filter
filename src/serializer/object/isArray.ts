@@ -21,20 +21,14 @@
  * SOFTWARE.
  */
 
-import { serializeArray } from "./array/serializeArray";
-import { serializeObject } from "./array/serializeObject";
+export function isArray(arr: string[]) {
+    const keys = Object.keys(arr);
+    const firstKey = keys[0];
 
-export function serializeToArray(jsonObject: object | object[], keys?: string[], path?: string) {
-    keys = keys || [];
-    path = path || "";
-
-    if (jsonObject instanceof Array) {
-        serializeArray(jsonObject, keys, path);
-    } else if (jsonObject instanceof Object) {
-        serializeObject(jsonObject, keys, path);
-    } else {
-        keys[path] = jsonObject;
+    if (firstKey) {
+        const isArrayRegexp = /^\[([0-9]+)\]/;
+        return isArrayRegexp.test(firstKey);
     }
 
-    return keys;
+    return false;
 }

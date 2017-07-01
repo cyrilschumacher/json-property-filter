@@ -21,17 +21,7 @@
  * SOFTWARE.
  */
 
-function _isArray(arr: string[]) {
-    const keys = Object.keys(arr);
-    const firstKey = keys[0];
-
-    if (firstKey) {
-        const isArrayRegexp = /^\[([0-9]+)\]/;
-        return isArrayRegexp.test(firstKey);
-    }
-
-    return false;
-}
+import { isArray } from "./object/isArray";
 
 function _serialize(jsonObject: object, index: number, key: string, value: any, path: string[]): object|object[] {
     const currentKey = path[index];
@@ -95,7 +85,7 @@ function _serializeArray(jsonObject: object, index: number, key, value: any, pat
  */
 export default function serializeToObject(arr: string[]): object|object[] {
     let jsonObject = {};
-    if (_isArray(arr)) {
+    if (isArray(arr)) {
         jsonObject = [];
     }
 

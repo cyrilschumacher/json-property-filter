@@ -22,7 +22,7 @@
  */
 
 import { assert } from "chai";
-import serializeToArray from "../../../../src/serializer/serializeToArray";
+import { serializeToArray } from "../../../../src/serializer/serializeToArray";
 
 describe("serializeToArray", () => {
     it("should return simple array", () => {

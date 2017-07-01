@@ -21,20 +21,8 @@
  * SOFTWARE.
  */
 
-import { serializeArray } from "./array/serializeArray";
-import { serializeObject } from "./array/serializeObject";
-
-export function serializeToArray(jsonObject: object | object[], keys?: string[], path?: string) {
-    keys = keys || [];
-    path = path || "";
-
-    if (jsonObject instanceof Array) {
-        serializeArray(jsonObject, keys, path);
-    } else if (jsonObject instanceof Object) {
-        serializeObject(jsonObject, keys, path);
-    } else {
-        keys[path] = jsonObject;
+export function assertReadFile(error: any, file: string) {
+    if (error) {
+        throw new Error(`An error occurred while the reading of file: ${file}`);
     }
-
-    return keys;
 }

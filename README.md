@@ -6,6 +6,7 @@
 [![npm version][npmjs-image]][npmjs-url]
 [![TypeScript][typescript-image]][typescript-url]
 [![Build Status][travis-image]][travis-url]
+[![Coverage Status][coveralls-image]][coveralls-url]
 [![typescript-standard-style][standard-image]][standard-url]
 [![david-dm dependency Status][david-image]][david-url]
 [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
@@ -88,3 +89,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 [snyk-image]: https://snyk.io/test/github/cyrilschumacher/json-property-filter/badge.svg
 [snyk-url]: https://snyk.io/test/github/cyrilschumacher/json-property-filter
+
+[coveralls-image]: https://coveralls.io/repos/github/cyrilschumacher/json-property-filter/badge.svg?branch=develop
+[coveralls-url]: https://coveralls.io/github/cyrilschumacher/json-property-filter?branch=develop

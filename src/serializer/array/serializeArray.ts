@@ -21,20 +21,19 @@
  * SOFTWARE.
  */
 
-import { serializeArray } from "./array/serializeArray";
-import { serializeObject } from "./array/serializeObject";
+import { serializeToArray } from "../serializeToArray";
 
-export function serializeToArray(jsonObject: object | object[], keys?: string[], path?: string) {
-    keys = keys || [];
-    path = path || "";
+export function serializeArray(jsonObject: object[], keys: string[], path: string) {
+    if (jsonObject.length) {
+        for (const keyName in jsonObject) {
+            if (keyName) {
+                const keyValue = jsonObject[keyName];
+                const elementName = `${path}[${keyName}]`;
 
-    if (jsonObject instanceof Array) {
-        serializeArray(jsonObject, keys, path);
-    } else if (jsonObject instanceof Object) {
-        serializeObject(jsonObject, keys, path);
+                serializeToArray(keyValue, keys, elementName);
+            }
+        }
     } else {
         keys[path] = jsonObject;
     }
-
-    return keys;
 }

@@ -21,28 +21,25 @@
  * SOFTWARE.
  */
 
-/// <reference types="mocha"/>
-/// <reference types="node"/>
-
-import { assert } from "chai";
-
+import * as chai from "chai";
 import * as child_process from "child_process";
 import * as path from "path";
 
 describe("cli", () => {
-    let executable;
-    before(() => {
-        executable = path.join(__dirname, "..", "bin", "json-property-filter.js");
-    });
+    let executable: string;
+
+    before(() => executable = path.join(__dirname, "..", "..", "bin", "json-property-filter.js"));
 
     it("should print usage", (done) => {
+        // Given
         const process = child_process.spawn("node", [executable]);
-        process.stdout.on("data", (message) => {
-            const usage = message;
-        });
+        let usage;
 
+        // When
+        process.stdout.on("data", (message) => usage = message);
         process.on("close", (status) => {
-            assert.equal(status, 0);
+            // Then
+            chai.expect(status).to.be.a("number").and.to.be.equal(0);
             done();
         });
     });
@@ -54,38 +51,17 @@ describe("cli", () => {
 
         // When
         process.stdout.on("data", (message) => usage = message);
-
         process.on("close", (status) => {
-            assert.equal(status, 0);
+            chai.expect(status).to.be.a("number").and.to.be.equal(0);
             done();
         });
     });
 
     it("should print error for 'filters' argument", (done) => {
         const process = child_process.spawn("node", [executable, "custom", "-f"]);
-        process.stdout.on("data", (message) => {
-            const empty = message;
-            assert.equal(empty, "");
-        });
-
         process.on("close", (status) => {
-            assert.notEqual(status, 0);
+            chai.expect(status).to.be.a("number").and.to.be.not.equal(0);
             done();
         });
-    });
-
-    it("should print error for 'file' argument", () => {
-    });
-
-    it("should print default JSON", () => {
-    });
-
-    it("should print filtered JSON", () => {
-    });
-
-    it("should print pretty JSON", () => {
-    });
-
-    it("should print pretty JSON with specific space", () => {
     });
 });

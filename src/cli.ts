@@ -24,6 +24,8 @@
 import * as program from "commander";
 import * as fs from "fs";
 
+import { assertReadFile } from "./cli/assertReadFile";
+import { assertWriteFile } from "./cli/assertWriteFile";
 import { JsonPropertyFilter } from "./jsonPropertyFilter";
 
 program
@@ -44,7 +46,7 @@ if (!program.args.length) {
 
 function _apply(file, options) {
     fs.readFile(file, (error, data) => {
-        _assertReadFile(file, error);
+        assertReadFile(error, file);
 
         const jsonObject = _transformToJsonObject(data);
         const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
@@ -53,18 +55,6 @@ function _apply(file, options) {
         const formattedJsonObject = _format(filteredJsonObject, options.pretty, space);
         _out(formattedJsonObject, options.out);
     });
-}
-
-function _assertReadFile(file, error) {
-    if (error) {
-        throw new Error(`An error occurred while the reading of file: ${file}`);
-    }
-}
-
-function _assertWriteFile(error) {
-    if (error) {
-        throw new Error("An error occurred while saving of filtered JSON object.");
-    }
 }
 
 function _filterJsonObject(jsonPropertyFilter, jsonObject) {
@@ -119,7 +109,7 @@ function _transformToJsonObject(data) {
 }
 
 function _writeOutputFile(error) {
-    _assertWriteFile(error);
+    assertWriteFile(error);
 }
 
 function _writeResult(outputFile, data) {

@@ -21,20 +21,8 @@
  * SOFTWARE.
  */
 
-import { serializeArray } from "./array/serializeArray";
-import { serializeObject } from "./array/serializeObject";
-
-export function serializeToArray(jsonObject: object | object[], keys?: string[], path?: string) {
-    keys = keys || [];
-    path = path || "";
-
-    if (jsonObject instanceof Array) {
-        serializeArray(jsonObject, keys, path);
-    } else if (jsonObject instanceof Object) {
-        serializeObject(jsonObject, keys, path);
-    } else {
-        keys[path] = jsonObject;
+export function assertWriteFile(error: any) {
+    if (error) {
+        throw new Error("An error occurred while saving of filtered JSON object.");
     }
-
-    return keys;
 }

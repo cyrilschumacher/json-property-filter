@@ -21,10 +21,11 @@
  * SOFTWARE.
  */
 
+import { serializeToArray } from "./serializer/serializeToArray";
+
 import extractFilters from "./extractFilters";
 import JsonExcludePropertyFilter from "./filter/jsonExcludePropertyFilter";
 import JsonIncludePropertyFilter from "./filter/jsonIncludePropertyFilter";
-import serializeToArray from "./serializer/serializeToArray";
 import serializeToObject from "./serializer/serializeToObject";
 
 /**
