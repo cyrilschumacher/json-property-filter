@@ -34,14 +34,14 @@ export default class JsonIncludePropertyFilter {
     private static PATH_SEPARATOR = ".";
     private static STRING_EMPTY = "";
 
-    private _properties: Array<string>;
+    private _properties: string[];
 
     /**
      * Constructor.
      * @constructors
      * @param {string[]} properties Properties.
      */
-    public constructor(properties: Array<string>) {
+    public constructor(properties: string[]) {
         this._properties = properties;
     }
 
@@ -50,11 +50,11 @@ export default class JsonIncludePropertyFilter {
      * @param {Object} source A JSON object.
      * @return {Object} The filtered JSON object.
      */
-    public apply = (source: Array<string>): Array<string> => {
+    public apply = (source: string[]): string[] => {
         if (this._properties.length) {
-            const destination = new Array<string>();
+            const destination = [];
 
-            for (let rule of this._properties) {
+            for (const rule of this._properties) {
                 this._include(rule, source, destination);
             }
 
@@ -64,7 +64,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _include(rule: string, source: Array<string>, destination: Array<string>) {
+    private _include(rule: string, source: string[], destination: string[]) {
         if (rule.match(JsonIncludePropertyFilter.ALL_PROPERTIES_REGEX)) {
             this._includeProperties(rule, source, destination);
         } else if (rule.match(JsonIncludePropertyFilter.ALL_ELEMENT_PROPERTIES_REGEX)) {
@@ -74,7 +74,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeProperty(rule: string, path: string, value: string, destination: Array<string>) {
+    private _includeProperty(rule: string, path: string, value: string, destination: string[]) {
         const cleanPath = this._removeArrayIndexStart(path);
         const regexp = `^${rule}`;
 
@@ -83,7 +83,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeProperties(rule: string, source: Array<string>, destination: Array<string>) {
+    private _includeProperties(rule: string, source: string[], destination: string[]) {
         const formattedRule = rule.substr(0, rule.length - 2);
 
         for (const path in source) {
@@ -94,7 +94,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeRootProperty(rule: string, path: string, value: string, source: Array<string>, destination: Array<string>) {
+    private _includeRootProperty(rule: string, path: string, value: string, source: string[], destination: string[]) {
         const pathWithoutArrayIndexStart = this._removeArrayIndexStart(path);
 
         if (rule === JsonIncludePropertyFilter.STRING_EMPTY) {
@@ -117,7 +117,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeRootProperties(rule: string, source: Array<string>, destination: Array<string>) {
+    private _includeRootProperties(rule: string, source: string[], destination: string[]) {
         const ruleWithoutRootSymbol = rule.substr(0, rule.length - 1);
 
         for (const path in source) {
@@ -128,7 +128,7 @@ export default class JsonIncludePropertyFilter {
         }
     }
 
-    private _includeSpecificPath(rule: string, source: Array<string>, destination: Array<string>) {
+    private _includeSpecificPath(rule: string, source: string[], destination: string[]) {
         for (const path in source) {
             if (path) {
                 const pathWithoutArrayIndexStart = this._removeArrayIndexStart(path);

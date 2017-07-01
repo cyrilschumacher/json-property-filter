@@ -21,7 +21,7 @@
  * SOFTWARE.
  */
 
-function _isArray(arr: Array<string>) {
+function _isArray(arr: string[]) {
     const keys = Object.keys(arr);
     const firstKey = keys[0];
 
@@ -33,7 +33,7 @@ function _isArray(arr: Array<string>) {
     return false;
 }
 
-function _serialize(jsonObject: Object, index: number, key: string, value: any, path: Array<string>): Object|Array<Object> {
+function _serialize(jsonObject: object, index: number, key: string, value: any, path: string[]): object|object[] {
     const currentKey = path[index];
     const isArray = /\[([0-9]+)\]$/;
 
@@ -44,7 +44,7 @@ function _serialize(jsonObject: Object, index: number, key: string, value: any, 
     }
 }
 
-function _serializeObject(jsonObject: Object, index: number, key: string, value: any, path: Array<string>): Object {
+function _serializeObject(jsonObject: object, index: number, key: string, value: any, path: string[]): object {
     if (typeof jsonObject === "object") {
         if (!(key in jsonObject)) {
             jsonObject[key] = jsonObject[key] || {};
@@ -62,7 +62,7 @@ function _serializeObject(jsonObject: Object, index: number, key: string, value:
     return jsonObject;
 }
 
-function _serializeArray(jsonObject: Object, index: number, key, value: any, path: Array<string>, isArray: RegExp): Object {
+function _serializeArray(jsonObject: object, index: number, key, value: any, path: string[], isArray: RegExp): object {
     const arrayIndex = key.match(isArray)[1];
     const formattedCurrentKey = key.replace(isArray, "");
     const indexNextItem = index + 1;
@@ -93,7 +93,7 @@ function _serializeArray(jsonObject: Object, index: number, key, value: any, pat
  * @param {string[]} arr A array.
  * @return {Object|Object[]} The object.
  */
-export default function serializeToObject(arr: Array<string>): Object|Array<Object> {
+export default function serializeToObject(arr: string[]): object|object[] {
     let jsonObject = {};
     if (_isArray(arr)) {
         jsonObject = [];

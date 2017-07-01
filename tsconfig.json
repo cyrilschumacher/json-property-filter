@@ -1,8 +1,8 @@
 {
-    "compileOnSave": false,
     "compilerOptions": {
         "allowJs": false,
         "alwaysStrict": true,
+        "baseUrl": "src",
         "declaration": true,
         "module": "commonjs",
         "moduleResolution": "node",
@@ -12,13 +12,15 @@
         "outDir": "lib",
         "preserveConstEnums": true,
         "removeComments": true,
-        "strictNullChecks": true,
+        "strict": true,
         "target": "es5"
     },
     "filesGlob": [
-        "src/**/*.{ts, d.ts}"
+        "src/**/*.ts"
     ],
     "exclude": [
+        "bin",
+        "lib",
         "node_modules",
         "test"
     ]

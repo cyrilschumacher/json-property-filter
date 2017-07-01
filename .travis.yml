@@ -1,12 +1,13 @@
 language: node_js
 node_js:
   - "node"
-  - "6.1"
+  - "8"
+  - "7"
   - "6"
-  - "5.1"
   - "5"
 install:
   - npm install
 script:
-  - npm run-script lint
-  - npm test
+  - npm run-script build
+  - npm run-script test:coverage
+  - npm run-script coveralls

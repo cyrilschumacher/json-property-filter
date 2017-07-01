@@ -1,121 +1,90 @@
 # json-property-filter
 
+> Filter a JSON object by including/excluding properties.
+
 [![MIT License][license-image]][license-url]
 [![npm version][npmjs-image]][npmjs-url]
+[![TypeScript][typescript-image]][typescript-url]
 [![Build Status][travis-image]][travis-url]
 [![typescript-standard-style][standard-image]][standard-url]
 [![david-dm dependency Status][david-image]][david-url]
-[![david-dm devDependency Status][david-dev-dependencies-image]]
-[david-dev-dependencies-url]
+[![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
+[![Known Vulnerabilities][snyk-image]][snyk-url]
 
-A library to filter a JSON object by including/excluding properties.
+**json-property-filter** allows you to filter by including or excluding JSON properties.
 
-## Installation
+## Getting Started
+
+### Usage
+
+To install to using [npm](https://www.npmjs.com/) package manager or [Yarn](https://yarnpkg.com/):
 
 ```bash
-npm install json-property-filter
+$ npm install json-property-filter
+$ yarn add json-property-filter
 ```
 
-## Usage
-
-To using [TypeScript](https://www.typescriptlang.org/) or JavaScript
-(ES6 support) language:
-
-```typescript
-import {JsonPropertyFilter} from "json-property-filter";
-
-var filter = new JsonPropertyFilter(["**"]);
-filter.apply({ key: "value" });
-```
-
-If you use JavaScript (ES5 support) language:
+After installation, You can use the library this way:
 
 ```javascript
-var filters = require("json-property-filter");
+import {JsonPropertyFilter} from "json-property-filter";
 
-var filter = new filters.JsonPropertyFilter(["**"]);
+const filter = new JsonPropertyFilter(["**"]);
 filter.apply({ key: "value" });
+```
+
+If you want to have to have a quick overview of all features of this library, take a look at the [example](example), [integration tests](test/integration) or on [RunKit website](https://tonicdev.com/cyrilschumacher/json-property-filter).
+
+### Command-Line
+
+You have possibility to run in command-line this library without create a small JavaScript file. This executable provides all the options that are available at the code level. To see all the options, run the following line:
+
+```bash
+json-property-filter --help
 ```
 
 ### Filters
 
-The following filters will allow you to include or exclude your object
-properties.
+The following filters will allow you to include or exclude your object properties.
 
 #### All properties
 
-For include or exclude all the properties children and their children,
-you can use the symbol: `**`.
-
-> **
->
-> root.**
->
-> root.property.**
+For include or exclude all the properties children and their children, you can use the symbol: `**`. Example: `**`, `root.**`, `root.node.**`.
 
 #### Root properties
 
 For include or exclude only properties located in the root, you can use the
-symbol: `*`.
-
-> root.*
->
-> root.property.*
+symbol: `*`. Example: `root.*`, `root.node.*`.
 
 #### Specific property
 
 For include or include a specific property, you can set the path to your
-property.
-
-> root.element
-> root.property.element
-
-## Test
-
-```bash
-npm install
-npm test
-```
-
-## Examples
-
-Various examples of the library are available [here](https://tonicdev.com/cyrilschumacher/json-property-filter).
+property. Example: `root.element`, `root.node.element`.
 
 ## License
 
-> The MIT License (MIT)
->
-> Copyright (c) 2017 Cyril Schumacher.fr
->
-> Permission is hereby granted, free of charge, to any person obtaining a copy
-> of this software and associated documentation files (the "Software"), to deal
-> in the Software without restriction, including without limitation the rights
-> to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-> copies of the Software, and to permit persons to whom the Software is
-> furnishet to do so, subject to the following conditions:
->
-> The above copyright notice and this permission notice shall be included in
-> all copies or substantial portions of the Software.
->
-> THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-> OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-> FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-> THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-> LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-> OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-> THE SOFTWARE.
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
-[blockchain-image]: https://blockchain.info/Resources/buttons/donate_64.png
-[blockchain-url]: bitcoin:1CBvfZxygAAuCemhUhBz887Z2fGELTz7an
 [david-dev-dependencies-image]: https://david-dm.org/cyrilschumacher/json-property-filter/dev-status.svg
 [david-dev-dependencies-url]: https://david-dm.org/cyrilschumacher/json-property-filter#info=devDependencies
+
 [david-image]: https://david-dm.org/cyrilschumacher/json-property-filter.svg
 [david-url]: https://david-dm.org/cyrilschumacher/json-property-filter
+
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE
+
 [npmjs-image]: https://badge.fury.io/js/json-property-filter.svg
 [npmjs-url]: https://www.npmjs.com/package/json-property-filter
+
 [standard-image]: https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat
 [standard-url]: https://github.com/Microsoft/TypeScript/wiki/Coding-guidelines
+
 [travis-image]: https://travis-ci.org/cyrilschumacher/json-property-filter.svg
 [travis-url]: https://travis-ci.org/cyrilschumacher/json-property-filter
+
+[typescript-image]: https://badges.frapsoft.com/typescript/code/typescript.svg?v=101
+[typescript-url]: https://github.com/ellerbrock/typescript-badges/
+
+[snyk-image]: https://snyk.io/test/github/cyrilschumacher/json-property-filter/badge.svg
+[snyk-url]: https://snyk.io/test/github/cyrilschumacher/json-property-filter

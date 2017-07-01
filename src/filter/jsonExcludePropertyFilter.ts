@@ -34,25 +34,25 @@ export default class JsonExcludePropertyFilter {
     private static PATH_SEPARATOR = ".";
     private static STRING_EMPTY = "";
 
-    private _properties: Array<string>;
+    private _properties: string[];
 
     /**
      * Constructor.
      * @constructors
      * @param {string[]} properties Properties.
      */
-    public constructor(properties: Array<string>) {
+    public constructor(properties: string[]) {
         this._properties = properties;
     }
 
     /**
      * Apply filter on a JSON object.
-     * @param {Object} source A JSON object.
-     * @return {Object} The filtered JSON object.
+     * @param {Array} source A JSON object.
+     * @return {Array} The filtered JSON object.
      */
-    public apply = (source: Array<string>): Array<string> => {
+    public apply = (source: string[]): string[] => {
         if (this._properties.length) {
-            for (let rule of this._properties) {
+            for (const rule of this._properties) {
                 this._exclude(rule, source);
             }
 
@@ -62,7 +62,7 @@ export default class JsonExcludePropertyFilter {
         return source;
     }
 
-    private _exclude(rule: string, source: Array<string>) {
+    private _exclude(rule: string, source: string[]) {
         if (rule.match(JsonExcludePropertyFilter.ALL_PROPERTIES_REGEX)) {
             this._excludeProperties(rule, source);
         } else if (rule.match(JsonExcludePropertyFilter.ALL_ELEMENT_PROPERTIES_REGEX)) {
@@ -72,7 +72,7 @@ export default class JsonExcludePropertyFilter {
         }
     }
 
-    private _excludeProperty(rule: string, source: Array<string>, path: string) {
+    private _excludeProperty(rule: string, source: string[], path: string) {
         const pathWithoutArrayIndexStart = this._removeArrayIndexStart(path);
         const regexp = `^${rule}`;
 
@@ -81,7 +81,7 @@ export default class JsonExcludePropertyFilter {
         }
     }
 
-    private _excludeProperties(rule: string, source: Array<string>) {
+    private _excludeProperties(rule: string, source: string[]) {
         const formattedRule = rule.substr(0, rule.length - 2);
 
         for (const path in source) {
@@ -91,7 +91,7 @@ export default class JsonExcludePropertyFilter {
         }
     }
 
-    private _excludeRootProperty(rule: string, path: string, source: Array<string>) {
+    private _excludeRootProperty(rule: string, path: string, source: string[]) {
         const pathWithoutIndex = this._removeArrayIndex(path);
 
         if (rule === JsonExcludePropertyFilter.STRING_EMPTY) {
@@ -115,7 +115,7 @@ export default class JsonExcludePropertyFilter {
         }
     }
 
-    private _excludeRootProperties(rule: string, source: Array<string>) {
+    private _excludeRootProperties(rule: string, source: string[]) {
         const ruleWithoutRootSymbol = rule.substr(0, rule.length - 1);
 
         for (const path in source) {
@@ -125,7 +125,7 @@ export default class JsonExcludePropertyFilter {
         }
     }
 
-    private _excludeSpecificPath(rule: string, source: Array<string>) {
+    private _excludeSpecificPath(rule: string, source: string[]) {
         const regexp = `^${rule}`;
         for (const path in source) {
             if (path) {

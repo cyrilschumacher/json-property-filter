@@ -24,17 +24,17 @@
 import * as program from "commander";
 import * as fs from "fs";
 
-import {JsonPropertyFilter} from "./jsonPropertyFilter";
+import { JsonPropertyFilter } from "./jsonPropertyFilter";
 
 program
-    .version('1.0.0')
-    .description('Filter a JSON file by including or excluding properties.')
-    .usage('<file>')
-    .option('-f, --filters <filters>', 'Add include and exclude filters.')
-    .option('-o, --out <file>', 'Specifies the output file.')
-    .option('-p, --pretty', 'Display results in an easy-to-read format.')
-    .option('--pretty-space <number>', 'Specifies the space.')
-    .option('--encoding', 'Specifies encodage. Default: utf8.')
+    .version("1.0.0")
+    .description("Filter a JSON file by including or excluding properties.")
+    .usage("<file>")
+    .option("-f, --filters <filters>", "Add include and exclude filters.")
+    .option("-o, --out <file>", "Specifies the output file.")
+    .option("-p, --pretty", "Display results in an easy-to-read format.")
+    .option("--pretty-space <number>", "Specifies the space.")
+    .option("--encoding", "Specifies encodage. Default: utf8.")
     .action(_apply)
     .parse(process.argv);
 
@@ -80,24 +80,24 @@ function _format(filteredJsonObject, pretty, space) {
 }
 
 function _getEncoding(options) {
-  if (!options.encoding) {
-    return "utf8";
-  }
+    if (!options.encoding) {
+        return "utf8";
+    }
 
-  return options.encoding;
+    return options.encoding;
 }
 
 function _getPrettySpace(prettySpace) {
-  let space = +prettySpace;
-  if (prettySpace) {
-    if (isNaN(space)) {
-      throw new Error("Argument 'pretty-space' must be a number.");
+    const space = +prettySpace;
+    if (prettySpace) {
+        if (isNaN(space)) {
+            throw new Error("Argument 'pretty-space' must be a number.");
+        }
+
+        return space;
     }
 
-    return space;
-  }
-
-  return 2;
+    return 2;
 }
 
 function _out(jsonObject, outputFile) {
@@ -114,7 +114,7 @@ function _transformToJsonObject(data) {
     try {
         return JSON.parse(fileContent);
     } catch (e) {
-        throw new Error("An error occurred while processing of file content in a JSON object.")
+        throw new Error("An error occurred while processing of file content in a JSON object.");
     }
 }
 

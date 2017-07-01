@@ -15,9 +15,12 @@
   "description": "A library to filter a JSON object by including/excluding properties.",
   "main": "./lib/jsonPropertyFilter.js",
   "scripts": {
-    "lint": "tslint src/**/*.ts",
-    "prepublish": "tsc",
-    "test": "mocha --require ts-node/register test/**/*.ts"
+    "build": "tsc",
+    "coveralls": "nyc report --reporter=text-lcov | coveralls",
+    "prebuild": "tslint src/**/*.ts",
+    "prepublish": "npm run build",
+    "test": "mocha --compilers ts:ts-node/register --recursive test",
+    "test:coverage": "nyc --require ts-node/register _mocha --compilers ts:ts-node/register --recursive test/unit"
   },
   "repository": {
     "type": "git",
@@ -26,22 +29,25 @@
   "bugs": {
     "url": "https://github.com/cyrilschumacher/json-property-filter/issues"
   },
+  "engines": {
+    "node": ">=5.0"
+  },
   "homepage": "https://github.com/cyrilschumacher/json-property-filter",
   "typings": "./lib/jsonPropertyFilter.d.ts",
   "author": "Cyril Schumacher",
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^3.4.34",
-    "@types/commander": "^2.3.31",
-    "@types/mocha": "^2.2.38",
-    "@types/node": "^7.0.4",
-    "chai": "^3.5.0",
-    "mocha": "^3.2.0",
-    "ts-node": "^2.0.0",
-    "tslint": "^4.4.2",
-    "typescript": "^2.1.5"
+    "@types/chai": "^4.0.1",
+    "@types/commander": "^2.9.1",
+    "@types/mocha": "^2.2.41",
+    "@types/node": "^8.0.7",
+    "chai": "^4.0.2",
+    "mocha": "^3.4.2",
+    "ts-node": "^3.1.0",
+    "tslint": "^5.4.3",
+    "typescript": "^2.4.1"
   },
   "dependencies": {
-    "commander": "^2.9.0"
+    "commander": "^2.10.0"
   }
 }

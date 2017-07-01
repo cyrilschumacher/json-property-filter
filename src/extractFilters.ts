@@ -29,7 +29,7 @@ function _extractFilterBySymbol(filter: string, symbol: string) {
     }
 }
 
-function _extractFilterBySymbols(filter: string, symbolPatterns: Array<RegExp>): string|null {
+function _extractFilterBySymbols(filter: string, symbolPatterns: RegExp[]) {
     for (const symbolPattern of symbolPatterns) {
         const symbol = _getSymbol(filter, symbolPattern);
         if (symbol !== null) {
@@ -40,7 +40,7 @@ function _extractFilterBySymbols(filter: string, symbolPatterns: Array<RegExp>):
     return null;
 }
 
-function _getSymbol(filter: string, symbol: RegExp): string|null {
+function _getSymbol(filter: string, symbol: RegExp) {
     const matches = symbol.exec(filter);
     symbol.lastIndex = 0;
 
@@ -58,10 +58,10 @@ function _getSymbol(filter: string, symbol: RegExp): string|null {
  * @param {RegExp[]} symbols Symbol patterns.
  * @return {string[]} Filters.
  */
-export default function extractFilters(filters: Array<string>, symbolPatterns: Array<RegExp>): Array<string> {
-    let extract = new Array<string>();
+export default function extractFilters(filters: string[], symbolPatterns: RegExp[]) {
+    const extract: string[] = [];
 
-    for (let filter of filters) {
+    for (const filter of filters) {
         const formattedFilter = _extractFilterBySymbols(filter, symbolPatterns);
         if (formattedFilter) {
             extract.push(formattedFilter);
