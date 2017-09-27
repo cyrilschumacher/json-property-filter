@@ -30,24 +30,24 @@ describe("JsonPropertyFilter#Object", () => {
             city: "New York",
             postalCode: "10021",
             state: "NY",
-            streetAddress: "21 2nd Street"
+            streetAddress: "21 2nd Street",
         },
         age: 25,
         firstName: "John",
         gender: {
-            type: "male"
+            type: "male",
         },
         lastName: "Smith",
         phoneNumber: [
             {
                 number: "212 555-1234",
-                type: "home"
+                type: "home",
             },
             {
                 number: "646 555-4567",
-                type: "fax"
-            }
-        ]
+                type: "fax",
+            },
+        ],
     };
 
     it("should return the original object with a empty array", () => {
@@ -57,7 +57,7 @@ describe("JsonPropertyFilter#Object", () => {
         const expected = {
             age: 25,
             firstName: "John",
-            lastName: "Smith"
+            lastName: "Smith",
         };
 
         assert.deepEqual(filtered, expected);
@@ -86,7 +86,7 @@ describe("JsonPropertyFilter#Object", () => {
         const expected = {
             age: 25,
             firstName: "John",
-            lastName: "Smith"
+            lastName: "Smith",
         };
 
         assert.deepEqual(filtered, expected);
@@ -101,8 +101,8 @@ describe("JsonPropertyFilter#Object", () => {
                 city: "New York",
                 postalCode: "10021",
                 state: "NY",
-                streetAddress: "21 2nd Street"
-            }
+                streetAddress: "21 2nd Street",
+            },
         };
 
         assert.deepEqual(filtered, expected);
@@ -117,12 +117,12 @@ describe("JsonPropertyFilter#Object", () => {
             lastName: "Smith",
             phoneNumber: [
                 {
-                    number: "212 555-1234"
+                    number: "212 555-1234",
                 },
                 {
-                    number: "646 555-4567"
-                }
-            ]
+                    number: "646 555-4567",
+                },
+            ],
         };
 
         assert.deepEqual(filtered, expected);
@@ -137,22 +137,22 @@ describe("JsonPropertyFilter#Object", () => {
                 city: "New York",
                 postalCode: "10021",
                 state: "NY",
-                streetAddress: "21 2nd Street"
+                streetAddress: "21 2nd Street",
             },
             age: 25,
             gender: {
-                type: "male"
+                type: "male",
             },
             phoneNumber: [
                 {
                     number: "212 555-1234",
-                    type: "home"
+                    type: "home",
                 },
                 {
                     number: "646 555-4567",
-                    type: "fax"
-                }
-            ]
+                    type: "fax",
+                },
+            ],
         };
 
         assert.deepEqual(filtered, expected);
@@ -165,12 +165,12 @@ describe("JsonPropertyFilter#Object", () => {
         const expected = {
             phoneNumber: [
                 {
-                    type: "home"
+                    type: "home",
                 },
                 {
-                    type: "fax"
-                }
-            ]
+                    type: "fax",
+                },
+            ],
         };
 
         assert.deepEqual(filtered, expected);
@@ -185,10 +185,10 @@ describe("JsonPropertyFilter#Object", () => {
                 city: "New York",
                 postalCode: "10021",
                 state: "NY",
-                streetAddress: "21 2nd Street"
+                streetAddress: "21 2nd Street",
             },
             firstName: "John",
-            lastName: "Smith"
+            lastName: "Smith",
         };
 
         assert.deepEqual(filtered, expected);
@@ -202,19 +202,19 @@ describe("JsonPropertyFilter#Object", () => {
             age: 25,
             firstName: "John",
             gender: {
-                type: "male"
+                type: "male",
             },
             lastName: "Smith",
             phoneNumber: [
                 {
                     number: "212 555-1234",
-                    type: "home"
+                    type: "home",
                 },
                 {
                     number: "646 555-4567",
-                    type: "fax"
-                }
-            ]
+                    type: "fax",
+                },
+            ],
         };
 
         assert.deepEqual(filtered, expected);
