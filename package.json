@@ -40,21 +40,21 @@
   "author": "Cyril Schumacher",
   "license": "MIT",
   "devDependencies": {
-    "@types/chai": "^4.0.4",
-    "@types/commander": "^2.9.2",
-    "@types/mocha": "^2.2.43",
-    "@types/node": "^8.0.31",
-    "chai": "^4.1.2",
-    "coveralls": "^2.13.1",
-    "cross-env": "^5.0.5",
-    "mocha": "^3.5.3",
-    "nyc": "^11.2.1",
-    "ts-node": "^3.3.0",
-    "tslint": "^5.7.0",
-    "typescript": "^2.5.3"
+    "@types/chai": "~4.0.4",
+    "@types/commander": "~2.9.2",
+    "@types/mocha": "~2.2.43",
+    "@types/node": "~8.0.31",
+    "chai": "~4.1.2",
+    "coveralls": "~2.13.1",
+    "cross-env": "~5.0.5",
+    "mocha": "~3.5.3",
+    "nyc": "~11.2.1",
+    "ts-node": "~3.3.0",
+    "tslint": "~5.7.0",
+    "typescript": "~2.5.3"
   },
   "dependencies": {
-    "commander": "^2.11.0",
-    "pkginfo": "^0.4.1"
+    "commander": "~2.11.0",
+    "pkginfo": "~0.4.1"
   }
 }
