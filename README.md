@@ -14,6 +14,8 @@
 
 **json-property-filter** allows you to filter by including or excluding JSON properties.
 
+This library was developed with the programming language: TypeScript.
+
 ## Getting Started
 
 ### Usage
@@ -28,7 +30,7 @@ $ yarn add json-property-filter
 After installation, You can use the library this way:
 
 ```javascript
-import {JsonPropertyFilter} from "json-property-filter";
+import { JsonPropertyFilter } from "json-property-filter";
 
 const filter = new JsonPropertyFilter(["**"]);
 filter.apply({ key: "value" });

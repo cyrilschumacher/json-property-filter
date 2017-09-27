@@ -14,14 +14,5 @@
         "removeComments": true,
         "strict": true,
         "target": "es5"
-    },
-    "filesGlob": [
-        "src/**/*.ts"
-    ],
-    "exclude": [
-        "bin",
-        "lib",
-        "node_modules",
-        "test"
-    ]
+    }
 }

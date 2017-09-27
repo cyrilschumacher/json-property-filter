@@ -25,10 +25,10 @@ import { isArray } from "./object/isArray";
 
 function _serialize(jsonObject: object, index: number, key: string, value: any, path: string[]): object|object[] {
     const currentKey = path[index];
-    const isArray = /\[([0-9]+)\]$/;
+    const arrayFormat = /\[([0-9]+)\]$/;
 
-    if (isArray.test(currentKey)) {
-        return _serializeArray(jsonObject, index, currentKey, value, path, isArray);
+    if (arrayFormat.test(currentKey)) {
+        return _serializeArray(jsonObject, index, currentKey, value, path, arrayFormat);
     } else {
         return _serializeObject(jsonObject, index, currentKey, value, path);
     }
@@ -52,9 +52,10 @@ function _serializeObject(jsonObject: object, index: number, key: string, value:
     return jsonObject;
 }
 
-function _serializeArray(jsonObject: object, index: number, key, value: any, path: string[], isArray: RegExp): object {
-    const arrayIndex = key.match(isArray)[1];
-    const formattedCurrentKey = key.replace(isArray, "");
+function _serializeArray(
+    jsonObject: object, index: number, key, value: any, path: string[], arrayFormat: RegExp): object {
+    const arrayIndex = key.match(arrayFormat)[1];
+    const formattedCurrentKey = key.replace(arrayFormat, "");
     const indexNextItem = index + 1;
 
     if (formattedCurrentKey) {

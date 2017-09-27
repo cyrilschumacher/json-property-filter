@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+### Added
+- Add `Date` and `Function` types support.
+- Add examples.
+
+### Changed
+- Update: `README.md`.
+- Update NPM dependencies.
+- Improve unit/integration tests.
 
 ## [1.2.0] - 2016-06-20
 ### Added
