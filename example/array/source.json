@@ -1,0 +1,16 @@
+[
+    {
+        "id": 1,
+        "description": "First item",
+        "_private": {
+            "type": "integer"
+        }
+    },
+    {
+        "id": 2,
+        "description": "Second item",
+        "_private": {
+            "type": "string"
+        }
+    }
+]

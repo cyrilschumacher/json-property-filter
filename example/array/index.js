@@ -8,7 +8,7 @@ const lib = require("../../lib/jsonPropertyFilter");
 const buffer = fs.readFileSync("source.json");
 const source = JSON.parse(buffer.toString());
 
-const filter = new lib.JsonPropertyFilter(["-key2.key3", "-key2.key5"]);
+const filter = new lib.JsonPropertyFilter(["description", "-_private"]);
 const filtered = filter.apply(source);
 
-console.log(filtered); // { key1: 'value1', key2: { key4: 'value3' } }
+console.log(filtered); // [ { description: 'First item' }, { description: 'Second item' } ]
