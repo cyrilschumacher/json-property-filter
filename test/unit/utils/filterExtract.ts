@@ -22,7 +22,7 @@
  */
 
 import { assert } from "chai";
-import extractFilters from "../../../src/extractFilters";
+import { extractFilters } from "../../../src/extractFilters";
 
 describe("extractFilters", () => {
     it("should return no array items if no symbol patterns and no filters", () => {

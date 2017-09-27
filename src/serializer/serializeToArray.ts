@@ -30,7 +30,7 @@ export function serializeToArray(jsonObject: object | object[], keys?: string[],
 
     if (jsonObject instanceof Array) {
         serializeArray(jsonObject, keys, path);
-    } else if ((jsonObject instanceof Object) && !(jsonObject instanceof Date) && !(jsonObject instanceof Function)) {
+    } else if (jsonObject instanceof Object && !(jsonObject instanceof Date) && !(jsonObject instanceof Function)) {
         serializeObject(jsonObject, keys, path);
     } else {
         keys[path] = jsonObject;

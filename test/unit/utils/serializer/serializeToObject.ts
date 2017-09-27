@@ -22,71 +22,78 @@
  */
 
 import { assert } from "chai";
-import serializeToObject from "../../../../src/serializer/serializeToObject";
+import { serializeToObject } from "../../../../src/serializer/serializeToObject";
 
 describe("serializeToObject", () => {
     it("should return simple object", () => {
-        let source = [];
+        const source = [];
         source["key"] = "value";
-        const expected = { "key": "value" };
+
+        const expected = { key: "value" };
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains property paths with their children", () => {
-        let source = [];
+        const source = [];
         source["key"] = "value";
         source["property.key2"] = "value2";
-        const expected = { "key": "value", "property": { "key2": "value2" } };
+
+        const expected = { key: "value", property: { key2: "value2" } };
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains property paths with a array as value", () => {
-        let source = [];
+        const source = [];
         source["array[0]"] = 123;
         source["array[1]"] = "value2";
-        const expected = { "array": [123, "value2"] };
+
+        const expected = { array: [123, "value2"] };
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains property paths with a array as value", () => {
-        let source = [];
+        const source = [];
         source["array[0].key1"] = "value1";
         source["array[1].key2"] = "value2";
-        const expected = { "array": [{ "key1": "value1" }, { "key2": "value2" }] };
+
+        const expected = { array: [{ key1: "value1" }, { key2: "value2" }] };
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains a property subset", () => {
-        let source = [];
+        const source = [];
         source["key.key2.key3"] = "value";
-        const expected = { "key": { "key2": { "key3": "value" } } };
+
+        const expected = { key: { key2: { key3: "value" } } };
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains a property subset in a array", () => {
-        let source = [];
+        const source = [];
         source["[0].key"] = "value";
         source["[1].key"] = "value2";
-        const expected = [{ "key": "value" }, { "key": "value2" }];
+
+        const expected = [{ key: "value" }, { key: "value2" }];
         const actual = serializeToObject(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return object that contains a property subset in a array", () => {
-        let source = [];
+        const source = [];
         source["[0]"] = "value";
         source["[1]"] = "value2";
+
         const expected = ["value", "value2"];
         const actual = serializeToObject(source);
 

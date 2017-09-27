@@ -23,10 +23,11 @@
 
 /**
  * Filter include JSON property.
+ *
  * @class
  * @version 1.1.1
  */
-export default class JsonIncludePropertyFilter {
+export class JsonIncludePropertyFilter {
     private static readonly ALL_PROPERTIES_REGEX = /\*\*$/g;
     private static readonly ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
     private static readonly ARRAY_INDEX = /\[[0-9]+\]/g;
@@ -40,8 +41,7 @@ export default class JsonIncludePropertyFilter {
      * @constructor
      * @param {string[]} _properties Properties.
      */
-    public constructor(private readonly _properties: string[]) {
-    }
+    public constructor(private readonly _properties: string[]) {}
 
     /**
      * Apply filter on a JSON object.
@@ -49,7 +49,7 @@ export default class JsonIncludePropertyFilter {
      * @param {Array} source A JSON object.
      * @return {Array} The filtered JSON object.
      */
-    public apply = (source: string[]) => {
+    public apply(source: string[]) {
         if (this._properties.length) {
             const destination = [];
 

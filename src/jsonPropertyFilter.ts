@@ -23,13 +23,14 @@
 
 import { serializeToArray } from "./serializer/serializeToArray";
 
-import extractFilters from "./extractFilters";
-import JsonExcludePropertyFilter from "./filter/jsonExcludePropertyFilter";
-import JsonIncludePropertyFilter from "./filter/jsonIncludePropertyFilter";
-import serializeToObject from "./serializer/serializeToObject";
+import { extractFilters } from "./extractFilters";
+import { JsonExcludePropertyFilter } from "./filter/jsonExcludePropertyFilter";
+import { JsonIncludePropertyFilter } from "./filter/jsonIncludePropertyFilter";
+import { serializeToObject } from "./serializer/serializeToObject";
 
 /**
  * Filter class to include or exclude elements from a JSON object or array.
+ *
  * @class
  * @version 1.2.0
  * @example
@@ -127,8 +128,10 @@ export class JsonPropertyFilter {
         this._assertSeparator(separator);
 
         const formattedProperties = this._formatProperties(filters, separator);
-        const includeSymbols = symbols ||
-            [JsonPropertyFilter.INCLUDE_SYMBOL, JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL];
+        const includeSymbols = symbols || [
+            JsonPropertyFilter.INCLUDE_SYMBOL,
+            JsonPropertyFilter.DEFAULT_INCLUDE_SYMBOL,
+        ];
 
         this._includeFilters = extractFilters(formattedProperties, includeSymbols);
     }
@@ -144,13 +147,13 @@ export class JsonPropertyFilter {
     }
 
     private _assertFilters(filters: string | string[]) {
-        if (!Array.isArray(filters) && (typeof filters !== "string")) {
+        if (!Array.isArray(filters) && typeof filters !== "string") {
             throw new TypeError("Parameter 'filters' is not a string or array type.");
         }
     }
 
     private _assertSeparator(separator?: string) {
-        if (separator && (typeof separator !== "string")) {
+        if (separator && typeof separator !== "string") {
             throw new TypeError("Parameter 'separator' is not a string type.");
         }
     }

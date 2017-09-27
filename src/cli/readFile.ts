@@ -21,15 +21,17 @@
  * SOFTWARE.
  */
 
- /**
-  * Reads and returns a JavaScript value.
-  *
-  * @param {Buffer} data A data.
-  * @return {object} A JavaScript object.
-  * @throws {Error} Throws if the data could not be parsed.
-  */
-export function readFile(data: Buffer) {
-    const fileContent = data.toString("utf8");
+/**
+ * Reads and returns a JavaScript value.
+ *
+ * @version 1.3.0
+ * @param {Buffer}  data        A data.
+ * @param {string}  [encoding]  A encoding.
+ * @return {object} A JavaScript object.
+ * @throws {Error} Throws if the data could not be parsed.
+ */
+export function readFile(data: Buffer, encoding = "utf8") {
+    const fileContent = data.toString(encoding);
 
     try {
         return JSON.parse(fileContent);

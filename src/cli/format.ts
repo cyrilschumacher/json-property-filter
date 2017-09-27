@@ -24,13 +24,14 @@
 /**
  * Formats JavaScript value to a JSON string.
  *
+ * @version 1.3.0
  * @param {any}                filteredJsonObject  A JavaScript value.
- * @param {boolean}            pretty              A value that determines whether the Javascript value should be
+ * @param {boolean|undefined}  [pretty]            A value that determines whether the Javascript value should be
  *                                                 pretty.
- * @param {number|undefined}   space               Number of white space into the output JSON string for readability
+ * @param {number|undefined}   [space]             Number of white space into the output JSON string for readability
  *                                                 purposes.
  */
-export function format(filteredJsonObject: any, pretty: boolean, space?: number) {
+export function format(filteredJsonObject: any, pretty?: boolean, space?: number) {
     if (pretty) {
         return JSON.stringify(filteredJsonObject, null, space);
     }

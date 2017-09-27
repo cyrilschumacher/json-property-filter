@@ -26,59 +26,61 @@ import { serializeToArray } from "../../../../src/serializer/serializeToArray";
 
 describe("serializeToArray", () => {
     it("should return simple array", () => {
-        const source = { "key": "value" };
-        let expected = [];
+        const source = { key: "value" };
+        const expected = [];
         expected["key"] = "value";
+
         const actual = serializeToArray(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return array that contains property paths with their children", () => {
-        const source = { "key": "value", "property": { "key2": "value2" } };
-        let expected = [];
+        const source = { key: "value", property: { key2: "value2" } };
+        const expected = [];
         expected["key"] = "value";
         expected["property.key2"] = "value2";
+
         const actual = serializeToArray(source);
 
         assert.deepEqual(actual, expected);
     });
 
     it("should return array that contains property paths with a array as value", () => {
-        const source = { "array": [123, "value2"] };
-        let expected = [];
+        const source = { array: [123, "value2"] };
+        const expected = [];
         expected["array[0]"] = 123;
         expected["array[1]"] = "value2";
-        const actual = serializeToArray(source);
 
+        const actual = serializeToArray(source);
         assert.deepEqual(actual, expected);
     });
 
     it("should return array that contains a property subset", () => {
-        const source = { "key": { "key2": { "key3": "value" } } };
-        let expected = [];
+        const source = { key: { key2: { key3: "value" } } };
+        const expected = [];
         expected["key.key2.key3"] = "value";
-        const actual = serializeToArray(source);
 
+        const actual = serializeToArray(source);
         assert.deepEqual(actual, expected);
     });
 
     it("should return array that contains a property subset in a array", () => {
-        const source = [{ "key": "value" }, { "key": "value2" }];
-        let expected = [];
+        const source = [{ key: "value" }, { key: "value2" }];
+        const expected = [];
         expected["[0].key"] = "value";
         expected["[1].key"] = "value2";
-        const actual = serializeToArray(source);
 
+        const actual = serializeToArray(source);
         assert.deepEqual(actual, expected);
     });
 
     it("should return array that contains a property subset and array in a array", () => {
         const source = [
-            { "key": "value", "key2": ["a", "b", "c"], "key3": { "key4": "value2" } },
-            { "key": "value3", "key2": ["d", "e", "f"], "key3": { "key4": "value4" } }
+            { key: "value", key2: ["a", "b", "c"], key3: { key4: "value2" } },
+            { key: "value3", key2: ["d", "e", "f"], key3: { key4: "value4" } },
         ];
-        let expected = [];
+        const expected = [];
         expected["[0].key"] = "value";
         expected["[0].key2[0]"] = "a";
         expected["[0].key2[1]"] = "b";
@@ -89,8 +91,8 @@ describe("serializeToArray", () => {
         expected["[1].key2[1]"] = "e";
         expected["[1].key2[2]"] = "f";
         expected["[1].key3.key4"] = "value4";
+        
         const actual = serializeToArray(source);
-
         assert.deepEqual(actual, expected);
     });
 });

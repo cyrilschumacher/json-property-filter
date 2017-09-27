@@ -24,6 +24,7 @@
 /**
  * Gets pretty space.
  *
+ * @version 1.3.0
  * @param {any}     prettySpace     A pretty space.
  * @param {number}  defaultSpace    A default pretty space. Default: 2.
  * @return {number} Returns the pretty space.

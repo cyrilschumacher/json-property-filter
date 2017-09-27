@@ -44,7 +44,7 @@ function _getSymbol(filter: string, symbol: RegExp) {
     const matches = symbol.exec(filter);
     symbol.lastIndex = 0;
 
-    if (matches && (matches.length > 1)) {
+    if (matches && matches.length > 1) {
         return matches[1];
     }
 
@@ -53,12 +53,13 @@ function _getSymbol(filter: string, symbol: RegExp) {
 
 /**
  * Extract filters according symbols.
+ *
  * @version 1.2.0
  * @param {string[]} filters Filters to extract.
  * @param {RegExp[]} symbols Symbol patterns.
  * @return {string[]} Filters.
  */
-export default function extractFilters(filters: string[], symbolPatterns: RegExp[]) {
+export function extractFilters(filters: string[], symbolPatterns: RegExp[]) {
     const extract: string[] = [];
 
     for (const filter of filters) {

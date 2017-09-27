@@ -22,14 +22,8 @@
  */
 
 import * as program from "commander";
-import * as fs from "fs";
 
-import { assertReadFile } from "./cli/assertion/readFile";
-import { format } from "./cli/format";
-import { getPrettySpace } from "./cli/getPrettySpace";
-import { out } from "./cli/out";
-import { readFile } from "./cli/readFile";
-import { JsonPropertyFilter } from "./jsonPropertyFilter";
+import { handle } from "./cli/handle";
 
 import pkginfo = require("pkginfo");
 
@@ -44,23 +38,9 @@ program
     .option("-p, --pretty", "Display results in an easy-to-read format.")
     .option("--pretty-space <number>", "Specifies the space.")
     .option("--encoding", "Specifies encodage. Default: utf8.")
-    .action(_apply)
+    .action(handle)
     .parse(process.argv);
 
 if (!program.args.length) {
     program.help();
-}
-
-function _apply(file, options) {
-    const encoding = options.encoding || "utf8";
-    fs.readFile(file, { encoding }, (error, data) => {
-        assertReadFile(error, file);
-
-        const jsonObject = readFile(data);
-        const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
-        const filteredJsonObject = jsonPropertyFilter.apply(jsonObject);
-        const space = getPrettySpace(options.prettySpace);
-        const formattedJsonObject = format(filteredJsonObject, options.pretty, space);
-        out(formattedJsonObject, options.out);
-    });
 }

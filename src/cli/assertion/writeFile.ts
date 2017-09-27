@@ -21,12 +21,13 @@
  * SOFTWARE.
  */
 
- /**
-  * Asserts file was successfully write.
-  *
-  * @param {NodeJS.ErrnoException} error An error.
-  * @throws {Error} Throws if the file could not be write.
-  */
+/**
+ * Asserts file was successfully write.
+ *
+ * @version 1.3.0
+ * @param {NodeJS.ErrnoException} error An error.
+ * @throws {Error} Throws if the file could not be write.
+ */
 export function assertWriteFile(error: NodeJS.ErrnoException) {
     if (error) {
         throw new Error("An error occurred while saving of filtered JSON object.");

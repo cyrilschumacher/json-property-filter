@@ -22,12 +22,12 @@
  */
 
 import { assert } from "chai";
-import JsonIncludePropertyFilter from "../../../../src/filter/jsonIncludePropertyFilter";
+import { JsonIncludePropertyFilter } from "../../../../src/filter/jsonIncludePropertyFilter";
 
 describe("jsonIncludePropertyFilter", () => {
     describe("Array", () => {
         it("should return original array", () => {
-            let source = [];
+            const source = [];
             source["[0].key"] = "value1";
             source["[1].key"] = "value2";
 
@@ -38,7 +38,7 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties", () => {
-            let source = [];
+            const source = [];
             source["[0].key"] = "value1";
             source["[0].key.key2"] = "value2";
             source["[0].key.key3[0]"] = "value3";
@@ -55,12 +55,13 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties excepted the 'key2' property", () => {
-            let source = [];
+            const source = [];
             source["[0].key1"] = "value1";
             source["[0].key2"] = "value2";
             source["[1].key1"] = "value1";
             source["[1].key2"] = "value2";
-            let expected = [];
+
+            const expected = [];
             expected["[0].key1"] = "value1";
             expected["[1].key1"] = "value1";
 
@@ -71,14 +72,15 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return the root properties excepted 'key2' property", () => {
-            let source = [];
+            const source = [];
             source["[0].key1.key2"] = "value2";
             source["[0].key1.key3.key4"] = "value3";
             source["[0].key1.key3.key5"] = "value4";
             source["[1].key1.key2"] = "value2";
             source["[1].key1.key3.key4"] = "value3";
             source["[1].key1.key3.key5"] = "value4";
-            let expected = [];
+
+            const expected = [];
             expected["[0].key1.key3.key4"] = "value3";
             expected["[0].key1.key3.key5"] = "value4";
             expected["[1].key1.key3.key4"] = "value3";
@@ -91,7 +93,7 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return array that contains 'key3' property only", () => {
-            let source = [];
+            const source = [];
             source["[0].key1[0].key2"] = "value2";
             source["[0].key1[0].key3"] = "value3";
             source["[0].key1[1].key2"] = "value2";
@@ -100,7 +102,8 @@ describe("jsonIncludePropertyFilter", () => {
             source["[1].key1[0].key3"] = "value3";
             source["[1].key1[1].key2"] = "value2";
             source["[1].key1[1].key3"] = "value3";
-            let expected = [];
+
+            const expected = [];
             expected["[0].key1[0].key3"] = "value3";
             expected["[0].key1[1].key3"] = "value3";
             expected["[1].key1[0].key3"] = "value3";
@@ -113,14 +116,15 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties excepted 'key3' property", () => {
-            let source = [];
+            const source = [];
             source["[0]key1"] = "value1";
             source["[0]key2"] = "value2";
             source["[0]key3.key4"] = "value3";
             source["[1]key1"] = "value1";
             source["[1]key2"] = "value2";
             source["[1]key3.key4"] = "value3";
-            let expected = [];
+
+            const expected = [];
             expected["[0]key1"] = "value1";
             expected["[0]key2"] = "value2";
             expected["[1]key1"] = "value1";
@@ -135,7 +139,7 @@ describe("jsonIncludePropertyFilter", () => {
 
     describe("Object", () => {
         it("should return original array", () => {
-            let source = [];
+            const source = [];
             source["key1"] = "value1";
             source["key2"] = "value2";
             source["key3.key4"] = "value3";
@@ -147,7 +151,7 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties", () => {
-            let source = [];
+            const source = [];
             source["key1"] = "value";
             source["key2.key3.key4"] = "value3";
             source["key2.key3.key4"] = "value4";
@@ -159,10 +163,11 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties excepted the 'key2' property", () => {
-            let source = [];
+            const source = [];
             source["key1"] = "value1";
             source["key2"] = "value2";
-            let expected = [];
+
+            const expected = [];
             expected["key1"] = "value1";
 
             const filter = new JsonIncludePropertyFilter(["key1"]);
@@ -172,11 +177,12 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return the root properties excepted 'key2' property", () => {
-            let source = [];
+            const source = [];
             source["key1.key2"] = "value2";
             source["key1.key3.key4"] = "value3";
             source["key1.key3.key5"] = "value4";
-            let expected = [];
+
+            const expected = [];
             expected["key1.key3.key4"] = "value3";
             expected["key1.key3.key5"] = "value4";
 
@@ -187,12 +193,13 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return array that contains 'key3' property only", () => {
-            let source = [];
+            const source = [];
             source["key1[0].key2"] = "value2";
             source["key1[0].key3"] = "value3";
             source["key1[1].key2"] = "value2";
             source["key1[1].key3"] = "value3";
-            let expected = [];
+
+            const expected = [];
             expected["key1[0].key3"] = "value3";
             expected["key1[1].key3"] = "value3";
 
@@ -203,11 +210,12 @@ describe("jsonIncludePropertyFilter", () => {
         });
 
         it("should return all properties excepted 'key3' property", () => {
-            let source = [];
+            const source = [];
             source["key1"] = "value1";
             source["key2"] = "value2";
             source["key3.key4"] = "value3";
-            let expected = [];
+
+            const expected = [];
             expected["key1"] = "value1";
             expected["key2"] = "value2";
 

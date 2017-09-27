@@ -21,13 +21,14 @@
  * SOFTWARE.
  */
 
- /**
-  * Asserts file was successfully read.
-  *
-  * @param {NodeJS.ErrnoException}  error   An error.
-  * @param {string}                 file    A file.
-  * @throws {Error} Throws if the file could not be read.
-  */
+/**
+ * Asserts file was successfully read.
+ *
+ * @version 1.3.0
+ * @param {NodeJS.ErrnoException}  error   An error.
+ * @param {string}                 file    A file.
+ * @throws {Error} Throws if the file could not be read.
+ */
 export function assertReadFile(error: NodeJS.ErrnoException, file: string) {
     if (error) {
         throw new Error(`An error occurred while the reading of file: ${file}`);

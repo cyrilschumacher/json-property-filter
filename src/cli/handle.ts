@@ -23,20 +23,32 @@
 
 import * as fs from "fs";
 
-import { assertWriteFile } from "./assertion/writeFile";
+import { JsonPropertyFilter } from "../jsonPropertyFilter";
+import { assertReadFile } from "./assertion/readFile";
+import { format } from "./format";
+import { getPrettySpace } from "./getPrettySpace";
+import { ICliOptions } from "./options";
+import { out } from "./out";
+import { readFile } from "./readFile";
 
 /**
- * Writes data to a file or an output stream.
+ * Handle sub-commands.
  *
  * @version 1.3.0
- * @param {string}              data         A data.
- * @param {string|undefined}    [outputFile] A output file.
- * @param {string|undefined}    [encoding]   A encoding.
+ * @param {string}      file    A file.
+ * @param {ICliOptions} options CLI options.
  */
-export function out(data: string, outputFile?: string, encoding = "utf8") {
-    if (outputFile) {
-        return fs.writeFile(outputFile, data, { encoding }, assertWriteFile);
-    }
+export function handle(file: string, options: ICliOptions) {
+    const encoding = options.encoding || "utf8";
+    fs.readFile(file, { encoding }, (error: NodeJS.ErrnoException, data: Buffer) => {
+        assertReadFile(error, file);
 
-    console.log(data);
+        const jsonObject = readFile(data, options.encoding);
+        const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
+        const filteredJsonObject = jsonPropertyFilter.apply(jsonObject);
+        const space = getPrettySpace(options.prettySpace);
+        const formattedJsonObject = format(filteredJsonObject, options.pretty, space);
+
+        out(formattedJsonObject, options.out, options.encoding);
+    });
 }

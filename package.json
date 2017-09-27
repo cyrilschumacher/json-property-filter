@@ -22,6 +22,9 @@
     "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.test.json mocha --compilers ts:ts-node/register --recursive test",
     "test:coverage": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.test.json nyc --require ts-node/register _mocha --compilers ts:ts-node/register --recursive test/unit"
   },
+  "bin": {
+    "json-property-filter": "./bin/json-property-filter.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/cyrilschumacher/json-property-filter.git"

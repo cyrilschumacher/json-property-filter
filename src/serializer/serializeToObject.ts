@@ -23,7 +23,7 @@
 
 import { isArray } from "./object/isArray";
 
-function _serialize(jsonObject: object, index: number, key: string, value: any, path: string[]): object|object[] {
+function _serialize(jsonObject: object, index: number, key: string, value: any, path: string[]) {
     const currentKey = path[index];
     const arrayFormat = /\[([0-9]+)\]$/;
 
@@ -34,7 +34,7 @@ function _serialize(jsonObject: object, index: number, key: string, value: any, 
     }
 }
 
-function _serializeObject(jsonObject: object, index: number, key: string, value: any, path: string[]): object {
+function _serializeObject(jsonObject: object, index: number, key: string, value: any, path: string[]) {
     if (typeof jsonObject === "object") {
         if (!(key in jsonObject)) {
             jsonObject[key] = jsonObject[key] || {};
@@ -52,8 +52,7 @@ function _serializeObject(jsonObject: object, index: number, key: string, value:
     return jsonObject;
 }
 
-function _serializeArray(
-    jsonObject: object, index: number, key, value: any, path: string[], arrayFormat: RegExp): object {
+function _serializeArray(jsonObject: object, index: number, key, value: any, path: string[], arrayFormat: RegExp) {
     const arrayIndex = key.match(arrayFormat)[1];
     const formattedCurrentKey = key.replace(arrayFormat, "");
     const indexNextItem = index + 1;
@@ -80,11 +79,12 @@ function _serializeArray(
 
 /**
  * Serializes to object.
+ *
  * @version 1.2.0
  * @param {string[]} arr A array.
  * @return {Object|Object[]} The object.
  */
-export default function serializeToObject(arr: string[]): object|object[] {
+export function serializeToObject(arr: string[]) {
     let jsonObject = {};
     if (isArray(arr)) {
         jsonObject = [];

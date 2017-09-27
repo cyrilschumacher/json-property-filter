@@ -21,22 +21,45 @@
  * SOFTWARE.
  */
 
-import * as fs from "fs";
-
-import { assertWriteFile } from "./assertion/writeFile";
-
 /**
- * Writes data to a file or an output stream.
+ * Interface for CLI options.
  *
+ * @interface
  * @version 1.3.0
- * @param {string}              data         A data.
- * @param {string|undefined}    [outputFile] A output file.
- * @param {string|undefined}    [encoding]   A encoding.
  */
-export function out(data: string, outputFile?: string, encoding = "utf8") {
-    if (outputFile) {
-        return fs.writeFile(outputFile, data, { encoding }, assertWriteFile);
-    }
+export interface ICliOptions {
+    /**
+     * Include and exclude filters.
+     *
+     * @type {Array}
+     */
+    filters: string[];
 
-    console.log(data);
+    /**
+     * Encoding file. Default: utf8.
+     *
+     * @type {string|undefined}
+     */
+    encoding?: string;
+
+    /**
+     * Output file.
+     *
+     * @type {string|undefined}
+     */
+    out?: string;
+
+    /**
+     * Display results in an easy-to-read format.
+     *
+     * @type {boolean|undefined}
+     */
+    pretty?: boolean;
+
+    /**
+     * Pretty space. Default: 2.
+     *
+     * @type {number|undefined}
+     */
+    prettySpace?: number;
 }
