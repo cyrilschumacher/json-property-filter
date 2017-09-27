@@ -24,12 +24,19 @@
 import * as program from "commander";
 import * as fs from "fs";
 
-import { assertReadFile } from "./cli/assertReadFile";
-import { assertWriteFile } from "./cli/assertWriteFile";
+import { assertReadFile } from "./cli/assertion/readFile";
+import { format } from "./cli/format";
+import { getPrettySpace } from "./cli/getPrettySpace";
+import { out } from "./cli/out";
+import { readFile } from "./cli/readFile";
 import { JsonPropertyFilter } from "./jsonPropertyFilter";
 
+import pkginfo = require("pkginfo");
+
+pkginfo(module, "version");
+
 program
-    .version("1.0.0")
+    .version(module.exports.version)
     .description("Filter a JSON file by including or excluding properties.")
     .usage("<file>")
     .option("-f, --filters <filters>", "Add include and exclude filters.")
@@ -45,73 +52,15 @@ if (!program.args.length) {
 }
 
 function _apply(file, options) {
-    fs.readFile(file, (error, data) => {
+    const encoding = options.encoding || "utf8";
+    fs.readFile(file, { encoding }, (error, data) => {
         assertReadFile(error, file);
 
-        const jsonObject = _transformToJsonObject(data);
+        const jsonObject = readFile(data);
         const jsonPropertyFilter = new JsonPropertyFilter(options.filters);
-        const filteredJsonObject = _filterJsonObject(jsonPropertyFilter, jsonObject);
-        const space = _getPrettySpace(options.prettySpace);
-        const formattedJsonObject = _format(filteredJsonObject, options.pretty, space);
-        _out(formattedJsonObject, options.out);
+        const filteredJsonObject = jsonPropertyFilter.apply(jsonObject);
+        const space = getPrettySpace(options.prettySpace);
+        const formattedJsonObject = format(filteredJsonObject, options.pretty, space);
+        out(formattedJsonObject, options.out);
     });
-}
-
-function _filterJsonObject(jsonPropertyFilter, jsonObject) {
-    return jsonPropertyFilter.apply(jsonObject);
-}
-
-function _format(filteredJsonObject, pretty, space) {
-    if (pretty) {
-        return JSON.stringify(filteredJsonObject, null, space);
-    } else {
-        return JSON.stringify(filteredJsonObject);
-    }
-}
-
-function _getEncoding(options) {
-    if (!options.encoding) {
-        return "utf8";
-    }
-
-    return options.encoding;
-}
-
-function _getPrettySpace(prettySpace) {
-    const space = +prettySpace;
-    if (prettySpace) {
-        if (isNaN(space)) {
-            throw new Error("Argument 'pretty-space' must be a number.");
-        }
-
-        return space;
-    }
-
-    return 2;
-}
-
-function _out(jsonObject, outputFile) {
-    if (outputFile) {
-        _writeResult(outputFile, jsonObject);
-    } else {
-        console.log(jsonObject);
-    }
-}
-
-function _transformToJsonObject(data) {
-    const fileContent = data.toString("utf8");
-
-    try {
-        return JSON.parse(fileContent);
-    } catch (e) {
-        throw new Error("An error occurred while processing of file content in a JSON object.");
-    }
-}
-
-function _writeOutputFile(error) {
-    assertWriteFile(error);
-}
-
-function _writeResult(outputFile, data) {
-    fs.writeFile(outputFile, data, _writeOutputFile);
 }

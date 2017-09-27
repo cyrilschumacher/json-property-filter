@@ -11,6 +11,10 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 - Update: `README.md`.
 - Update NPM dependencies.
 - Improve unit/integration tests.
+- Improve TypeScript documentation.
+
+### Fixed
+- Fix CLI version.
 
 ## [1.2.0] - 2016-06-20
 ### Added

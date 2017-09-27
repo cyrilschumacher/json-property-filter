@@ -21,8 +21,14 @@
  * SOFTWARE.
  */
 
-export function assertReadFile(error: any, file: string) {
+ /**
+  * Asserts file was successfully write.
+  *
+  * @param {NodeJS.ErrnoException} error An error.
+  * @throws {Error} Throws if the file could not be write.
+  */
+export function assertWriteFile(error: NodeJS.ErrnoException) {
     if (error) {
-        throw new Error(`An error occurred while the reading of file: ${file}`);
+        throw new Error("An error occurred while saving of filtered JSON object.");
     }
 }

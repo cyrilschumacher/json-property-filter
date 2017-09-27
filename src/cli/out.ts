@@ -21,8 +21,20 @@
  * SOFTWARE.
  */
 
-export function assertWriteFile(error: any) {
-    if (error) {
-        throw new Error("An error occurred while saving of filtered JSON object.");
+import * as fs from "fs";
+
+import { assertWriteFile } from "./assertion/writeFile";
+
+/**
+ * Writes data to a file or an output stream.
+ *
+ * @param {string} outputFile  A output file.
+ * @param {string} data        A data.
+ */
+export function out(outputFile: string, data: string) {
+    if (outputFile) {
+        return fs.writeFile(outputFile, data, assertWriteFile);
     }
+
+    console.log(data);
 }

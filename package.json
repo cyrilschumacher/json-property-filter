@@ -51,6 +51,7 @@
     "typescript": "^2.5.3"
   },
   "dependencies": {
-    "commander": "^2.11.0"
+    "commander": "^2.11.0",
+    "pkginfo": "^0.4.1"
   }
 }

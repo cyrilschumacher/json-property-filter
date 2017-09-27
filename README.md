@@ -1,6 +1,6 @@
 # json-property-filter
 
-> Filter a JSON object by including/excluding properties.
+> Filter a JSON object by including/excluding given properties.
 
 [![MIT License][license-image]][license-url]
 [![npm version][npmjs-image]][npmjs-url]
@@ -12,9 +12,9 @@
 [![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
-**json-property-filter** allows you to filter by including or excluding JSON properties.
+**json-property-filter** is a JavaScript library for JSON data filtering by including or excluding properties. This library can be of interest if you need to provide JSON data and the caller wants to get specific properties (and thus avoid a relatively heavy response).
 
-This library was developed with the programming language: TypeScript.
+This library was developed with the programming language: [TypeScript](http://www.typescriptlang.org/) and is compatible Node 5+.
 
 ## Getting Started
 

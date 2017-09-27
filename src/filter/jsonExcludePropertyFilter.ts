@@ -27,30 +27,29 @@
  * @version 1.1.1
  */
 export default class JsonExcludePropertyFilter {
-    private static ALL_PROPERTIES_REGEX = /\*\*$/g;
-    private static ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
-    private static ARRAY_INDEX = /\[[0-9]+\]/g;
-    private static ARRAY_INDEX_START = /^\[([0-9]+)\]\./;
-    private static PATH_SEPARATOR = ".";
-    private static STRING_EMPTY = "";
-
-    private _properties: string[];
+    private static readonly ALL_PROPERTIES_REGEX = /\*\*$/g;
+    private static readonly ALL_ELEMENT_PROPERTIES_REGEX = /\*$/g;
+    private static readonly ARRAY_INDEX = /\[[0-9]+\]/g;
+    private static readonly ARRAY_INDEX_START = /^\[([0-9]+)\]\./;
+    private static readonly PATH_SEPARATOR = ".";
+    private static readonly STRING_EMPTY = "";
 
     /**
      * Constructor.
-     * @constructors
-     * @param {string[]} properties Properties.
+     *
+     * @constructor
+     * @param {string[]} _properties Properties.
      */
-    public constructor(properties: string[]) {
-        this._properties = properties;
+    public constructor(private readonly _properties: string[]) {
     }
 
     /**
      * Apply filter on a JSON object.
+     *
      * @param {Array} source A JSON object.
      * @return {Array} The filtered JSON object.
      */
-    public apply = (source: string[]): string[] => {
+    public apply = (source: string[]) => {
         if (this._properties.length) {
             for (const rule of this._properties) {
                 this._exclude(rule, source);
