@@ -75,7 +75,7 @@ export class JsonIncludePropertyFilter {
 
     private _includeProperty(rule: string, path: string, value: string, destination: string[]) {
         const cleanPath = this._removeArrayIndexStart(path);
-        const regexp = `^${rule}`;
+        const regexp = `^${rule.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}`;
 
         if (cleanPath.match(regexp)) {
             destination[path] = value;
@@ -103,7 +103,7 @@ export class JsonIncludePropertyFilter {
                 destination[path] = value;
             }
         } else {
-            const regexp = `^${rule}`;
+            const regexp = `^${rule.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}`;
 
             if (pathWithoutArrayIndexStart.match(regexp)) {
                 const pathItems = pathWithoutArrayIndexStart.split(JsonIncludePropertyFilter.PATH_SEPARATOR);

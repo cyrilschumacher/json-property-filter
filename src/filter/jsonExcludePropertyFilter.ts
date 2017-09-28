@@ -73,7 +73,7 @@ export class JsonExcludePropertyFilter {
 
     private _excludeProperty(rule: string, source: string[], path: string) {
         const pathWithoutArrayIndexStart = this._removeArrayIndexStart(path);
-        const regexp = `^${rule}`;
+        const regexp = `^${rule.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}`;
 
         if (pathWithoutArrayIndexStart.match(regexp)) {
             delete source[path];
@@ -101,7 +101,7 @@ export class JsonExcludePropertyFilter {
                 delete source[path];
             }
         } else {
-            const regexp = `^${rule}`;
+            const regexp = `^${rule.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}`;
 
             if (pathWithoutIndex.match(regexp)) {
                 const pathItems = pathWithoutIndex.split(JsonExcludePropertyFilter.PATH_SEPARATOR);
@@ -125,7 +125,7 @@ export class JsonExcludePropertyFilter {
     }
 
     private _excludeSpecificPath(rule: string, source: string[]) {
-        const regexp = `^${rule}`;
+        const regexp = `^${rule.replace(/[.?*+^$[\]\\(){}|-]/g, "\\$&")}`;
         for (const path in source) {
             if (path) {
                 const pathWithoutArrayIndexStart = this._removeArrayIndexStart(path);

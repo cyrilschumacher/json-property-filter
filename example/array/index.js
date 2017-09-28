@@ -1,5 +1,5 @@
 /**
- * Example that excludes given JSON keys.
+ * Example with array type.
  */
 
 const fs = require("fs");

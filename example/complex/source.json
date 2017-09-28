@@ -1,4 +1,5 @@
 {
+    "$schema": "test",
     "title": "Product",
     "description": "A product from Acme's catalog",
     "type": "object",

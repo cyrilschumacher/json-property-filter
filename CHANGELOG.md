@@ -16,6 +16,7 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Fixed
 - Fix CLI version.
 - Fix CLI.
+- Fix Regular expression on including and excluding filters.
 
 ## [1.2.0] - 2016-06-20
 ### Added
