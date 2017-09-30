@@ -91,7 +91,7 @@ describe("serializeToArray", () => {
         expected["[1].key2[1]"] = "e";
         expected["[1].key2[2]"] = "f";
         expected["[1].key3.key4"] = "value4";
-        
+
         const actual = serializeToArray(source);
         assert.deepEqual(actual, expected);
     });

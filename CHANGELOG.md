@@ -3,6 +3,15 @@ All notable changes to this project will be documented in this file.
 This project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [1.3.1] - 2017-09-30
+### Changed
+- Update package.json description.
+
+### Fixed
+- Fix line separator: convert `CRLF` to `LF`.
+
+## [1.3.0] - 2017-09-28
 ### Added
 - Add `Date` and `Function` types support.
 - Add examples.
@@ -60,7 +69,8 @@ This project adheres to [Semantic Versioning](http://semver.org/).
 ### Changed
 - Update the filter `**`: it can also be applied to a specific property.
 
-[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/1.2.0...HEAD
+[Unreleased]: https://github.com/cyrilschumacher/json-property-filter/compare/1.3.1...HEAD
+[1.3.0]: https://github.com/cyrilschumacher/json-property-filter/compare/1.3.0...1.3.1
 [1.2.0]: https://github.com/cyrilschumacher/json-property-filter/compare/1.1.1...1.2.0
 [1.1.1]: https://github.com/cyrilschumacher/json-property-filter/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/cyrilschumacher/json-property-filter/compare/1.0.2...1.1.0
