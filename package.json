@@ -12,7 +12,7 @@
     "include",
     "exclude"
   ],
-  "description": "Filter a JSON object by including/excluding given properties.",
+  "description": "JavaScript library and application to filter a JSON object by including and excluding properties.",
   "main": "./lib/jsonPropertyFilter.js",
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.json",
