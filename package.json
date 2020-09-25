@@ -15,12 +15,13 @@
   "description": "Filter a JSON object by including/excluding given properties.",
   "main": "./lib/jsonPropertyFilter.js",
   "scripts": {
-    "build": "tsc -p tsconfig.build.json",
+    "build": "npm run clean && tsc -p tsconfig.json",
+    "clean": "rimraf lib",
     "coveralls": "nyc report --reporter=text-lcov | coveralls",
     "prebuild": "tslint src/**/*.ts",
     "prepublishOnly": "npm run build",
-    "test": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.test.json mocha --compilers ts:ts-node/register --recursive test",
-    "test:coverage": "cross-env NODE_ENV=test TS_NODE_PROJECT=tsconfig.test.json nyc --require ts-node/register _mocha --compilers ts:ts-node/register --recursive test/unit"
+    "test": "mocha --require ts-node/register --recursive test/**/*",
+    "test:coverage": "nyc npm test"
   },
   "bin": {
     "json-property-filter": "./bin/json-property-filter.js"
