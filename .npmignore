@@ -6,11 +6,8 @@
 .prettierrc
 .nyc_output
 coverage
-example
 node_modules
 src
 test
 tsconfig.json
-tsconfig.*.json
 tslint.json
-typings

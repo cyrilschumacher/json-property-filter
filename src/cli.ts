@@ -1,46 +1,68 @@
-/* The MIT License (MIT)
- *
- * Copyright (c) 2017 Cyril Schumacher.fr
- *
- * Permission is hereby granted, free of charge, to any person obtaining a copy
- * of this software and associated documentation files (the "Software"), to deal
- * in the Software without restriction, including without limitation the rights
- * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
- * copies of the Software, and to permit persons to whom the Software is
- * furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
- */
+import * as fs from "fs";
+import * as commander from "commander";
 
-import * as program from "commander";
+import { apply } from ".";
 
-import { handle } from "./cli/handle";
+import debug from "debug";
+import { deepEqual } from "assert";
 
-import pkginfo = require("pkginfo");
+const log = debug("json-property-filter:cli");
 
-pkginfo(module, "version");
+interface Options {
+    encoding: BufferEncoding;
+    filters: string[];
+    out?: string;
+    pretty: boolean;
+    prettySpace: string;
+}
 
-program
-    .version(module.exports.version)
-    .description("Filter a JSON file by including or excluding properties.")
-    .usage("<file>")
-    .option("-f, --filters <filters>", "Add include and exclude filters.")
-    .option("-o, --out <file>", "Specifies the output file.")
-    .option("-p, --pretty", "Display results in an easy-to-read format.")
-    .option("--pretty-space <number>", "Specifies the space.")
-    .option("--encoding", "Specifies encodage. Default: utf8.")
-    .action(handle)
+function readFile(file: string) {
+    return new Promise<Buffer>((resolve, reject) =>
+        fs.readFile(file, (error, data) => (error ? reject(error) : resolve(data))),
+    );
+}
+
+function writeFileAsync(file: string, data: string) {
+    return new Promise((resolve, reject) => fs.writeFile(file, data, (error) => (error ? reject(error) : resolve())));
+}
+
+async function handle(file: string, options: Options) {
+    log("Read file: %s", file);
+    const buffer = await readFile(file);
+    const content = buffer.toString(options.encoding);
+    const jsonContent = JSON.parse(content);
+
+    log("Apply filters: %o", options.filters);
+    const result = apply(jsonContent, options.filters);
+    const data = options.pretty ? JSON.stringify(result, void 0, +options.prettySpace) : JSON.stringify(result);
+    if (options.out) {
+        log("Write file: %s", file);
+        await writeFileAsync(options.out, data);
+    } else {
+        process.stdout.write(data);
+    }
+}
+
+commander
+    .version("2.0.0")
+    .description("Filter a JSON object by including and excluding properties.")
+    .requiredOption("--in <file>", "File to filter.")
+    .requiredOption("-f, --filters <filters...>", "Add include and exclude filters.")
+    .option("--out <file>", "Specifies the output file.")
+    .option("-p, --pretty", "Display results in an easy-to-read format.", false)
+    .option("--pretty-space <number>", "Specifies the space.", "4")
+    .option("--encoding", "Specifies encodage.", "utf8")
+    .option("--debug", "Enable debug mode.", false)
     .parse(process.argv);
 
-if (!program.args.length) {
-    program.help();
+if (commander.debug) {
+    debug.enable("json-property-filter:*");
 }
+
+handle(commander.in, {
+    encoding: commander.encoding,
+    filters: commander.filters,
+    out: commander.out,
+    pretty: commander.pretty,
+    prettySpace: commander.prettySpace,
+});

@@ -1,17 +1,12 @@
 language: node_js
 node_js:
   - "node"
-  - "8"
-  - "7"
-  - "6"
-  - "5"
-cache:
-  yarn: true
-  directories:
-    - node_modules
+  - "lts/*"
+cache: npm
 install:
-  - yarn
+  - npm install
 script:
-  - yarn build
-  - yarn test:coverage
-  - yarn coveralls
+  - npm test
+after_script:
+  - npm run test:coverage
+  - npm run coveralls

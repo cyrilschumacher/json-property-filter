@@ -6,21 +6,16 @@
       "src/**/*.ts"
     ],
     "exclude": [
-      "src/**/*.d.ts",
-      "src/cli/options.ts",
       "node_modules",
-      "lib",
-      "test",
-      "typings"
+      "test"
     ],
     "extension": [
       ".ts"
     ],
-    "require": [
-      "ts-node/register"
-    ],
     "reporter": [
-      "text-summary",
-      "html"
+      "html",
+      "lcov",
+      "text",
+      "text-summary"
     ]
   }

@@ -1,6 +1,6 @@
 # json-property-filter
 
-> Filter a JSON object by including/excluding given properties.
+> JavaScript library and application to filter a JSON object by including and excluding properties.
 
 [![MIT License][license-image]][license-url]
 [![npm version][npmjs-image]][npmjs-url]
@@ -8,71 +8,57 @@
 [![Build Status][travis-image]][travis-url]
 [![Coverage Status][coveralls-image]][coveralls-url]
 [![typescript-standard-style][standard-image]][standard-url]
-[![david-dm dependency Status][david-image]][david-url]
-[![david-dm devDependency Status][david-dev-dependencies-image]][david-dev-dependencies-url]
 [![Known Vulnerabilities][snyk-image]][snyk-url]
 
-**json-property-filter** is a JavaScript library for JSON data filtering by including or excluding properties. This library can be of interest if you need to provide JSON data and the caller wants to get specific properties (and thus avoid a relatively heavy response).
+**json-property-filter** is a JavaScript library, developed in TypeScript, providing a function to include and/or exclude JSON properties. In addition to providing a function, an executable is available to filter a JSON file.
 
-This library was developed with the programming language: [TypeScript](http://www.typescriptlang.org/) and is compatible Node 5+.
+The library can also be from a Web page: the generated code is ES5 compatible.
 
 ## Getting Started
 
 ### Usage
 
-To install to using [npm](https://www.npmjs.com/) package manager or [Yarn](https://yarnpkg.com/):
+To install to using [npm](https://www.npmjs.com/) package manager:
 
 ```bash
-$ npm install json-property-filter
-$ yarn add json-property-filter
+npm install json-property-filter
 ```
 
 After installation, You can use the library this way:
 
-```javascript
-import { JsonPropertyFilter } from "json-property-filter";
+```typescript
+import * as jsonPropertyFilter from "json-property-filter";
 
-const filter = new JsonPropertyFilter(["**"]);
-filter.apply({ key: "value" });
+const source = { key: "value" };
+const filters = ["**"];
+const result = jsonPropertyFilter.apply(source, filters);
 ```
 
-If you want to have to have a quick overview of all features of this library, take a look at the [example](example), [integration tests](test/integration) or on [RunKit website](https://tonicdev.com/cyrilschumacher/json-property-filter).
+If you want to have to have a quick overview of all features of this library, take a look at the [unit tests](test) or on [RunKit website](https://tonicdev.com/cyrilschumacher/json-property-filter).
 
 ### Command-Line
 
-You have possibility to run in command-line this library without create a small JavaScript file. This executable provides all the options that are available at the code level. To see all the options, run the following line:
+You have possibility to run in command-line this library without create a small TypeScript file. This executable provides all the options that are available at the code level. To see all the options, run the following line:
 
 ```bash
 json-property-filter --help
 ```
 
-### Filters
+To filter a JSON file and produce a filtered JSON file containing only `message` and `timestamp` properties, the following options are used:
 
-The following filters will allow you to include or exclude your object properties.
+```bash
+json-property-filter --in "source.json" --out "destination.json" --filters "message" --filters "timestamp"
+```
 
-#### All properties
+To filter a JSON file and display the result formatted with 4 spaces in the console, the following options are used:
 
-For include or exclude all the properties children and their children, you can use the symbol: `**`. Example: `**`, `root.**`, `root.node.**`.
-
-#### Root properties
-
-For include or exclude only properties located in the root, you can use the
-symbol: `*`. Example: `root.*`, `root.node.*`.
-
-#### Specific property
-
-For include or include a specific property, you can set the path to your
-property. Example: `root.element`, `root.node.element`.
+```bash
+json-property-filter --in "source.json" --filters "message" --filters "timestamp" --pretty --pretty-space 4
+```
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
-[david-dev-dependencies-image]: https://david-dm.org/cyrilschumacher/json-property-filter/dev-status.svg
-[david-dev-dependencies-url]: https://david-dm.org/cyrilschumacher/json-property-filter#info=devDependencies
-
-[david-image]: https://david-dm.org/cyrilschumacher/json-property-filter.svg
-[david-url]: https://david-dm.org/cyrilschumacher/json-property-filter
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 [license-image]: http://img.shields.io/badge/license-MIT-blue.svg?style=flat
 [license-url]: LICENSE
