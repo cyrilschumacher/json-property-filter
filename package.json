@@ -13,7 +13,7 @@
     "exclude"
   ],
   "description": "JavaScript library and application to filter a JSON object by including and excluding properties.",
-  "main": "./lib/jsonPropertyFilter.js",
+  "main": "./lib/index.js",
   "scripts": {
     "build": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf lib",
