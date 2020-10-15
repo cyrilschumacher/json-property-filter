@@ -4,7 +4,6 @@ import * as commander from "commander";
 import { apply } from ".";
 
 import debug from "debug";
-import { deepEqual } from "assert";
 
 const log = debug("json-property-filter:cli");
 
