@@ -16,7 +16,7 @@ export function createContext(context: Context, source: object, propertyName: st
     return { absolutePath, relativePath, segments };
 }
 
-export function readFile(file: string) {
+export function readFileAsync(file: string) {
     return new Promise<Buffer>((resolve, reject) =>
         fs.readFile(file, (error, data) => (error ? reject(error) : resolve(data))),
     );

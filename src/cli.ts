@@ -1,7 +1,7 @@
 import * as commander from "commander";
 
 import { apply } from ".";
-import { readFile, writeFileAsync } from "./util";
+import { readFileAsync, writeFileAsync } from "./util";
 
 import debug from "debug";
 
