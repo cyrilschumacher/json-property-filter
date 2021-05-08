@@ -22,6 +22,19 @@ export function readFileAsync(file: string) {
     );
 }
 
+export function readStdinAsync(encoding: BufferEncoding) {
+    const chunks: Buffer[] = [];
+    return new Promise<string>((resolve, reject) => {
+        process.stdin.on("data", (chunk) => chunks.push(chunk));
+        process.stdin.on("error", reject);
+        process.stdin.on("end", () => {
+            const data = Buffer.concat(chunks);
+            const content = data.toString(encoding);
+            resolve(content);
+        });
+    });
+}
+
 export function writeFileAsync(file: string, data: string) {
     return new Promise((resolve, reject) => fs.writeFile(file, data, (error) => (error ? reject(error) : resolve(void 0))));
 }
