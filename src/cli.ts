@@ -1,7 +1,7 @@
-import * as fs from "fs";
 import * as commander from "commander";
 
 import { apply } from ".";
+import { readFile, writeFileAsync } from "./util";
 
 import debug from "debug";
 
@@ -13,16 +13,6 @@ interface Options {
     out?: string;
     pretty: boolean;
     prettySpace: string;
-}
-
-function readFile(file: string) {
-    return new Promise<Buffer>((resolve, reject) =>
-        fs.readFile(file, (error, data) => (error ? reject(error) : resolve(data))),
-    );
-}
-
-function writeFileAsync(file: string, data: string) {
-    return new Promise((resolve, reject) => fs.writeFile(file, data, (error) => (error ? reject(error) : resolve())));
 }
 
 async function handle(file: string, options: Options) {
