@@ -23,7 +23,7 @@ export function readFileAsync(file: string) {
 }
 
 export function writeFileAsync(file: string, data: string) {
-    return new Promise((resolve, reject) => fs.writeFile(file, data, (error) => (error ? reject(error) : resolve())));
+    return new Promise((resolve, reject) => fs.writeFile(file, data, (error) => (error ? reject(error) : resolve(void 0))));
 }
 
 function createRelativePath(propertyName: string, source: object, context: Context) {
